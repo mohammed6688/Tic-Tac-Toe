@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainActivity">
+   <left>
+      <VBox fx:id="playersStates" prefHeight="400.0" prefWidth="187.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
+         <children>
+             <VBox alignment="CENTER" prefHeight="400.0" prefWidth="413.0">
+                 <Label layoutX="153.0" layoutY="158.0" text="IP">IP</Label>
+                 <HBox alignment="CENTER" AnchorPane.topAnchor="150">
+                     <Button fx:id="startButton" onAction="#startClicked" layoutX="133.0" layoutY="188.0" mnemonicParsing="false" text="start" />
+                     <Button fx:id="stopButton" onAction="#stopClicked" layoutX="234.0" layoutY="188.0" mnemonicParsing="false" text="stop" />
+                 </HBox>
+             </VBox>
+
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
