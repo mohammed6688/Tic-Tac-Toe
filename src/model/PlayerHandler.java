@@ -16,13 +16,13 @@ public class PlayerHandler extends Thread{
     DataInputStream dis;
     PrintStream ps;
     int index;
-    static ArrayList<PlayerHandler> arrayList=new ArrayList<>();
+    static ArrayList<PlayerHandler> playersList =new ArrayList<>();
 
     public PlayerHandler (Socket socket) throws IOException {
         dis = new DataInputStream(socket.getInputStream());    //internal socket ear
         ps = new PrintStream(socket.getOutputStream());      //internal socket mouth
-        arrayList.add(this);                    //adding the data in array to use it latter
-        index=arrayList.size()-1;
+        //playersList.add(this);                    //adding the data in array to use it latter
+        index= playersList.size()-1;
         start();                                 //start the thread
     }
 
@@ -83,7 +83,7 @@ public class PlayerHandler extends Thread{
                 ex.printStackTrace();
             }
             ps.close();
-            arrayList.remove(index);
+            playersList.remove(index);
         }
     }
 
@@ -92,7 +92,12 @@ public class PlayerHandler extends Thread{
     }
 
     private void refusedChallenge() {
-
+        String OpponentMail = token.nextToken();
+        for(PlayerHandler i : playersList){
+            if(i.email.equals(OpponentMail)){
+                i.ps.println("decline");
+            }
+        }
     }
 
     private void acceptChallenge() {
@@ -100,7 +105,15 @@ public class PlayerHandler extends Thread{
     }
 
     private void requestPlaying() {
-
+        String player2Mail = token.nextToken(); // opponent mail
+        String player1Data = token.nextToken(""); // "mail&username"
+        for(PlayerHandler i : playersList){
+            if(i.email.equals(player2Mail)){
+                System.out.println("sending request");
+                i.ps.println("requestPlaying");
+                i.ps.println(player1Data);
+            }
+        }
     }
 
     private void logout() {
@@ -140,7 +153,7 @@ public class PlayerHandler extends Thread{
                         player.getPassword() + " " +
                         player.isStatus() + " " +
                         player.isInGame());
-
+                playersList.add(this);
                 break;
             case "Password is incorrect":
                 ps.println("Password is incorrect");
