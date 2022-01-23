@@ -9,17 +9,15 @@ public class Player {
     String password;
     boolean status;
     boolean inGame;
-    ArrayList<PlayerSession> obj;
 
 
-    public Player(int id, String username, String email, String password, boolean status, boolean inGame, ArrayList<PlayerSession> obj) {
+    public Player(int id, String username, String email, String password, boolean status, boolean inGame) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.status = status;
         this.inGame = inGame;
-        this.obj = obj;
     }
 
     public int getId() {
@@ -70,12 +68,6 @@ public class Player {
         this.inGame = inGame;
     }
 
-    public ArrayList<PlayerSession> getObj() {
-        return obj;
-    }
 
-    public void setObj(ArrayList<PlayerSession> obj) {
-        this.obj = obj;
-    }
 }
 
