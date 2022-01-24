@@ -4,36 +4,37 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class PlayerHandler extends Thread{
+public class PlayerHandler extends Thread {
 
     private GameDAO database;
-    String query,email,password,username,status,inGame;
+    Player player;
+    String query;
     StringTokenizer token;
     DataInputStream dis;
     PrintStream ps;
-    int index;
-    static ArrayList<PlayerHandler> playersList =new ArrayList<>();
+    static ArrayList<PlayerHandler> playersList = new ArrayList<>();
 
-    public PlayerHandler (Socket socket) throws IOException {
+    public PlayerHandler(Socket socket) throws IOException, SQLException {
         dis = new DataInputStream(socket.getInputStream());    //internal socket ear
         ps = new PrintStream(socket.getOutputStream());      //internal socket mouth
         //playersList.add(this);                    //adding the data in array to use it latter
-        index= playersList.size()-1;
+        database = new GameDAO();
         start();                                 //start the thread
     }
 
     @Override
     public void run() {
         try {
-            while (true){
-                String message =dis.readLine();
-                token = new StringTokenizer(message," ");
+            while (true) {
+                String message = dis.readLine();
+                token = new StringTokenizer(message, " ");
                 query = token.nextToken();
-                switch(query){
+                switch (query) {
                     case "SignIn":
                         signIn();
                         break;
@@ -55,7 +56,10 @@ public class PlayerHandler extends Thread{
                     case "withdraw":
                         withdraw();
                         break;
-                    case "gameTic":
+                    case "leaderboard":
+                        leaderBoard();
+                        break;
+                    /*case "gameTic":
                         forwardPress();
                         break;
                     case "finishgameTic":
@@ -66,11 +70,11 @@ public class PlayerHandler extends Thread{
                         break;
                     case "available":
                         reset();
-                        break;
+                        break;*/
                     case "logout":
                         logout();
                         break;
-                    default :
+                    default:
                         break;
                 }
 
@@ -83,8 +87,14 @@ public class PlayerHandler extends Thread{
                 ex.printStackTrace();
             }
             ps.close();
-            playersList.remove(index);
+            playersList.remove(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void leaderBoard() {
+
     }
 
     private void withdraw() {
@@ -93,25 +103,36 @@ public class PlayerHandler extends Thread{
 
     private void refusedChallenge() {
         String OpponentMail = token.nextToken();
-        for(PlayerHandler i : playersList){
-            if(i.email.equals(OpponentMail)){
+        for (PlayerHandler i : playersList) {
+            if (i.player.email.equals(OpponentMail)) {
                 i.ps.println("decline");
             }
         }
     }
 
-    private void acceptChallenge() {
+    private void acceptChallenge() throws SQLException {
+        String secondaryPlayerId = token.nextToken(); // opponent id
+        String mainPlayerId = token.nextToken();
 
+        database.createGameSession(mainPlayerId, secondaryPlayerId);
+        for (PlayerHandler i : playersList) {
+
+            if (i.player.email.equals(mainPlayerId)) {
+                ps.println("gameOn");
+            } else if (i.player.email.equals(secondaryPlayerId)) {
+                ps.println("gameOn");
+            }
+        }
     }
 
     private void requestPlaying() {
-        String player2Mail = token.nextToken(); // opponent mail
-        String player1Data = token.nextToken(""); // "mail&username"
-        for(PlayerHandler i : playersList){
-            if(i.email.equals(player2Mail)){
+        String secondaryPlayerMail = token.nextToken(); // opponent mail
+        String mainPlayerData = token.nextToken(""); // "mail&username"
+        for (PlayerHandler i : playersList) {
+            if (i.player.email.equals(secondaryPlayerMail)) {
                 System.out.println("sending request");
                 i.ps.println("requestPlaying");
-                i.ps.println(player1Data);
+                i.ps.println(mainPlayerData);
             }
         }
     }
@@ -121,39 +142,49 @@ public class PlayerHandler extends Thread{
     }
 
     private void listOnlinePlayers() {
-        List<Player> onlinePlayers= database.getOnlinePlayers();
-        for (Player player :  onlinePlayers){
-            ps.println(onlinePlayers.size()+" "+
-                    player.id+" "+
-                    player.getUsername()+" "+
-                    player.getEmail()+" "+
-                    player.getPassword()+" "+
-                    player.isStatus()+" "+
-                    player.isInGame());
+        String email = token.nextToken();     //playerEmail
+        List<Player> onlinePlayers = database.getOnlinePlayers();
+        System.out.println(onlinePlayers.size());
+        for (Player player : onlinePlayers) {
+            if (!player.email.equals(email)) {         //to not send the current player as one of the online players
+                ps.println(onlinePlayers.size() + " " +
+                        player.id + " " +
+                        player.getUsername() + " " +
+                        player.getEmail() + " " +
+                        player.getPassword() + " " +       //TODO remove password from list
+                        player.isStatus() + " " +
+                        player.isInGame());
+            }
         }
-        ps.println(" "+"null");
+        ps.println(" " + "null");
     }
 
     private void signUp() {
 
     }
 
-    private void signIn() {
-        email=token.nextToken();
-        password=token.nextToken();
-        String checker= database.checkSignIn(email,password);
+    private void signIn() throws SQLException {
+        String email = token.nextToken();
+        String password = token.nextToken();
+        String checker = database.checkSignIn(email, password);
 
         switch (checker) {
             case "Logged in successfully":
-                Player player = database.getEmailData(email);
-                ps.println("Logged in successfully" + " " +
-                        player.id + " " +
-                        player.getUsername() + " " +
-                        player.getEmail() + " " +
-                        player.getPassword() + " " +
-                        player.isStatus() + " " +
-                        player.isInGame());
-                playersList.add(this);
+                boolean updated = database.updateStatus(email, true);
+                if (updated) {
+                    Player player = database.getEmailData(email);
+                    ps.println("Logged in successfully" + " " +
+                            player.id + " " +
+                            player.getUsername() + " " +
+                            player.getEmail() + " " +
+                            player.getPassword() + " " +
+                            player.isStatus() + " " +
+                            player.isInGame());
+                    this.player = player;
+                    playersList.add(this);
+                } else {
+                    ps.println("Cant update status");
+                }
                 break;
             case "Password is incorrect":
                 ps.println("Password is incorrect");
@@ -162,7 +193,6 @@ public class PlayerHandler extends Thread{
                 ps.println("Connection issue, please try again later");
                 break;
         }
-
 
 
     }

@@ -4,12 +4,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.Server;
 
 public class Main extends Application {
 
     private double xOffset,yOffset;
+    Server server = new Server();
     @Override
     public void start(Stage primaryStage) throws Exception {
+
 
         Parent root = FXMLLoader.load(getClass().getResource("/layout/MainActivity.fxml"));
 
@@ -37,6 +40,7 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest((event) -> {
             System.exit(1);
         });
+        server.initializeServer();
 
     }
 
