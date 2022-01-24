@@ -56,16 +56,16 @@ public class PlayerHandler extends Thread{
                         withdraw();
                         break;
                     case "gameTic":
-                        forwardPress();
+                        //forwardPress();
                         break;
                     case "finishgameTic":
-                        fforwardPress();
+                        //fforwardPress();
                         break;
                     case "updateScore":
-                        updateScore();
+                       // updateScore();
                         break;
                     case "available":
-                        reset();
+                        //reset();
                         break;
                     case "logout":
                         logout();

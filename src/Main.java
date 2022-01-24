@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.GameDAO;
 
 public class Main extends Application {
 
@@ -12,7 +13,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("/layout/MainActivity.fxml"));
-
+GameDAO db=new GameDAO();
+db.connect();
+db.updatingGame(2,1,1,1,0);
 //        //grab your root here
 //        root.setOnMousePressed(event -> {
 //            xOffset = event.getSceneX();
