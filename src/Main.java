@@ -19,9 +19,9 @@ public class Main extends Application {
         server=new Server();
         server.initializeServer();
         Parent root = FXMLLoader.load(getClass().getResource("/layout/MainActivity.fxml"));
-GameDAO db=new GameDAO();
-db.connect();
-
+        GameDAO db=new GameDAO();
+        db.connect();
+       db.startGame(3,4);
 //        //grab your root here
 //        root.setOnMousePressed(event -> {
 //            xOffset = event.getSceneX();

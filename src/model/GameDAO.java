@@ -44,8 +44,42 @@ public class GameDAO {
     public void getLeaderBoard(){
 
     }
+        public void startGame(int firstPlayerId,int secondPlayerId) throws SQLException{
+            String queryString=new String("insert into game (GameDate) values (CURRENT_DATE)");
+         stmt=con.createStatement();
+         stmt.executeUpdate(queryString,Statement.RETURN_GENERATED_KEYS);
+         ResultSet rs=stmt.getGeneratedKeys();
+         rs.next();
+         int gameId=rs.getInt(1);
+         queryString="insert into playersession (PlayerId,GameID,GameStatus) values (?,?,false)";
+         pst=con.prepareStatement(queryString);
+         pst.setInt(1,firstPlayerId);
+         pst.setInt(2,gameId);
+         pst.addBatch();
+         pst.setInt(1,secondPlayerId);
+         pst.setInt(2,gameId);
+         pst.addBatch();
+         pst.executeBatch();
 
-    public void handleGameRequest(){
+        }
+    public void handleGameRequest(int playerIdRequesting ,int playerIdRequested)throws SQLException{
+
+        String queryString= new String("Select * from player where id=?");
+        pst=con.prepareStatement(queryString);
+        pst.setInt(1,playerIdRequesting);
+        pst.addBatch();
+        pst.setInt(1,playerIdRequested);
+        pst.addBatch();
+        pst.executeBatch();
+      ResultSet rs=  pst.getResultSet();
+      Vector<Player> players=new Vector<Player>();
+        Player p;
+      while(rs.next())
+      {
+           p=new Player(rs.getInt("PlayerId"),rs.getString("UserName"));
+           players.add(p);
+      }
+
 
     }
 
@@ -61,6 +95,8 @@ public class GameDAO {
         pst.setBoolean(1,false);
         pst.setInt(2,playerLostId);
         pst.addBatch();
+        pst.executeBatch();
+        System.out.println("yahhhh");
 
     }
 

@@ -19,6 +19,11 @@ public class Player {
         this.status = status;
         this.inGame = inGame;
     }
+    public Player(int id, String username) {
+        this.id = id;
+        this.username = username;
+
+    }
 
     public int getId() {
         return id;
