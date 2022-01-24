@@ -5,17 +5,23 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.GameDAO;
+import model.PlayerSession;
+import model.Server;
+
+import java.util.Vector;
 
 public class Main extends Application {
 
     private double xOffset,yOffset;
+    private Server server;
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        server=new Server();
+        server.initializeServer();
         Parent root = FXMLLoader.load(getClass().getResource("/layout/MainActivity.fxml"));
 GameDAO db=new GameDAO();
 db.connect();
-db.updatingGame(2,1,1,1,0);
+
 //        //grab your root here
 //        root.setOnMousePressed(event -> {
 //            xOffset = event.getSceneX();

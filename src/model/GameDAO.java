@@ -3,6 +3,7 @@ package model;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +61,6 @@ public class GameDAO {
         pst.setBoolean(1,false);
         pst.setInt(2,playerLostId);
         pst.addBatch();
-        int[] updateCounts= pst.executeBatch();
 
     }
 
@@ -109,6 +109,24 @@ public class GameDAO {
             System.out.println("error in getEmailData");
         }
         return null;
+    }
+    public Vector<PlayerSession> getUnFinishedGames(int playerId) throws SQLException {
+        String queryString= new String("select ps.PlayerId,p.UserName,g.gameid ,GameDate ,cell00,cell01,cell02,cell10,cell11,cell12,cell20,cell21,cell22 from playersession ps ,player p,game g \n" +
+                "where ps.gameid=Any(select gameid from playersession where playerid="+playerId+")\n" +
+                "and gamestatus=false and p.isonline=true and p.isingame=false  " +
+                "and ps.playerid=p.playerid  and ps.gameid=g.GameId order by GameDate DESC");
+        ResultSet rs=stmt.executeQuery(queryString);
+        Vector<PlayerSession> playerSessions=new Vector<PlayerSession>() ;
+        PlayerSession playerSes;
+        while(rs.next())
+        {
+                playerSes=new PlayerSession(rs.getInt(1),rs.getInt(3), rs.getBoolean(5),
+                        rs.getBoolean(6),rs.getBoolean(7),rs.getBoolean(8),
+                        rs.getBoolean(9),rs.getBoolean(10),rs.getBoolean(11),rs.getBoolean(12),
+                rs.getBoolean(13));
+            playerSessions.add(playerSes);
+        }
+        return playerSessions;
     }
 
 }
