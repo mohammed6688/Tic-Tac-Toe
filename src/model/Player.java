@@ -9,7 +9,7 @@ public class Player {
     String password;
     boolean status;
     boolean inGame;
-
+    int score;
 
     public Player(int id, String username, String email, String password, boolean status, boolean inGame) {
         this.id = id;
@@ -18,6 +18,7 @@ public class Player {
         this.password = password;
         this.status = status;
         this.inGame = inGame;
+
     }
 
     public int getId() {
@@ -26,6 +27,14 @@ public class Player {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getUsername() {
@@ -68,6 +77,4 @@ public class Player {
         this.inGame = inGame;
     }
 
-
 }
-
