@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -18,6 +19,8 @@ public class PlayerHandler extends Thread {
     DataInputStream dis;
     PrintStream ps;
     static ArrayList<PlayerHandler> playersList = new ArrayList<>();
+    HashMap <String , PlayerHandler> game =new HashMap();
+    int[][] gameBoard ={{0,0,0},{0,0,0},{0,0,0}};
 
     public PlayerHandler(Socket socket) throws IOException, SQLException {
         dis = new DataInputStream(socket.getInputStream());    //internal socket ear
@@ -59,10 +62,10 @@ public class PlayerHandler extends Thread {
                     case "leaderboard":
                         leaderBoard();
                         break;
-                    /*case "gameTic":
+                    case "gameTic":
                         forwardPress();
                         break;
-                    case "finishgameTic":
+                    /*case "finishgameTic":
                         fforwardPress();
                         break;
                     case "updateScore":
@@ -93,6 +96,57 @@ public class PlayerHandler extends Thread {
         }
     }
 
+    private void forwardPress() {
+        String playerId =token.nextToken();
+        String cellNum =token.nextToken();
+        String sign =token.nextToken();
+
+        PlayerHandler connection=game.get(playerId);
+        connection.ps.println("gameTic");
+        connection.ps.println(cellNum);
+        saveCell(cellNum,sign);
+    }
+
+    private void saveCell(String cellNum,String sign) {
+        int flag;
+        if (sign.equals("x")){
+            flag=1;
+        }else {
+            flag=2;
+        }
+        switch (cellNum){
+            case "c00":
+                gameBoard[0][0]=flag;
+                break;
+            case "c01":
+                gameBoard[0][1]=flag;
+                break;
+            case "c02":
+                gameBoard[0][2]=flag;
+                break;
+            case "c10":
+                gameBoard[1][0]=flag;
+                break;
+            case "c11":
+                gameBoard[1][1]=flag;
+                break;
+            case "c12":
+                gameBoard[1][2]=flag;
+                break;
+            case "c20":
+                gameBoard[2][0]=flag;
+                break;
+            case "c21":
+                gameBoard[2][1]=flag;
+                break;
+            case "c22":
+                gameBoard[2][2]=flag;
+                break;
+            default:
+                break;
+        }
+    }
+
     private void leaderBoard() {
 
     }
@@ -115,14 +169,18 @@ public class PlayerHandler extends Thread {
         String mainPlayerId = token.nextToken();
 
         database.createGameSession(mainPlayerId, secondaryPlayerId);
+        PlayerHandler p1 = null,p2=null;
         for (PlayerHandler i : playersList) {
-
             if (i.player.email.equals(mainPlayerId)) {
                 ps.println("gameOn");
+                p1=i;
             } else if (i.player.email.equals(secondaryPlayerId)) {
                 ps.println("gameOn");
+                p2=i;
             }
         }
+        game.put(mainPlayerId,p2);     //player 1 has obj from player 2
+        game.put(secondaryPlayerId,p1);   //player 2 has obj from player 1
     }
 
     private void requestPlaying() {

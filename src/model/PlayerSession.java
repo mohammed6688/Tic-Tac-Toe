@@ -4,7 +4,7 @@ public class PlayerSession {
 
     int playerId;
     int GameId;
-    boolean c01,c02,c03,
+    boolean c00, c01, c02,
             c10,c11,c12,
             c20,c21,c22;
     Game game;
@@ -13,9 +13,9 @@ public class PlayerSession {
     public PlayerSession(int playerId, int gameId, boolean c01, boolean c02, boolean c03, boolean c10, boolean c11, boolean c12, boolean c20, boolean c21, boolean c22, Game game, Player player) {
         this.playerId = playerId;
         GameId = gameId;
-        this.c01 = c01;
-        this.c02 = c02;
-        this.c03 = c03;
+        this.c00 = c01;
+        this.c01 = c02;
+        this.c02 = c03;
         this.c10 = c10;
         this.c11 = c11;
         this.c12 = c12;
@@ -42,6 +42,14 @@ public class PlayerSession {
         GameId = gameId;
     }
 
+    public boolean isC00() {
+        return c00;
+    }
+
+    public void setC00(boolean c00) {
+        this.c00 = c00;
+    }
+
     public boolean isC01() {
         return c01;
     }
@@ -56,14 +64,6 @@ public class PlayerSession {
 
     public void setC02(boolean c02) {
         this.c02 = c02;
-    }
-
-    public boolean isC03() {
-        return c03;
-    }
-
-    public void setC03(boolean c03) {
-        this.c03 = c03;
     }
 
     public boolean isC10() {
