@@ -19,8 +19,8 @@ public class PlayerHandler extends Thread {
     DataInputStream dis;
     PrintStream ps;
     static ArrayList<PlayerHandler> playersList = new ArrayList<>();
-    HashMap <String , PlayerHandler> game =new HashMap();
-    int[][] gameBoard ={{0,0,0},{0,0,0},{0,0,0}};
+    HashMap<String, PlayerHandler> game = new HashMap();
+    int[][] gameBoard = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
     public PlayerHandler(Socket socket) throws IOException, SQLException {
         dis = new DataInputStream(socket.getInputStream());    //internal socket ear
@@ -29,7 +29,12 @@ public class PlayerHandler extends Thread {
         database = new GameDAO();
         start();                                 //start the thread
     }
+    //for testing
+    public PlayerHandler() throws SQLException
+    {
+        database = new GameDAO();
 
+    }
     @Override
     public void run() {
         try {
@@ -97,50 +102,50 @@ public class PlayerHandler extends Thread {
     }
 
     private void forwardPress() {
-        String playerId =token.nextToken();
-        String cellNum =token.nextToken();
-        String sign =token.nextToken();
+        String playerId = token.nextToken();
+        String cellNum = token.nextToken();
+        String sign = token.nextToken();
 
-        PlayerHandler connection=game.get(playerId);
+        PlayerHandler connection = game.get(playerId);
         connection.ps.println("gameTic");
         connection.ps.println(cellNum);
-        saveCell(cellNum,sign);
+        saveCell(cellNum, sign);
     }
 
-    private void saveCell(String cellNum,String sign) {
+    private void saveCell(String cellNum, String sign) {
         int flag;
-        if (sign.equals("x")){
-            flag=1;
-        }else {
-            flag=2;
+        if (sign.equals("x")) {
+            flag = 1;
+        } else {
+            flag = 2;
         }
-        switch (cellNum){
+        switch (cellNum) {
             case "c00":
-                gameBoard[0][0]=flag;
+                gameBoard[0][0] = flag;
                 break;
             case "c01":
-                gameBoard[0][1]=flag;
+                gameBoard[0][1] = flag;
                 break;
             case "c02":
-                gameBoard[0][2]=flag;
+                gameBoard[0][2] = flag;
                 break;
             case "c10":
-                gameBoard[1][0]=flag;
+                gameBoard[1][0] = flag;
                 break;
             case "c11":
-                gameBoard[1][1]=flag;
+                gameBoard[1][1] = flag;
                 break;
             case "c12":
-                gameBoard[1][2]=flag;
+                gameBoard[1][2] = flag;
                 break;
             case "c20":
-                gameBoard[2][0]=flag;
+                gameBoard[2][0] = flag;
                 break;
             case "c21":
-                gameBoard[2][1]=flag;
+                gameBoard[2][1] = flag;
                 break;
             case "c22":
-                gameBoard[2][2]=flag;
+                gameBoard[2][2] = flag;
                 break;
             default:
                 break;
@@ -169,18 +174,18 @@ public class PlayerHandler extends Thread {
         String mainPlayerId = token.nextToken();
 
         database.createGameSession(mainPlayerId, secondaryPlayerId);
-        PlayerHandler p1 = null,p2=null;
+        PlayerHandler p1 = null, p2 = null;
         for (PlayerHandler i : playersList) {
             if (i.player.email.equals(mainPlayerId)) {
                 ps.println("gameOn");
-                p1=i;
+                p1 = i;
             } else if (i.player.email.equals(secondaryPlayerId)) {
                 ps.println("gameOn");
-                p2=i;
+                p2 = i;
             }
         }
-        game.put(mainPlayerId,p2);     //player 1 has obj from player 2
-        game.put(secondaryPlayerId,p1);   //player 2 has obj from player 1
+        game.put(mainPlayerId, p2);     //player 1 has obj from player 2
+        game.put(secondaryPlayerId, p1);   //player 2 has obj from player 1
     }
 
     private void requestPlaying() {
@@ -254,4 +259,47 @@ public class PlayerHandler extends Thread {
 
 
     }
+
+    public void createPlayerSessions(int FirstPlayerId, int secondPlayerId, int GameId, int firstPlayerSign, int secondPlayerSign) throws SQLException {
+
+        PlayerSession firstPlayerSession = new PlayerSession(FirstPlayerId, GameId, firstPlayerSign);
+        PlayerSession secondPlayerSession = new PlayerSession(secondPlayerId, GameId, secondPlayerSign);
+
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(gameBoard[i][j]!=0){
+                    if (gameBoard[i][j] == 1) {
+                        if (firstPlayerSign == 1) {
+                            firstPlayerSession.setCell(i, j, true);
+                            secondPlayerSession.setCell(i, j, false);
+
+                        } else {
+                            firstPlayerSession.setCell(i, j, false);
+                            secondPlayerSession.setCell(i, j, true);
+                        }
+
+                    } else if (gameBoard[i][j] == 2) {
+                        if (firstPlayerSign == 1) {
+                            firstPlayerSession.setCell(i, j, false);
+                            secondPlayerSession.setCell(i, j, true);
+                        } else {
+                            firstPlayerSession.setCell(i, j, true);
+                            secondPlayerSession.setCell(i, j, false);
+                        }
+
+                    }
+
+                }
+
+
+            }
+        }
+
+
+        database.updatingGame(firstPlayerSession,secondPlayerSession);
+
+
+    }
+
 }

@@ -9,13 +9,13 @@ import java.util.List;
 public class GameDAO {
 
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/";
-    public static final String DB_NAME = "Java Game";
+    public static final String DB_NAME = "javaGame";
     public static final String USER = "postgres";
-    public static final String PASS = "1502654";
+    public static final String PASS = "mina2508";
 
     private Connection con;
     private static GameDAO instanceData;
-
+    private PreparedStatement pst;
     public GameDAO() throws SQLException {
         connect();
     }
@@ -35,7 +35,6 @@ public class GameDAO {
     }
 
     public synchronized List<Player> getOnlinePlayers() {
-
         try {
             String queryString = new String("select * from player where status = true");
             PreparedStatement stmt = con.prepareStatement("select * from player where status = true",
@@ -107,10 +106,42 @@ public class GameDAO {
 
     public void handleGameRequest() {
 
+
     }
 
-    public void updatingGame() {
+    public void updatingGame(PlayerSession firstPlayerSession,PlayerSession secondPlayerSession) throws SQLException {
+        String query=new String("update playersession set cell00=? , cell01=? ,cell02=?" +
+                " , cell10=? , cell11=? , cell12=? , cell20=? , cell21=? ,cell22=? where" +
+                " playerId=? and gameId=?");
 
+        pst=con.prepareStatement(query);
+        pst.setBoolean(1,firstPlayerSession.c00);
+        pst.setBoolean(2,firstPlayerSession.c01);
+        pst.setBoolean(3,firstPlayerSession.c02);
+        pst.setBoolean(4,firstPlayerSession.c10);
+        pst.setBoolean(5,firstPlayerSession.c11);
+        pst.setBoolean(6,firstPlayerSession.c12);
+        pst.setBoolean(7,firstPlayerSession.c20);
+        pst.setBoolean(8,firstPlayerSession.c21);
+        pst.setBoolean(9,firstPlayerSession.c22);
+        pst.setInt(10,firstPlayerSession.playerId);
+        pst.setInt(11,firstPlayerSession.GameId);
+        pst.addBatch();
+        pst.setBoolean(1,secondPlayerSession.c00);
+        pst.setBoolean(2,secondPlayerSession.c01);
+        pst.setBoolean(3,secondPlayerSession.c02);
+        pst.setBoolean(4,secondPlayerSession.c10);
+        pst.setBoolean(5,secondPlayerSession.c11);
+        pst.setBoolean(6,secondPlayerSession.c12);
+        pst.setBoolean(7,secondPlayerSession.c20);
+        pst.setBoolean(8,secondPlayerSession.c21);
+        pst.setBoolean(9,secondPlayerSession.c22);
+        pst.setInt(10,secondPlayerSession.playerId);
+        pst.setInt(11,secondPlayerSession.GameId);
+        pst.addBatch();
+     pst.executeBatch();
+
+System.out.println("done");
     }
 
     public String checkSignIn(String email, String password) {
