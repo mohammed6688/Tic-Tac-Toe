@@ -228,6 +228,7 @@ public class PlayerHandler extends Thread {
     private void logout() {
         int PlayerId=Integer.parseInt(token.nextToken());
         database.logOut(PlayerId);
+        playersList.remove(this);
 
     }
 
