@@ -15,7 +15,6 @@ public class GameDAO {
 
     private Connection con;
     private static GameDAO instanceData;
-    private PreparedStatement pst;
     public GameDAO() throws SQLException {
         connect();
     }
@@ -114,7 +113,7 @@ public class GameDAO {
                 " , cell10=? , cell11=? , cell12=? , cell20=? , cell21=? ,cell22=? where" +
                 " playerId=? and gameId=?");
 
-        pst=con.prepareStatement(query);
+        PreparedStatement pst=con.prepareStatement(query);
         pst.setBoolean(1,firstPlayerSession.c00);
         pst.setBoolean(2,firstPlayerSession.c01);
         pst.setBoolean(3,firstPlayerSession.c02);
@@ -139,9 +138,9 @@ public class GameDAO {
         pst.setInt(10,secondPlayerSession.playerId);
         pst.setInt(11,secondPlayerSession.GameId);
         pst.addBatch();
-     pst.executeBatch();
+        pst.executeBatch();
 
-System.out.println("done");
+        System.out.println("done");
     }
 
     public String checkSignIn(String email, String password) {
@@ -195,7 +194,7 @@ System.out.println("done");
         return null;
     }
 
-    public int createGameSession(String MainPlayer, String SecondaryPlayer) throws SQLException {
+    public Game createGameSession(String MainPlayer, String SecondaryPlayer) throws SQLException {
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
@@ -215,13 +214,13 @@ System.out.println("done");
                         rs.getBoolean("gameStatus"),
                         null);
             }
-
-            return createPlayerSession(MainPlayer, SecondaryPlayer, game);
+            createPlayerSession(MainPlayer, SecondaryPlayer, game);
+            return game;
 
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        return -1;
+        return null;
     }
 
     private int createPlayerSession(String mainPlayer, String secondaryPlayer, Game game) {

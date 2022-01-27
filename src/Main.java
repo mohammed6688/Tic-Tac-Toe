@@ -18,8 +18,8 @@ public class Main extends Application {
 
 
         Parent root = FXMLLoader.load(getClass().getResource("/layout/MainActivity.fxml"));
-        PlayerHandler playerHandler=new PlayerHandler();
-        playerHandler.createPlayerSessions(3,4,2,1,2);
+//        PlayerHandler playerHandler=new PlayerHandler();
+//        playerHandler.createPlayerSessions(3,4,2,1,2);
 
 //        //grab your root here
 //        root.setOnMousePressed(event -> {

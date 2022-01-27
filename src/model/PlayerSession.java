@@ -136,8 +136,8 @@ public class PlayerSession {
     public void setPlayer(Player player) {
         this.player = player;
     }
-    public void setCell(int cellRow ,int cellColumn,boolean cellValue)
-    {
+
+    public void setCell(int cellRow ,int cellColumn,boolean cellValue){
         switch (cellRow){
             case 0:
                 switch (cellColumn){

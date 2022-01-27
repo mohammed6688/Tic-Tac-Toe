@@ -5,21 +5,19 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class PlayerHandler extends Thread {
 
     private GameDAO database;
+    Game gameObj=null;
     Player player;
     String query;
     StringTokenizer token;
     DataInputStream dis;
     PrintStream ps;
     static ArrayList<PlayerHandler> playersList = new ArrayList<>();
-    HashMap<String, PlayerHandler> game = new HashMap();
+    HashMap<String, PlayerHandler> game = new HashMap();   //key is player id : value is obj of PlayerHandler
     int[][] gameBoard = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
     public PlayerHandler(Socket socket) throws IOException, SQLException {
@@ -29,12 +27,12 @@ public class PlayerHandler extends Thread {
         database = new GameDAO();
         start();                                 //start the thread
     }
-    //for testing
-    public PlayerHandler() throws SQLException
-    {
-        database = new GameDAO();
-
-    }
+//    //for testing
+//    public PlayerHandler() throws SQLException
+//    {
+//        database = new GameDAO();
+//
+//    }
     @Override
     public void run() {
         try {
@@ -70,10 +68,10 @@ public class PlayerHandler extends Thread {
                     case "gameTic":
                         forwardPress();
                         break;
-                    /*case "finishgameTic":
-                        fforwardPress();
+                    case "finishgameTic":
+                        finalForwardPress();
                         break;
-                    case "updateScore":
+                    /*case "updateScore":
                         updateScore();
                         break;
                     case "available":
@@ -101,10 +99,37 @@ public class PlayerHandler extends Thread {
         }
     }
 
-    private void forwardPress() {
+    private void finalForwardPress() throws SQLException{         //when the final tic played
+        String playerId = token.nextToken();  //first player id
+        String cellNum = token.nextToken();
+        String sign = token.nextToken();  //x or o
+
+        PlayerHandler connection = game.get(playerId);
+        connection.ps.println("gameTic");
+        connection.ps.println(cellNum);
+
+        int fPlayerSign=0,sPlayerSign=0;
+        if (sign.equals("x")){
+            fPlayerSign=1;
+            sPlayerSign=2;
+        }else {
+            fPlayerSign=2;
+            sPlayerSign=1;
+        }
+
+        int sPlayerId = -1;  //second player id
+        for (Map.Entry<String, PlayerHandler> set : game.entrySet()){
+            if (!set.getKey().equals(playerId)){
+                sPlayerId=Integer.parseInt(set.getKey());
+            }
+        }
+        createPlayerSessions(Integer.parseInt(playerId), sPlayerId ,gameObj.gameId,fPlayerSign,sPlayerSign);
+    }
+
+    private void forwardPress() {                    //when a tic played
         String playerId = token.nextToken();
         String cellNum = token.nextToken();
-        String sign = token.nextToken();
+        String sign = token.nextToken();    //x or o
 
         PlayerHandler connection = game.get(playerId);
         connection.ps.println("gameTic");
@@ -173,7 +198,7 @@ public class PlayerHandler extends Thread {
         String secondaryPlayerId = token.nextToken(); // opponent id
         String mainPlayerId = token.nextToken();
 
-        database.createGameSession(mainPlayerId, secondaryPlayerId);
+        this.gameObj= database.createGameSession(mainPlayerId, secondaryPlayerId);
         PlayerHandler p1 = null, p2 = null;
         for (PlayerHandler i : playersList) {
             if (i.player.email.equals(mainPlayerId)) {
@@ -266,19 +291,17 @@ public class PlayerHandler extends Thread {
         PlayerSession secondPlayerSession = new PlayerSession(secondPlayerId, GameId, secondPlayerSign);
 
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++){
             for (int j = 0; j < 3; j++) {
                 if(gameBoard[i][j]!=0){
                     if (gameBoard[i][j] == 1) {
                         if (firstPlayerSign == 1) {
                             firstPlayerSession.setCell(i, j, true);
                             secondPlayerSession.setCell(i, j, false);
-
                         } else {
                             firstPlayerSession.setCell(i, j, false);
                             secondPlayerSession.setCell(i, j, true);
                         }
-
                     } else if (gameBoard[i][j] == 2) {
                         if (firstPlayerSign == 1) {
                             firstPlayerSession.setCell(i, j, false);
@@ -287,12 +310,8 @@ public class PlayerHandler extends Thread {
                             firstPlayerSession.setCell(i, j, true);
                             secondPlayerSession.setCell(i, j, false);
                         }
-
                     }
-
                 }
-
-
             }
         }
 
