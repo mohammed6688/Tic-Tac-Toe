@@ -18,8 +18,11 @@ public class Main extends Application {
 
 
         Parent root = FXMLLoader.load(getClass().getResource("/layout/MainActivity.fxml"));
+
 //        PlayerHandler playerHandler=new PlayerHandler();
 //        playerHandler.createPlayerSessions(3,4,2,1,2);
+        GameDAO DB=new GameDAO();
+    DB.logOut(1);
 
 //        //grab your root here
 //        root.setOnMousePressed(event -> {

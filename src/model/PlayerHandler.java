@@ -226,6 +226,8 @@ public class PlayerHandler extends Thread {
     }
 
     private void logout() {
+        int PlayerId=Integer.parseInt(token.nextToken());
+        database.logOut(PlayerId);
 
     }
 
@@ -247,7 +249,12 @@ public class PlayerHandler extends Thread {
         ps.println(" " + "null");
     }
 
-    private void signUp() {
+    private String signUp() throws SQLException{
+    String UserName=token.nextToken();
+    String Email=token.nextToken();
+    String Password=token.nextToken();
+        String checker = database.checkSignUp(UserName,Password,Email);
+       return checker;
 
     }
 

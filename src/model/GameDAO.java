@@ -142,6 +142,22 @@ public class GameDAO {
 
         System.out.println("done");
     }
+    public String checkSignUp(String userName, String password,String email) throws SQLException {
+          try {
+              PreparedStatement stmt = con.prepareStatement("insert into player" +
+                      " (userName,userPassword,email,isonline,isingame)" +
+                      " values(?,?,?,false,false)");
+              stmt.setString(1, userName);
+              stmt.setString(2, password);
+              stmt.setString(3, email);
+              int rs = stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+              return "username or email already exists";
+        }
+        return "SignedUp Successfully";
+
+    }
 
     public String checkSignIn(String email, String password) {
         try {
@@ -167,6 +183,17 @@ public class GameDAO {
         } catch (SQLException ex) {
             System.out.println(ex);
             return "Connection issue, please try again later";
+        }
+    }
+    public void logOut(int PlayerId) {
+        String query=new String("Update player set isonline=false ,isingame=false where PlayerId=?");
+        try (PreparedStatement pst = con.prepareStatement(query)) {
+            pst.setInt(1, PlayerId);
+            pst.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+
         }
     }
 
