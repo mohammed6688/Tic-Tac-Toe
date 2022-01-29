@@ -251,12 +251,11 @@ public class PlayerHandler extends Thread {
     }
 
     private String signUp() throws SQLException{
-    String UserName=token.nextToken();
-    String Email=token.nextToken();
-    String Password=token.nextToken();
+        String UserName=token.nextToken();
+        String Email=token.nextToken();
+        String Password=token.nextToken();
         String checker = database.checkSignUp(UserName,Password,Email);
-       return checker;
-
+        return checker;
     }
 
     private void signIn() throws SQLException {

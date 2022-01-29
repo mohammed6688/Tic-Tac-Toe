@@ -25,4 +25,10 @@ public class Server {
         });
         listener.start();
     }
+    public void stopServer(){
+        listener.stop();
+    }
+    public boolean checkServer(){
+        return listener.isAlive();
+    }
 }

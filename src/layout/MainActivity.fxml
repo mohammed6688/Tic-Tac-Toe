@@ -3,22 +3,50 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainActivity">
+<?import javafx.scene.Group?>
+<?import javafx.scene.text.Font?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="649.0" prefWidth="1087.0" style="-fx-background-color: #00467A;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainActivity">
    <left>
-      <VBox fx:id="playersStates" prefHeight="400.0" prefWidth="187.0" BorderPane.alignment="CENTER" />
+       <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="649.0" prefWidth="296.0" style="-fx-background-color: #016CBB;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <Pane fx:id="paneLabel" layoutY="20.0" prefHeight="61.0" prefWidth="283.0" style="-fx-background-color: #00467A; -fx-background-radius: 5;">
+               <children>
+                   <Label fx:id="currentLabel" layoutX="25.0" layoutY="13.0" text="Online Players" textFill="WHITE">
+                       <font>
+                           <Font name="System Bold" size="26.0" />
+                       </font>
+                   </Label>
+               </children>
+           </Pane>
+           <ScrollPane fx:id="scrollPane" focusTraversable="false" layoutY="50.0"
+                       prefHeight="558.0" prefWidth="296.0"
+                       style="-fx-background: #00467A; -fx-border-color: #016CBB;"
+                       AnchorPane.bottomAnchor="6.0" AnchorPane.topAnchor="100.0" />
+
+       </AnchorPane>
+
+<!--      <VBox fx:id="playersStates" prefHeight="400.0" prefWidth="287.0" BorderPane.alignment="CENTER" />-->
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-             <VBox alignment="CENTER" prefHeight="400.0" prefWidth="413.0">
-                 <Label layoutX="153.0" layoutY="158.0" text="IP">IP</Label>
-                 <HBox alignment="CENTER" AnchorPane.topAnchor="150">
-                     <Button fx:id="startButton" onAction="#startClicked" layoutX="133.0" layoutY="188.0" mnemonicParsing="false" text="start" />
-                     <Button fx:id="stopButton" onAction="#stopClicked" layoutX="234.0" layoutY="188.0" mnemonicParsing="false" text="stop" />
-                 </HBox>
-             </VBox>
-
+             <StackPane  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                         AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                 <children>
+                     <Group StackPane.alignment="CENTER">
+                         <children>
+                             <VBox alignment="CENTER" prefHeight="400.0" prefWidth="413.0">
+                                 <Label layoutX="153.0" layoutY="158.0" text="IP">IP</Label>
+                                 <HBox alignment="CENTER" AnchorPane.topAnchor="150">
+                                     <Button fx:id="startButton" onAction="#startClicked" layoutX="133.0" layoutY="188.0" mnemonicParsing="false" text="start" />
+                                     <Button fx:id="stopButton" onAction="#stopClicked" layoutX="234.0" layoutY="188.0" mnemonicParsing="false" text="stop" />
+                                 </HBox>
+                             </VBox>
+                         </children>
+                     </Group>
+                 </children>
+             </StackPane>
          </children>
       </AnchorPane>
    </center>

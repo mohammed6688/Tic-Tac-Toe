@@ -8,21 +8,19 @@ import model.GameDAO;
 import model.PlayerHandler;
 import model.Server;
 
-public class Main extends Application {
+public class Main extends Application  {
 
     private double xOffset,yOffset;
-    Server server = new Server();
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
-
         Parent root = FXMLLoader.load(getClass().getResource("/layout/MainActivity.fxml"));
 
 //        PlayerHandler playerHandler=new PlayerHandler();
 //        playerHandler.createPlayerSessions(3,4,2,1,2);
-        GameDAO DB=new GameDAO();
-    DB.logOut(1);
+
+        //GameDAO DB=new GameDAO();
+        //DB.logOut(1);
 
 //        //grab your root here
 //        root.setOnMousePressed(event -> {
@@ -48,7 +46,7 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest((event) -> {
             System.exit(1);
         });
-        server.initializeServer();
+
 
     }
 
