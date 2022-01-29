@@ -8,7 +8,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import model.GameDAO;
 import model.Player;
 import model.Server;
@@ -24,6 +27,7 @@ public class MainActivity implements Initializable {
     public VBox playersStates;
     public Button startButton;
     public Button stopButton;
+    public ImageView serverState;
     GameDAO database;
     List<Player> onlinePlayers;
     ImageView view;
@@ -35,7 +39,7 @@ public class MainActivity implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        serverState.setImage(new Image(getClass().getResourceAsStream("/resources/power-off.png")));
         try {
             database=new GameDAO();
         } catch (SQLException e) {
@@ -48,6 +52,7 @@ public class MainActivity implements Initializable {
 
     public void startClicked(ActionEvent actionEvent) throws IOException {
         System.out.println("yes");
+        serverState.setImage(new Image(getClass().getResourceAsStream("/resources/power-on.png")));
         if (!server.checkServer()) {
             server.initializeServer();
         }
@@ -55,6 +60,7 @@ public class MainActivity implements Initializable {
 
     public void stopClicked(ActionEvent actionEvent) {
         System.out.println("no");
+        serverState.setImage(new Image(getClass().getResourceAsStream("/resources/power-off.png")));
         if (server.checkServer()) {
             server.stopServer();
         }
@@ -68,15 +74,28 @@ public class MainActivity implements Initializable {
                 scrollPane.getScene().getStylesheets().add(getClass().getResource("/css/fullpackstyling.css").toString());
                 scrollPane.setContent(null);
                 vbox.getChildren().clear();
+                vbox.getStyleClass().add("onlineVbox");
 
+                HBox hBox;
+                Circle circle = new Circle(5);
+                circle.getStyleClass().add("circle");
                 for(Player x : onlinePlayers){
                     System.out.println("inside for loop");
-                    view = new ImageView(/*new Image(getClass().getResourceAsStream("resources/avatar.png"))*/);
+                    view = new ImageView(new Image(getClass().getResourceAsStream("/resources/avatar.png")));
                     view.setFitHeight(30);
                     view.setPreserveRatio(true);
 
                     Button button = new Button(x.getUsername(),view);
                     button.setAlignment(Pos.BOTTOM_LEFT);
+
+                    if (x.isInGame()){
+                        circle.setFill(Paint.valueOf("#E29E00"));
+                    }else {
+                        circle.setFill(Paint.valueOf("#15ff00"));
+                    }
+                    hBox=new HBox(button,circle);
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.setSpacing(5);
 
                     button.getStyleClass().add("button1");
                     button.setId(""+x.getEmail());
@@ -108,7 +127,7 @@ public class MainActivity implements Initializable {
                             delay.play();
                         }
                     });*/
-                    vbox.getChildren().add(button);
+                    vbox.getChildren().add(hBox);
                     scrollPane.setContent(vbox);
                 }
                 onlinePlayers.clear();
