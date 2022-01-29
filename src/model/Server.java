@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
-    Thread listener;
+    Thread listener=null;
 
 
     public void initializeServer() throws IOException {
@@ -29,6 +29,7 @@ public class Server {
         listener.stop();
     }
     public boolean checkServer(){
-        return listener.isAlive();
+        return listener != null && listener.isAlive();
+
     }
 }
