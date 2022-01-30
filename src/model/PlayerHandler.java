@@ -178,7 +178,19 @@ public class PlayerHandler extends Thread {
     }
 
     private void leaderBoard() {
+        List<Player> leaderBoard = database.getLeaderBoard();
+        System.out.println(leaderBoard.size());
+        for (Player player : leaderBoard) {
+            ps.println(leaderBoard.size() + " " +
+                    player.id + " " +
+                    player.getUsername() + " " +
+                    player.getEmail() + " " +
+                    player.getPassword() + " " +       //TODO remove password from list
+                    player.isStatus() + " " +
+                    player.isInGame());
 
+        }
+        ps.println(" " + "null");
     }
 
     private void withdraw() {
@@ -255,6 +267,29 @@ public class PlayerHandler extends Thread {
         String Email=token.nextToken();
         String Password=token.nextToken();
         String checker = database.checkSignUp(UserName,Password,Email);
+
+        switch (checker) {
+            case "SignedUp Successfully":
+                boolean updated = database.updateStatus(Email, true);
+                if (updated) {
+                    Player player = database.getEmailData(Email);
+                    ps.println("SignedUpSuccessfully" + " " +
+                            player.id + " " +
+                            player.getUsername() + " " +
+                            player.getEmail() + " " +
+                            player.getPassword() + " " +
+                            player.isStatus() + " " +
+                            player.isInGame());
+                    this.player = player;
+                    playersList.add(this);
+                } else {
+                    ps.println("CantUpdateStatus");
+                }
+                break;
+            case "username or email already exists":
+                ps.println("usernameOrEmailAlreadyExists");
+                break;
+        }
         return checker;
     }
 
@@ -268,7 +303,7 @@ public class PlayerHandler extends Thread {
                 boolean updated = database.updateStatus(email, true);
                 if (updated) {
                     Player player = database.getEmailData(email);
-                    ps.println("Logged in successfully" + " " +
+                    ps.println("LoggedInSuccessfully" + " " +
                             player.id + " " +
                             player.getUsername() + " " +
                             player.getEmail() + " " +
@@ -278,14 +313,14 @@ public class PlayerHandler extends Thread {
                     this.player = player;
                     playersList.add(this);
                 } else {
-                    ps.println("Cant update status");
+                    ps.println("CantUpdateStatus");
                 }
                 break;
             case "Password is incorrect":
-                ps.println("Password is incorrect");
+                ps.println("PasswordIsIncorrect");
                 break;
             case "Connection issue, please try again later":
-                ps.println("Connection issue, please try again later");
+                ps.println("ConnectionIssue,PleaseTryAgainLater");
                 break;
         }
 
