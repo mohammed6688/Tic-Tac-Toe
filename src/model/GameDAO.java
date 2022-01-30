@@ -138,8 +138,8 @@ public class GameDAO {
     public String checkSignUp(String userName, String password,String email) throws SQLException {
           try {
               PreparedStatement stmt = con.prepareStatement("insert into player" +
-                      " (userName,userPassword,email,isonline,isingame)" +
-                      " values(?,?,?,false,false)");
+                      " (userName,userPassword,email,isonline,isingame,score)" +
+                      " values(?,?,?,true,false,0)");
               stmt.setString(1, userName);
               stmt.setString(2, password);
               stmt.setString(3, email);
@@ -171,7 +171,7 @@ public class GameDAO {
             if (player != null && password.equals(player.password)) {
                 return "Logged in successfully";
             } else {
-                return "Password is not correct";
+                return "Email or Password is not correct";
             }
         } catch (SQLException ex) {
             System.out.println(ex);
