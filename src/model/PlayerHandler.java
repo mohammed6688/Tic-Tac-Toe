@@ -123,7 +123,8 @@ public class PlayerHandler extends Thread {
                 sPlayerId=Integer.parseInt(set.getKey());
             }
         }
-        createPlayerSessions(Integer.parseInt(playerId), sPlayerId ,gameObj.gameId,fPlayerSign,sPlayerSign);
+        updatePlayerSessions(Integer.parseInt(playerId), sPlayerId ,gameObj.gameId,fPlayerSign,sPlayerSign);
+        database.updateGameSession(gameObj.gameId,true);    //game is finished
     }
 
     private void forwardPress() {                    //when a tic played
@@ -193,8 +194,31 @@ public class PlayerHandler extends Thread {
         ps.println(" " + "null");
     }
 
-    private void withdraw() {
+    private void withdraw() throws SQLException {
+        String playerId = token.nextToken();  //first player id
+        String cellNum = token.nextToken();
+        String sign = token.nextToken();  //x or o
 
+        PlayerHandler connection = game.get(playerId);
+        connection.ps.println("gameTic");
+        connection.ps.println(cellNum);
+
+        int fPlayerSign=0,sPlayerSign=0;
+        if (sign.equals("x")){
+            fPlayerSign=1;
+            sPlayerSign=2;
+        }else {
+            fPlayerSign=2;
+            sPlayerSign=1;
+        }
+
+        int sPlayerId = -1;  //second player id
+        for (Map.Entry<String, PlayerHandler> set : game.entrySet()){
+            if (!set.getKey().equals(playerId)){
+                sPlayerId=Integer.parseInt(set.getKey());
+            }
+        }
+        updatePlayerSessions(Integer.parseInt(playerId), sPlayerId ,gameObj.gameId,fPlayerSign,sPlayerSign);
     }
 
     private void refusedChallenge() {
@@ -326,7 +350,7 @@ public class PlayerHandler extends Thread {
 
     }
 
-    public void createPlayerSessions(int FirstPlayerId, int secondPlayerId, int GameId, int firstPlayerSign, int secondPlayerSign) throws SQLException {
+    public void updatePlayerSessions(int FirstPlayerId, int secondPlayerId, int GameId, int firstPlayerSign, int secondPlayerSign) throws SQLException {
 
         PlayerSession firstPlayerSession = new PlayerSession(FirstPlayerId, GameId, firstPlayerSign);
         PlayerSession secondPlayerSession = new PlayerSession(secondPlayerId, GameId, secondPlayerSign);

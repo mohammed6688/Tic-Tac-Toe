@@ -77,10 +77,8 @@ public class GameDAO {
         }
 
         return null;
-
     }
 
-    //////////////////////// updatescore////////////////////
     public void updateScore(int player_id, int score, List<Player> players) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("UPDATE player SET score=? WHERE id=?");
@@ -101,11 +99,6 @@ public class GameDAO {
         } catch (SQLException ex) {
             System.out.println("error in online leaderboard");
         }
-    }
-
-    public void handleGameRequest() {
-
-
     }
 
     public void updatingGame(PlayerSession firstPlayerSession,PlayerSession secondPlayerSession) throws SQLException {
@@ -142,6 +135,7 @@ public class GameDAO {
 
         System.out.println("done");
     }
+
     public String checkSignUp(String userName, String password,String email) throws SQLException {
           try {
               PreparedStatement stmt = con.prepareStatement("insert into player" +
@@ -162,7 +156,7 @@ public class GameDAO {
     public String checkSignIn(String email, String password) {
         try {
             PreparedStatement stmt = con.prepareStatement("select * from player where email = ?");
-            stmt.setString(1, "mohammed668800@gmail.com");
+            stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             Player player = null;
             while (rs.next()) {
@@ -185,15 +179,15 @@ public class GameDAO {
             return "Connection issue, please try again later";
         }
     }
+
     public void logOut(int PlayerId) {
         String query=new String("Update player set isonline=false ,isingame=false where PlayerId=?");
         try (PreparedStatement pst = con.prepareStatement(query)) {
             pst.setInt(1, PlayerId);
             pst.executeUpdate();
         }
-        catch (SQLException ex)
-        {
-
+        catch (SQLException ex){
+            System.out.println(ex);
         }
     }
 
@@ -301,5 +295,16 @@ public class GameDAO {
 
         }
         return false;
+    }
+
+    public void updateGameSession(int gameId, boolean b) {
+        try {
+            PreparedStatement stmt = con.prepareStatement("update game set gameStatus = ? where gameId = ? ");
+            stmt.setBoolean(1, b);
+            stmt.setString(2, String.valueOf(gameId));
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 }
