@@ -262,7 +262,7 @@ public class PlayerHandler extends Thread {
         ps.println(" " + "null");
     }
 
-    private String signUp() throws SQLException{
+    private void signUp() throws SQLException{
         String UserName=token.nextToken();
         String Email=token.nextToken();
         String Password=token.nextToken();
@@ -290,7 +290,6 @@ public class PlayerHandler extends Thread {
                 ps.println("usernameOrEmailAlreadyExists");
                 break;
         }
-        return checker;
     }
 
     private void signIn() throws SQLException {
