@@ -75,7 +75,6 @@ public class GameDAO {
         } catch (SQLException ex) {
             System.out.println("error in online leaderboard");
         }
-
         return null;
     }
 
