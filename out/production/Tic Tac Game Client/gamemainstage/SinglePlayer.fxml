@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image:url('/Resources/menuback.JPG')" styleClass="Container" stylesheets="@GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gamemainstage.GameMainFXMLController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" layoutY="120.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="415.0" prefWidth="1000.0">
+               <children>
+                  <Pane minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@GameStyle.css" text=" ">
+                           <graphic>
+                              <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="300.0" prefWidth="250.0">
+                                 <children>
+                                    <Circle layoutX="118.0" layoutY="150.0" radius="110.0" stroke="BLACK" strokeType="INSIDE" styleClass="MainCircle">
+                                       <fill>
+                                          <LinearGradient endX="0.5339805825242718" endY="0.5533980582524272" startX="0.5436893203883495" startY="0.5436893203883495">
+                                             <stops>
+                                                <Stop color="#ff341f" />
+                                                <Stop color="#3b4e65" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </fill>
+                                    </Circle>
+                                    <Label layoutX="77.0" layoutY="188.0" styleClass="EasyHardLables" stylesheets="@GameStyle.css" text="Easy" />
+                                    <ImageView fitHeight="150.0" fitWidth="147.0" layoutX="39.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Resources/icons8-friday-night-funkin-240.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets right="150.0" />
+                     </padding>
+                  </Pane>
+                  <Pane minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@GameStyle.css" text=" ">
+                           <graphic>
+                              <AnchorPane prefHeight="300.0" prefWidth="250.0">
+                                 <children>
+                                    <Circle layoutX="125.0" layoutY="150.0" radius="110.0" stroke="BLACK" strokeType="INSIDE" styleClass="MainCircle">
+                                       <fill>
+                                          <LinearGradient endX="0.5339805825242718" endY="0.5533980582524272" startX="0.5436893203883495" startY="0.5436893203883495">
+                                             <stops>
+                                                <Stop color="#ff341f" />
+                                                <Stop color="#ff3421" offset="0.9477124183006537" />
+                                                <Stop color="#ff3421" offset="0.9477124183006537" />
+                                                <Stop color="#3b4e65" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </fill>
+                                    </Circle>
+                                    <ImageView fitHeight="161.0" fitWidth="130.0" layoutX="57.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Resources/icons8-undyne-240.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="79.0" layoutY="184.0" styleClass="EasyHardLables" stylesheets="@GameStyle.css" text="Hard" />
+                                 </children>
+                              </AnchorPane>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="-30.0" />
+                     </padding>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Pane layoutX="39.0" layoutY="24.0" AnchorPane.bottomAnchor="476.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="861.0" AnchorPane.topAnchor="24.0">
+         <children>
+            <Button fx:id="BackBtn" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@GameStyle.css">
+               <graphic>
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/icons8-go-back-100.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
