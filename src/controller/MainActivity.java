@@ -45,8 +45,19 @@ public class MainActivity implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        onlinePlayers = database.getOnlinePlayers();
-        listOnlinePlayers();
+
+        new Thread(()->{
+            while (true){
+                onlinePlayers = database.getOnlinePlayers();
+                listOnlinePlayers();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
 
@@ -77,8 +88,7 @@ public class MainActivity implements Initializable {
                 vbox.getStyleClass().add("onlineVbox");
 
                 HBox hBox;
-                Circle circle = new Circle(5);
-                circle.getStyleClass().add("circle");
+
                 for(Player x : onlinePlayers){
                     System.out.println("inside for loop");
                     view = new ImageView(new Image(getClass().getResourceAsStream("/resources/avatar.png")));
@@ -88,6 +98,8 @@ public class MainActivity implements Initializable {
                     Button button = new Button(x.getUsername(),view);
                     button.setAlignment(Pos.BOTTOM_LEFT);
 
+                    Circle circle = new Circle(5);
+                    circle.getStyleClass().add("circle");
                     if (x.isInGame()){
                         circle.setFill(Paint.valueOf("#E29E00"));
                     }else {
