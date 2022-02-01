@@ -1,0 +1,14 @@
+.panelBG{
+    -fx-background-color: linear-gradient(to bottom right, #8136a7, #2c88a1);
+}
+
+/* Buttons */
+.mainBtn{
+    -fx-background-color:  #3B7AE2;
+    -fx-background-radius:  35;
+}
+.backBtn{
+    -fx-background-color:  #480958;
+    -fx-border-width: 0  0.1 0.1 0.1;
+    -fx-background-radius: 0 5 0 0;
+}

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="signupRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" styleClass="panelBG" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signwindows.SignUpController">
+   <children>
+      <VBox layoutX="246.0" layoutY="190.0" prefHeight="280.0" prefWidth="273.0" spacing="30.0">
+         <children>
+            <VBox prefHeight="54.0" prefWidth="303.0">
+               <children>
+                  <Label prefHeight="29.0" prefWidth="77.0" text="Username" wrapText="true">
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField />
+               </children>
+            </VBox>
+            <VBox prefHeight="54.0" prefWidth="303.0">
+               <children>
+                  <Label prefHeight="29.0" prefWidth="77.0" text="Email" wrapText="true">
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField />
+               </children>
+            </VBox>
+            <VBox prefHeight="54.0" prefWidth="303.0">
+               <children>
+                  <Label prefHeight="29.0" prefWidth="77.0" text="Password" wrapText="true">
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField />
+               </children>
+            </VBox>
+            <VBox prefHeight="54.0" prefWidth="303.0">
+               <children>
+                  <Label prefHeight="29.0" prefWidth="118.0" text="Confirm Password" wrapText="true">
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <JFXButton defaultButton="true" layoutX="261.0" layoutY="499.0" prefHeight="65.0" prefWidth="240.0" ripplerFill="BLACK" styleClass="mainBtn" text="Regesiter" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font></JFXButton>
+      <JFXButton layoutY="564.0" onAction="#backToSignIn" prefHeight="36.0" prefWidth="95.0" styleClass="backBtn" text="Back" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></JFXButton>
+      <Label layoutX="307.0" layoutY="163.0" prefHeight="27.0" prefWidth="147.0" text="Regestration Form">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="125.0" fitWidth="354.0" layoutX="221.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
