@@ -47,27 +47,19 @@ public class MainActivity implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Thread th=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true)
-                {
-                    onlinePlayers = database.getOnlinePlayers();
-                    listOnlinePlayers();
-                    try {
-                        Thread.sleep(1000);
-                    }
-                    catch (InterruptedException e) {
-                    }
-
+        Thread th=new Thread(() -> {
+            while (true)
+            {
+                onlinePlayers = database.getOnlinePlayers();
+                listOnlinePlayers();
+                try {
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException e) {
                 }
             }
         });
         th.start();
-
-
-
-
     }
 
 
