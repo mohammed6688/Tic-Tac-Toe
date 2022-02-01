@@ -27,6 +27,7 @@ public class PlayerSession {
         this.game = game;
         this.player = player;
     }
+
     public PlayerSession(int playerId, int gameId,int sign) {
         this.playerId = playerId;
         GameId = gameId;

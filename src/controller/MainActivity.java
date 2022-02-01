@@ -14,11 +14,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.GameDAO;
 import model.Player;
+import model.PlayerSession;
 import model.Server;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -45,18 +47,26 @@ public class MainActivity implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Thread th=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true)
+                {
+                    onlinePlayers = database.getOnlinePlayers();
+                    listOnlinePlayers();
+                    try {
+                        Thread.sleep(1000);
+                    }
+                    catch (InterruptedException e) {
+                    }
 
-        new Thread(()->{
-            while (true){
-                onlinePlayers = database.getOnlinePlayers();
-                listOnlinePlayers();
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        th.start();
+
+
+
 
     }
 
@@ -90,14 +100,12 @@ public class MainActivity implements Initializable {
                 HBox hBox;
 
                 for(Player x : onlinePlayers){
-                    System.out.println("inside for loop");
                     view = new ImageView(new Image(getClass().getResourceAsStream("/resources/avatar.png")));
                     view.setFitHeight(30);
                     view.setPreserveRatio(true);
 
                     Button button = new Button(x.getUsername(),view);
                     button.setAlignment(Pos.BOTTOM_LEFT);
-
                     Circle circle = new Circle(5);
                     circle.getStyleClass().add("circle");
                     if (x.isInGame()){
@@ -143,7 +151,6 @@ public class MainActivity implements Initializable {
                     scrollPane.setContent(vbox);
                 }
                 onlinePlayers.clear();
-
             }
         });
     }

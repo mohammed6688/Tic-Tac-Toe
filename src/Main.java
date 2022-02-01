@@ -6,7 +6,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.GameDAO;
 import model.PlayerHandler;
+import model.PlayerSession;
 import model.Server;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application  {
 
@@ -19,7 +23,6 @@ public class Main extends Application  {
 //        PlayerHandler playerHandler=new PlayerHandler();
 //        playerHandler.createPlayerSessions(3,4,2,1,2);
 
-        //GameDAO DB=new GameDAO();
         //DB.logOut(1);
 
 //        //grab your root here
@@ -34,7 +37,7 @@ public class Main extends Application  {
 //            primaryStage.setY(event.getScreenY() - yOffset);
 //        });
         primaryStage.setTitle("Server");
-        primaryStage.setMinWidth(1000);
+        primaryStage.setMinWidth(10);
         primaryStage.setMinHeight(650);
         //MainController.enableWatchGameButton(true);
 
