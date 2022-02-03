@@ -306,7 +306,7 @@ public class GameDAO {
         }
     }
 
-    public ArrayList<PlayerSession> getUnFinishedGames(int playerId) throws SQLException {
+    public ArrayList<Game> getUnFinishedGames(int playerId) throws SQLException {
 
         String queryString= new String("select ps.PlayerId,p.UserName,ps.sign,g.gameid,GameDate,cell00,cell01,cell02,cell10,cell11,cell12,cell20,cell21,cell22 from playersession ps ,player p,game g\n" +
                 " where  ps.playerid=p.playerid  and ps.gameid=g.GameId and ps.gameid=Any(select gameid from playersession where playerid="+playerId+") and g.gamestatus=false  order by ps.gameid");
@@ -323,12 +323,16 @@ public class GameDAO {
                 playerSessions.add(playerSes);
             }
             ArrayList<Game> unfinishedgames=new ArrayList<Game>();
-            for(int i=0;i<playerSessions.size();i+=2)
+            for(int i=0;i<playerSessions.size()-1;i+=2)
             {
-                Game g=new Game(playerSessions.get(i).GameId,playerSessions.get(i).gameDate,0,false,null);
+                ArrayList<PlayerSession> playerSessions1=new ArrayList<PlayerSession>();
+                playerSessions1.add(playerSessions.get(i));
+                playerSessions1.add(playerSessions.get(i+1));
+                Game g=new Game(playerSessions.get(i).GameId,playerSessions.get(i).gameDate,0,false,playerSessions1);
                 unfinishedgames.add(g);
+                playerSessions.clear();
             }
-            return playerSessions;
+            return unfinishedgames;
 
 
     }
