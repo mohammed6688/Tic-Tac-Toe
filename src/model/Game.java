@@ -17,6 +17,7 @@ public class Game {
         this.obj = obj;
     }
 
+
     public int getGameId() {
         return gameId;
     }
