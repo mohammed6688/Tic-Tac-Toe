@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="signinRoot" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" styleClass="panelBG" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signwindows.SignInController">
+   <children>
+      <VBox layoutX="243.0" layoutY="191.0" prefHeight="128.0" prefWidth="279.0" spacing="30.0">
+         <children>
+            <VBox prefHeight="37.0" prefWidth="153.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="34.0" text="Email" />
+                  <TextField prefWidth="270.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="37.0" prefWidth="153.0">
+               <children>
+                  <Label prefHeight="17.0" prefWidth="53.0" text="Password" />
+                  <TextField />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <JFXButton layoutX="289.0" layoutY="347.0" prefHeight="70.0" prefWidth="182.0" styleClass="mainBtn" text="Sign In" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </JFXButton>
+      <Label alignment="CENTER" layoutX="291.0" layoutY="428.0" prefHeight="20.0" prefWidth="182.0" text="Don't have an account yet?" />
+      <JFXButton layoutX="289.0" layoutY="463.0" onAction="#toSignUpHandler" prefHeight="62.0" prefWidth="182.0" styleClass="mainBtn" text="Sign Up" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </JFXButton>
+      <ImageView fitHeight="125.0" fitWidth="354.0" layoutX="221.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
