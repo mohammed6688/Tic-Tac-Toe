@@ -18,9 +18,10 @@ import java.util.List;
 
 public class GameDAO {
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/";
-    public static final String DB_NAME = "javaGame";
+    public static final String DB_NAME = "java Game";
     public static final String USER = "postgres";
-    public static final String PASS = "mina2508";
+    //public static final String PASS = "mina2508";
+    public static final String PASS = "1502654";
     private Connection con;
     private static GameDAO instanceData;
 
@@ -37,13 +38,13 @@ public class GameDAO {
     }
 
     private void connect() throws SQLException {
-        this.con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/javaGame", "postgres", "mina2508");
+        this.con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+DB_NAME, USER, PASS);
     }
 
     public synchronized List<Player> getOnlinePlayers() {
         try {
             new String("select * from player where isonline = true");
-            PreparedStatement stmt = this.con.prepareStatement("select * from player where isonline = true", 1005, 1008);
+            PreparedStatement stmt = this.con.prepareStatement("select * from player where isonline = true", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet rs = stmt.executeQuery();
             ArrayList onlinePlayers = new ArrayList();
 
