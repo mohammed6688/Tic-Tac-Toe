@@ -8,11 +8,12 @@ public class PlayerSession {
     boolean c00, c01, c02,
             c10,c11,c12,
             c20,c21,c22;
+    String gameDate;
     Game game;
     Player player;
 
 
-    public PlayerSession(int playerId, int gameId,int sign, boolean c01, boolean c02, boolean c03, boolean c10, boolean c11, boolean c12, boolean c20, boolean c21, boolean c22, Game game, Player player) {
+    public PlayerSession(int playerId, int gameId,int sign,String gameDate, boolean c01, boolean c02, boolean c03, boolean c10, boolean c11, boolean c12, boolean c20, boolean c21, boolean c22, Game game, Player player) {
         this.playerId = playerId;
         GameId = gameId;
         this.c00 = c01;
@@ -26,6 +27,7 @@ public class PlayerSession {
         this.c22 = c22;
         this.game = game;
         this.player = player;
+        this.gameDate=gameDate;
     }
 
     public PlayerSession(int playerId, int gameId,int sign) {
