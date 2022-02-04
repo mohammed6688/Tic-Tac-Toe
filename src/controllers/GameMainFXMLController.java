@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML2.java to edit this template
  */
-package gamemainstage;
+package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -22,9 +21,10 @@ import javafx.stage.Stage;
  * @author moham
  */
 public class GameMainFXMLController implements Initializable {
-    
 
 
+    @FXML
+    Button BackBtn2;
     @FXML
      Button  singlePlayer, multiPlayers , BackBtn;
     private double xOffset = 0;
@@ -36,7 +36,7 @@ public class GameMainFXMLController implements Initializable {
 
  public void singlePlayerBtnHandling () throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("SinglePlayer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
         Stage window = (Stage)singlePlayer.getScene().getWindow();
         //grab your root here
         root.setOnMousePressed(event -> {
@@ -67,7 +67,7 @@ public class GameMainFXMLController implements Initializable {
 
  public void multiPlayersBtnHandling () throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("TwoPlayers.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
         Stage window = (Stage)multiPlayers.getScene().getWindow();
         //grab your root here
         root.setOnMousePressed(event -> {
@@ -98,7 +98,7 @@ public class GameMainFXMLController implements Initializable {
 
       public void BackToMain () throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("GameMainFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
         Stage window = (Stage)BackBtn.getScene().getWindow();
         //grab your root here
         root.setOnMousePressed(event -> {
@@ -124,5 +124,31 @@ public class GameMainFXMLController implements Initializable {
         window.setOnCloseRequest((event) -> {
             System.exit(1);
         });       
+    }
+    public void BackToMain2() throws Exception {
+        Parent root = (Parent)FXMLLoader.load(this.getClass().getResource("GameMainFXML.fxml"));
+        Stage window = (Stage)this.BackBtn2.getScene().getWindow();
+        root.setOnMousePressed((event) -> {
+            this.xOffset = event.getSceneX();
+            this.yOffset = event.getSceneY();
+        });
+        root.setOnMouseDragged((event) -> {
+            window.setX(event.getScreenX() - this.xOffset);
+            window.setY(event.getScreenY() - this.yOffset);
+        });
+        window.setTitle("Home");
+        window.setMinWidth(1000.0D);
+        window.setMinHeight(600.0D);
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        window.setScene(scene);
+        window.show();
+        window.setOnCloseRequest((event) -> {
+            System.exit(1);
+        });
+    }
+
+    public void ExitBtnHandling() throws Exception {
+        System.exit(1);
     }
 }

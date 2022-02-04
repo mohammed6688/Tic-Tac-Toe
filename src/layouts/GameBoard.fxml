@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gamemainstage.GameMainFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameMainFXMLController">
     <stylesheets>
-        <URL value="@gameboard.css" />
+        <URL value="@../style/gameboard.css" />
     </stylesheets>
    <children>
       <ImageView fitHeight="347.0" fitWidth="605.0" pickOnBounds="true">
@@ -38,7 +38,7 @@
                         <Insets left="25.0" top="25.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button id="Button2" fx:id="Button2" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" styleClass="Button" stylesheets="@gameboard.css" textAlignment="CENTER" textFill="WHITE">
+                  <Button id="Button2" fx:id="Button2" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" styleClass="Button" stylesheets="@../style/gameboard.css" textAlignment="CENTER" textFill="WHITE">
                      <FlowPane.margin>
                         <Insets left="25.0" top="25.0" />
                      </FlowPane.margin>
@@ -94,7 +94,7 @@
                         <Font name="Leelawadee UI Bold" size="30.0" />
                      </font>
                   </Button>
-                  <Button fx:id="Button9" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #ffebcd; -fx-background-radius: 10;" styleClass="Button" stylesheets="@gameboard.css" textAlignment="CENTER" textFill="WHITE">
+                  <Button fx:id="Button9" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #ffebcd; -fx-background-radius: 10;" styleClass="Button" stylesheets="@../style/gameboard.css" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Leelawadee UI Bold" size="30.0" />
                      </font>
@@ -123,7 +123,7 @@
             </ImageView>
             <FlowPane layoutX="39.0" layoutY="142.0" prefHeight="291.0" prefWidth="333.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 50;">
                <children>
-                  <Button fx:id="Rematch" mnemonicParsing="false" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@gameboard.css" text="Rematch" textFill="#fcdb1c">
+                  <Button fx:id="Rematch" mnemonicParsing="false" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Rematch" textFill="#fcdb1c">
                      <font>
                         <Font name="Leelawadee UI Bold" size="18.0" />
                      </font>
@@ -131,7 +131,7 @@
                         <Insets left="46.0" top="200.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button fx:id="Exit" mnemonicParsing="false" onAction="#ExitBtnHandling" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@gameboard.css" text="Exit" textFill="#fcdb1c">
+                  <Button fx:id="Exit" mnemonicParsing="false" onAction="#ExitBtnHandling" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Exit" textFill="#fcdb1c">
                      <FlowPane.margin>
                         <Insets left="30.0" top="200.0" />
                      </FlowPane.margin>
@@ -144,7 +144,7 @@
          </children></Pane>
       <Pane layoutX="49.0" layoutY="34.0">
          <children>
-            <Button fx:id="BackBtn2" mnemonicParsing="false" onAction="#BackToMain2" styleClass="buttonBack" stylesheets="@GameStyle.css">
+            <Button fx:id="BackBtn2" mnemonicParsing="false" onAction="#BackToMain2" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
                <graphic>
                   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>

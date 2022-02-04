@@ -1,4 +1,4 @@
-package gamemainstage;
+package controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -16,40 +17,59 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SignInController implements Initializable {
+public class SignUpController implements Initializable {
     @FXML
-    private AnchorPane signinRoot;
+    private AnchorPane signupRoot ;
+
+    @FXML
+    private TextField confirmpasswordTF;
+
+    @FXML
+    private TextField emailTF;
+
+    @FXML
+    private TextField passwordTF;
+
+    @FXML
+    private TextField usernameTF;
+
+
+    @FXML
+    private void backToSignIn (ActionEvent event){
+        gotoSignIn();
+    }
+
+    @FXML
+    void registerbuttonHandler(ActionEvent event) {
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        signinRoot.setOpacity(0);
-        toSignInView();
+        signupRoot.setOpacity(0);
+        toSignUpView();
     }
-    @FXML
-    private void toSignUpHandler (ActionEvent event){
-        gotoSignUp();
-    }
-    private void toSignInView() {
+
+    private void toSignUpView() {
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(150));
-        transition.setNode(signinRoot);
+        transition.setNode(signupRoot);
         transition.setFromValue(0);
         transition.setToValue(1);
         transition.play();
     }
 
-    @FXML
-    private void gotoSignUp (){
+    private void gotoSignIn(){
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(150));
-        transition.setNode(signinRoot);
+        transition.setNode(signupRoot);
         transition.setFromValue(1);
         transition.setToValue(0);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    loadSignUpScene();
+                    loadSignInScene();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -58,12 +78,12 @@ public class SignInController implements Initializable {
         transition.play();
     }
 
-    private void loadSignUpScene() throws IOException {
+    private void loadSignInScene() throws IOException {
         try {
-            Parent signupView;
-            signupView = (AnchorPane) FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-            Scene newscene = new Scene(signupView);
-            Stage curStage = (Stage) signinRoot.getScene().getWindow();
+            Parent signinView;
+            signinView = (AnchorPane) FXMLLoader.load(getClass().getResource("../layouts/SignInScene.fxml"));
+            Scene newscene = new Scene(signinView);
+            Stage curStage = (Stage) signupRoot.getScene().getWindow();
             curStage.setScene(newscene);
         }
         catch (IOException ex) {

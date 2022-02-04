@@ -13,7 +13,7 @@ public class GameMainStage extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("GameMainFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
 
         //grab your root here
         root.setOnMousePressed(event -> {

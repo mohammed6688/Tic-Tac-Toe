@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image:url('/Resources/menuback.JPG')" styleClass="Container" stylesheets="@GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gamemainstage.GameMainFXMLController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image:url('/Resources/menuback.jpg')" styleClass="Container" stylesheets="@../style/GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameMainFXMLController">
    <children>
       <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -30,7 +30,7 @@
                <children>
                   <Pane minHeight="-Infinity" minWidth="-Infinity">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@GameStyle.css" text=" ">
+                        <Button fx:id="singlePlayer" mnemonicParsing="false" onAction="#singlePlayerBtnHandling" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
                            <graphic>
                               <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="300.0" prefWidth="250.0">
                                  <children>
@@ -44,10 +44,10 @@
                                           </LinearGradient>
                                        </fill>
                                     </Circle>
-                                    <Label layoutX="77.0" layoutY="188.0" styleClass="EasyHardLables" stylesheets="@GameStyle.css" text="Easy" />
-                                    <ImageView fitHeight="150.0" fitWidth="147.0" layoutX="39.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                                    <Label layoutX="54.0" layoutY="204.0" prefHeight="30.0" prefWidth="129.0" styleClass="MainLables" stylesheets="@../style/GameStyle.css" text="Single Player" />
+                                    <ImageView fitHeight="136.0" fitWidth="148.0" layoutX="50.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" rotate="11.3">
                                        <image>
-                                          <Image url="@../Resources/icons8-friday-night-funkin-240.png" />
+                                          <Image url="@../Resources/853762.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -61,7 +61,7 @@
                   </Pane>
                   <Pane minHeight="-Infinity" minWidth="-Infinity">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@GameStyle.css" text=" ">
+                        <Button fx:id="multiPlayers" mnemonicParsing="false" onAction="#multiPlayersBtnHandling" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
                            <graphic>
                               <AnchorPane prefHeight="300.0" prefWidth="250.0">
                                  <children>
@@ -77,12 +77,12 @@
                                           </LinearGradient>
                                        </fill>
                                     </Circle>
-                                    <ImageView fitHeight="161.0" fitWidth="130.0" layoutX="57.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="128.0" fitWidth="132.0" layoutX="61.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" rotate="11.3">
                                        <image>
-                                          <Image url="@../Resources/icons8-undyne-240.png" />
+                                          <Image url="@../Resources/853767.png" />
                                        </image>
                                     </ImageView>
-                                    <Label layoutX="79.0" layoutY="184.0" styleClass="EasyHardLables" stylesheets="@GameStyle.css" text="Hard" />
+                                    <Label layoutX="57.0" layoutY="200.0" prefHeight="30.0" prefWidth="136.0" styleClass="MainLables" stylesheets="@../style/GameStyle.css" text="Multi Players" />
                                  </children>
                               </AnchorPane>
                            </graphic>
@@ -96,18 +96,5 @@
             </HBox>
          </children>
       </VBox>
-      <Pane layoutX="39.0" layoutY="24.0" AnchorPane.bottomAnchor="476.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="861.0" AnchorPane.topAnchor="24.0">
-         <children>
-            <Button fx:id="BackBtn" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@GameStyle.css">
-               <graphic>
-                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Resources/icons8-go-back-100.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </Pane>
    </children>
 </AnchorPane>

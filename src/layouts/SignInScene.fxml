@@ -7,7 +7,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane fx:id="signinRoot" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" styleClass="panelBG" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signwindows.SignInController">
+<?import com.jfoenix.controls.JFXButton?>
+<AnchorPane fx:id="signinRoot" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="760.0" styleClass="panelBG" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SignInController">
    <children>
       <VBox layoutX="243.0" layoutY="191.0" prefHeight="128.0" prefWidth="279.0" spacing="30.0">
          <children>
@@ -41,7 +42,7 @@
       </JFXButton>
       <ImageView fitHeight="125.0" fitWidth="354.0" layoutX="221.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../images/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
+            <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
          </image>
       </ImageView>
    </children>
