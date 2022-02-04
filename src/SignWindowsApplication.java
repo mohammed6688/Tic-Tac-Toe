@@ -1,5 +1,3 @@
-package gamemainstage;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +9,7 @@ import java.io.IOException;
 public class SignWindowsApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../layouts/SignInScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/layouts/SignInScene.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 760, 550);
         stage.setTitle("Tic-Tac-Toc");
         stage.setScene(scene);
