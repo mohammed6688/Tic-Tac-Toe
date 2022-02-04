@@ -1,5 +1,3 @@
-package gamemainstage;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +11,7 @@ public class GameMainStage extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/layouts/GameMainFXML.fxml"));
 
         //grab your root here
         root.setOnMousePressed(event -> {
