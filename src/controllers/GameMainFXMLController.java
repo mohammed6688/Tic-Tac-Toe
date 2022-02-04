@@ -5,7 +5,11 @@
 package controllers;
 
 import java.net.URL;
+import java.nio.channels.Channel;
+import java.sql.Connection;
 import java.util.ResourceBundle;
+
+import Client.ServerChannel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,7 +32,7 @@ public class GameMainFXMLController implements Initializable {
     @FXML
      Button  singlePlayer, multiPlayers , BackBtn;
     private double xOffset = 0;
-    private double yOffset = 0;    
+    private double yOffset = 0;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -65,34 +69,43 @@ public class GameMainFXMLController implements Initializable {
     }
 
  public void multiPlayersBtnHandling () throws Exception {
-
      //   Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
-     Parent root = FXMLLoader.load(getClass().getResource("/layouts/SignInScene.fxml"));
-     Stage window = (Stage)multiPlayers.getScene().getWindow();
-        //grab your root here
-        root.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
+     if(ServerChannel.startChannel())
+     {
+         System.out.print("sha8alla");
+         Parent root = FXMLLoader.load(getClass().getResource("/layouts/SignInScene.fxml"));
+         Stage window = (Stage)multiPlayers.getScene().getWindow();
+         //grab your root here
+         root.setOnMousePressed(event -> {
+             xOffset = event.getSceneX();
+             yOffset = event.getSceneY();
+         });
 
-        //move around here
-        root.setOnMouseDragged(event -> {
-            window.setX(event.getScreenX() - xOffset);
-            window.setY(event.getScreenY() - yOffset);
-        });
-        window.setTitle("Multi-Players");
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
+         //move around here
+         root.setOnMouseDragged(event -> {
+             window.setX(event.getScreenX() - xOffset);
+             window.setY(event.getScreenY() - yOffset);
+         });
+         window.setTitle("Multi-Players");
+         window.setMinWidth(1000);
+         window.setMinHeight(600);
 
-        Scene scene = new Scene(root);
-        //set transparent
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.show();
+         Scene scene = new Scene(root);
+         //set transparent
+         scene.setFill(Color.TRANSPARENT);
+         window.setScene(scene);
+         window.show();
 
-        window.setOnCloseRequest((event) -> {
-            System.exit(1);
-        });
+         window.setOnCloseRequest((event) -> {
+             System.exit(1);
+         });
+     }
+     else
+     {
+         System.out.print("msh sha8alla");
+
+     }
+
     }
 
       public void BackToMain () throws Exception {
