@@ -52,7 +52,6 @@ public class GameMainFXMLController implements Initializable {
         window.setTitle("Choice Level");
         window.setMinWidth(1000);
         window.setMinHeight(600);
-         //MainController.enableWatchGameButton(true);
 
         Scene scene = new Scene(root);
         //set transparent
@@ -83,7 +82,6 @@ public class GameMainFXMLController implements Initializable {
         window.setTitle("Multi-Players");
         window.setMinWidth(1000);
         window.setMinHeight(600);
-         //MainController.enableWatchGameButton(true);
 
         Scene scene = new Scene(root);
         //set transparent

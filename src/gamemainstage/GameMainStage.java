@@ -29,7 +29,6 @@ public class GameMainStage extends Application {
         primaryStage.setTitle("Home");
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(600);
-        //MainController.enableWatchGameButton(true);
 
         Scene scene = new Scene(root);
         //set transparent
