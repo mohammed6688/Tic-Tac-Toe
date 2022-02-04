@@ -26,6 +26,7 @@ public class GameMainStage extends Application {
             primaryStage.setX(event.getScreenX() - xOffset);
             primaryStage.setY(event.getScreenY() - yOffset);
         });
+
         primaryStage.setTitle("Home");
         primaryStage.setMinWidth(1000);
         primaryStage.setMinHeight(600);
