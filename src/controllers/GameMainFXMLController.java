@@ -66,8 +66,9 @@ public class GameMainFXMLController implements Initializable {
 
  public void multiPlayersBtnHandling () throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
-        Stage window = (Stage)multiPlayers.getScene().getWindow();
+     //   Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
+     Parent root = FXMLLoader.load(getClass().getResource("/layouts/SignInScene.fxml"));
+     Stage window = (Stage)multiPlayers.getScene().getWindow();
         //grab your root here
         root.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
@@ -91,7 +92,7 @@ public class GameMainFXMLController implements Initializable {
 
         window.setOnCloseRequest((event) -> {
             System.exit(1);
-        });       
+        });
     }
 
       public void BackToMain () throws Exception {
