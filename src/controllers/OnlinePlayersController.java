@@ -1,5 +1,6 @@
 package controllers;
 
+import Client.ServerChannel;
 import helper.AskDialog;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -34,9 +35,9 @@ import java.util.*;
 
 public class OnlinePlayersController implements Initializable {
 
-    static Socket socket;
-    static DataInputStream dis;
-    static PrintStream ps;
+//    static Socket socket;
+//    static DataInputStream dis;
+//    static PrintStream ps;
     public AnchorPane mainRoot;
 
     List<Player> onlinePlayers = new ArrayList<>();
@@ -53,15 +54,15 @@ public class OnlinePlayersController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (connection()) {
-            ps.println("playerlist mohamed@gmail.com");
+
+            ServerChannel.ps.println("playerlist "+SignInController.currentPlayer.getEmail());
 
             thread = new Thread(() -> {
                 while (true) {
                     onlinePlayers.clear();
                     do {
                         try {
-                            String data = dis.readLine();
+                            String data = ServerChannel.dis.readLine();
                             if (data.equals("null")) {
                                 break;
                             }
@@ -79,7 +80,7 @@ public class OnlinePlayersController implements Initializable {
                                 case "close":
                                     close();
                                 default:
-                                    System.out.println("default");
+                                    //System.out.println("default");
                                     readOnlineList(data);
                             }
                         } catch (IOException ex) {
@@ -92,12 +93,11 @@ public class OnlinePlayersController implements Initializable {
                     } catch (InterruptedException ex) {
                         thread.stop();
                     }
-
                 }
             });
 
             thread.start();
-        }
+
     }
 
     private void startGame() throws IOException {
@@ -105,13 +105,13 @@ public class OnlinePlayersController implements Initializable {
             if(alert.isShowing())
                 alert.close();
         });
-        String OpponentUsername = dis.readLine();
+        String OpponentUsername = ServerChannel.dis.readLine();
         System.out.println("player 2 accepted");
         //showGame(true,OpponentUsername);
     }
 
     private void receivedRequest() throws IOException {
-        String opponentData = dis.readLine();
+        String opponentData = ServerChannel.dis.readLine();
         System.out.println("received request");
         StringTokenizer token = new StringTokenizer(opponentData, " ");
         String opponentMail = token.nextToken();
@@ -147,11 +147,11 @@ public class OnlinePlayersController implements Initializable {
                     if (result.get() == Yes) { // accept to play
                         System.out.println("game on");
 
-                        //ps.println("accept " + MainController.hash.get("email") + " " + MainController.hash.get("username") + " " + opponentMail);
+                        ServerChannel.ps.println("accept " + SignInController.currentPlayer.getEmail() + " " + SignInController.currentPlayer.getUsername() + " " + opponentMail);
                         //showGame(false, opponentUsername);
                     } else {
                         System.out.println("no first request");
-                        ps.println("decline " + opponentMail);
+                        ServerChannel.ps.println("decline " + opponentMail);
                     }
                     delay.play();
                 }
@@ -220,10 +220,10 @@ public class OnlinePlayersController implements Initializable {
 
                     button.setOnAction(event -> {
                         System.out.println(x.getUsername());
-                        ps.println("request " + x.getEmail() + " " + "mohamed@gmail.com");
+                        ServerChannel.ps.println("request " + x.getEmail() + " " + SignInController.currentPlayer.getEmail());
 
                         for (Player player : onlinePlayers) {
-                            if (player.getEmail().equals(x.getEmail()) || player.getEmail().equals("mohamed@gmail.com")) {
+                            if (player.getEmail().equals(x.getEmail()) || player.getEmail().equals(SignInController.currentPlayer.getEmail())) {
                                 game.put(player.getEmail(), player);
                             }
                         }
@@ -280,32 +280,10 @@ public class OnlinePlayersController implements Initializable {
         ));
     }
 
-    public boolean connection() {
-        try {
-            if (socket == null || socket.isClosed()) {
-                socket = new Socket("127.0.0.1", 5005);
-
-                dis = new DataInputStream(socket.getInputStream());
-                ps = new PrintStream(socket.getOutputStream());
-            }
-
-            return true;
-        } catch (IOException ex) {
-            try {
-                System.out.println("closing socket in main controller");
-                if (socket != null) {
-                    socket.close();
-                    dis.close();
-                    ps.close();
-                }
-            } catch (IOException ex1) {
-                System.out.println("error in closing socket");
-            }
-            return false;
-        }
-    }
-
     public void BackToMain() throws Exception {
+        String message = "logout " + SignInController.currentPlayer.getId();
+        ServerChannel.logOut(message);
+
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(150));
         transition.setNode(mainRoot);
@@ -331,12 +309,13 @@ public class OnlinePlayersController implements Initializable {
     private void close() {
         System.out.println("Server Colsed");
 
-        Platform.runLater(() -> {
-            AskDialog serverIssueAlert  = new AskDialog();
-            serverIssueAlert.serverIssueAlert("There is issue in connection game page will be closed");
+//        Platform.runLater(() -> {
+//            AskDialog serverIssueAlert  = new AskDialog();
+//            serverIssueAlert.serverIssueAlert("There is issue in connection game page will be closed");
 //            ButtonBack backtoLoginPage = new ButtonBack("/view/sample.fxml");
 //            backtoLoginPage.navigateToAnotherPage(emailtxt);
-        });
+//        });
+        ServerChannel.closeConnection();
         thread.stop();
     }
 }

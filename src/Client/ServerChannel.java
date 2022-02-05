@@ -6,9 +6,9 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 public class ServerChannel {
-   private static Socket socket;
-    private static DataInputStream dis;
-    private  static PrintStream ps;
+    private static Socket socket;
+    public static DataInputStream dis;
+    public  static PrintStream ps;
     public static boolean startChannel() {
 
         try {
