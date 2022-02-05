@@ -191,7 +191,7 @@ public class PlayerHandler extends Thread {
                     player.isInGame());
 
         }
-        ps.println(" " + "null");
+        ps.println("null");
     }
 
     private void withdraw() throws SQLException {
@@ -261,7 +261,7 @@ public class PlayerHandler extends Thread {
 
     private void requestPlaying() {
         String secondaryPlayerMail = token.nextToken(); // opponent mail
-        String mainPlayerData = token.nextToken(""); // "mail&username"
+        String mainPlayerData = token.nextToken(); // mail
         for (PlayerHandler i : playersList) {
             if (i.player.email.equals(secondaryPlayerMail)) {
                 System.out.println("sending request");
@@ -283,8 +283,7 @@ public class PlayerHandler extends Thread {
         System.out.println(onlinePlayers.size());
         for (Player player : onlinePlayers) {
             if (!player.email.equals(email)) {         //to not send the current player as one of the online players
-                ps.println(onlinePlayers.size() + " " +
-                        player.id + " " +
+                ps.println(player.id + " " +
                         player.getUsername() + " " +
                         player.getEmail() + " " +
                         player.getPassword() + " " +       //TODO remove password from list
@@ -292,7 +291,7 @@ public class PlayerHandler extends Thread {
                         player.isInGame());
             }
         }
-        ps.println(" " + "null");
+        ps.println("null");
     }
 
     private void signUp() throws SQLException{
