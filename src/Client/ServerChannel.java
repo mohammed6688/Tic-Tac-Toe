@@ -41,6 +41,16 @@ public class ServerChannel {
         }
         return response;
     }
+    public static String getUnFinishedGames(String message) {
+        String response=null;
+        try {
+            ps.println(message);
+            response=dis.readLine();
+        } catch (IOException e) {
+
+        }
+        return response;
+    }
     public static boolean logOut(String message) {
             ps.println(message);
             closeConnection();
