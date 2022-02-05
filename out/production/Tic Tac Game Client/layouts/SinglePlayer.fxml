@@ -61,7 +61,7 @@
                   </Pane>
                   <Pane minHeight="-Infinity" minWidth="-Infinity">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
+                        <Button fx:id="hardLevel" mnemonicParsing="false" onAction="#hardLevelBtnHandling" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
                            <graphic>
                               <AnchorPane prefHeight="300.0" prefWidth="250.0">
                                  <children>

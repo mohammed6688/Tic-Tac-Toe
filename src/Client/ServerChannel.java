@@ -6,9 +6,9 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 public class ServerChannel {
-   private static Socket socket;
-    private static DataInputStream dis;
-    private  static PrintStream ps;
+    private static Socket socket;
+    public static DataInputStream dis;
+    public  static PrintStream ps;
     public static boolean startChannel() {
 
         try {
@@ -41,9 +41,17 @@ public class ServerChannel {
         }
         return response;
     }
-    public static boolean logOut(String message) {
+    public static String getUnFinishedGames(String message) {
         String response=null;
+        try {
+            ps.println(message);
+            response=dis.readLine();
+        } catch (IOException e) {
 
+        }
+        return response;
+    }
+    public static boolean logOut(String message) {
             ps.println(message);
             closeConnection();
         return true;
