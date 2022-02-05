@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Player;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,80 +35,82 @@ public class SignInController implements Initializable {
     private DialogPane dialog;
     private double xOffset = 0;
     private double yOffset = 0;
-    public  String response;
+    public String response;
     public static Player currentPlayer;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         signinRoot.setOpacity(0);
         toSignInView();
 
     }
+
     @FXML
-    private void toSignUpHandler (ActionEvent event){
+    private void toSignUpHandler(ActionEvent event) {
         gotoSignUp();
     }
+
     @FXML
-    private void toSignInHandler (ActionEvent event) throws IOException ,Exception {
-        if(email.getText().isEmpty() || password.getText().isEmpty())
-        {
-            makeAlertDialog("Empty Fields","ALERT","some fileds may be empty");
+    private void toSignInHandler(ActionEvent event) throws IOException, Exception {
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {
+            makeAlertDialog("Empty Fields", "ALERT", "some fileds may be empty");
 
-        }else{
-
-
-        String message="SignIn "+email.getText()+" "+password.getText();
-       response= ServerChannel.signIn(message);
-        System.out.println(response);
-        System.out.println(response.contains("Logged in successfully "));
-
-        if(response.contains("LoggedInSuccessfully")) {
-            createPlayerObj();
-          getOnlinePlayersLayout();
-
-        }
-        else if(response.contains("already signed in")) {
-
-            makeAlertDialog("WARNING","ALERT","THIS ACCOUNT ALREADY SIGNED IN FROM ANOTHER DEVICE");
-
-        }
-        else {
+        } else {
 
 
-            makeAlertDialog("WARNING","WRONG CREDENTIAL","Email or Password may be wrong ");
+            String message = "SignIn " + email.getText() + " " + password.getText();
+            response = ServerChannel.signIn(message);
+            System.out.println(response);
+            System.out.println(response.contains("Logged in successfully "));
+
+            if (response.contains("LoggedInSuccessfully")) {
+                createPlayerObj();
+                getOnlinePlayersLayout();
+
+            } else if (response.contains("already signed in")) {
+
+                makeAlertDialog("WARNING", "ALERT", "THIS ACCOUNT ALREADY SIGNED IN FROM ANOTHER DEVICE");
+
+            } else {
 
 
-        }
+                makeAlertDialog("WARNING", "WRONG CREDENTIAL", "Email or Password may be wrong ");
+
+
+            }
         }
 
     }
-private void getOnlinePlayersLayout() throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
-    Stage window = (Stage)signIn.getScene().getWindow();
-    //grab your root here
-    root.setOnMousePressed( event1 -> {
-        xOffset = event1.getSceneX();
-        yOffset = event1.getSceneY();
-    });
 
-    //move around here
-    root.setOnMouseDragged(event1 -> {
-        window.setX(event1.getScreenX() - xOffset);
-        window.setY(event1.getScreenY() - yOffset);
-    });
-    window.setTitle("Multi-Players");
-    window.setMinWidth(1000);
-    window.setMinHeight(600);
+    private void getOnlinePlayersLayout() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
+        Stage window = (Stage) signIn.getScene().getWindow();
+        //grab your root here
+        root.setOnMousePressed(event1 -> {
+            xOffset = event1.getSceneX();
+            yOffset = event1.getSceneY();
+        });
 
-    Scene scene = new Scene(root);
-    //set transparent
-    scene.setFill(Color.TRANSPARENT);
-    window.setScene(scene);
-    window.show();
+        //move around here
+        root.setOnMouseDragged(event1 -> {
+            window.setX(event1.getScreenX() - xOffset);
+            window.setY(event1.getScreenY() - yOffset);
+        });
+        window.setTitle("Multi-Players");
+        window.setMinWidth(1000);
+        window.setMinHeight(600);
 
-    window.setOnCloseRequest((event1) -> {
-        System.exit(1);
-    });
-}
+        Scene scene = new Scene(root);
+        //set transparent
+        scene.setFill(Color.TRANSPARENT);
+        window.setScene(scene);
+        window.show();
+
+        window.setOnCloseRequest((event1) -> {
+            System.exit(1);
+        });
+    }
+
     private void toSignInView() {
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(150));
@@ -120,7 +123,7 @@ private void getOnlinePlayersLayout() throws IOException {
     }
 
     @FXML
-    private void gotoSignUp (){
+    private void gotoSignUp() {
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(150));
         transition.setNode(signinRoot);
@@ -146,15 +149,14 @@ private void getOnlinePlayersLayout() throws IOException {
             Scene newscene = new Scene(signupView);
             Stage curStage = (Stage) signinRoot.getScene().getWindow();
             curStage.setScene(newscene);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    private void makeAlertDialog(String title ,String HeaderText ,String Content)
-    {
+
+    private void makeAlertDialog(String title, String HeaderText, String Content) {
         Alert a = new Alert(Alert.AlertType.WARNING);
-        dialog=a.getDialogPane();
+        dialog = a.getDialogPane();
         dialog.getStylesheets().add(getClass().getResource("../style/style.css").toString());
         dialog.getStyleClass().add("dialog");
 
@@ -163,14 +165,14 @@ private void getOnlinePlayersLayout() throws IOException {
         a.setContentText(Content);
         a.show();
     }
-    private Player createPlayerObj()
-    {
-        StringTokenizer token=new StringTokenizer(response," ");
+
+    private Player createPlayerObj() {
+        StringTokenizer token = new StringTokenizer(response, " ");
         token.nextToken();
-        currentPlayer =new Player(Integer.parseInt(token.nextToken()),
+        currentPlayer = new Player(Integer.parseInt(token.nextToken()),
                 token.nextToken(),
                 token.nextToken()
-                ,token.nextToken(),
+                , token.nextToken(),
                 Boolean.parseBoolean(token.nextToken()),
                 Boolean.parseBoolean(token.nextToken()));
         return currentPlayer;

@@ -69,18 +69,44 @@ public class GameMainFXMLController implements Initializable {
     }
 
 
-    public void multiPlayersBtnHandling() throws Exception {
+    public void multiPlayersBtnHandling () throws Exception {
         //   Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
-        if (ServerChannel.startChannel()) {
+        if(ServerChannel.startChannel())
+        {
             System.out.print("sha8alla");
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/SignInScene.fxml"));
-            Stage window = (Stage) multiPlayers.getScene().getWindow();
+            Stage window = (Stage)multiPlayers.getScene().getWindow();
             //grab your root here
             root.setOnMousePressed(event -> {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();
             });
+
+            //move around here
+            root.setOnMouseDragged(event -> {
+                window.setX(event.getScreenX() - xOffset);
+                window.setY(event.getScreenY() - yOffset);
+            });
+            window.setTitle("Multi-Players");
+            window.setMinWidth(1000);
+            window.setMinHeight(600);
+
+            Scene scene = new Scene(root);
+            //set transparent
+            scene.setFill(Color.TRANSPARENT);
+            window.setScene(scene);
+            window.show();
+
+            window.setOnCloseRequest((event) -> {
+                System.exit(1);
+            });
         }
+        else
+        {
+            System.out.print("msh sha8alla");
+
+        }
+
     }
 
     public void easyLevelBtnHandling() throws Exception {
