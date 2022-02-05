@@ -329,7 +329,11 @@ public class OnlinePlayersController implements Initializable {
            transition.play();
        }
     }
-
+    private void getUnFinishedGames() {
+    String message="getUnfinishedGames "+SignInController.currentPlayer.getId();
+   String response= ServerChannel.getUnFinishedGames(message);
+    System.out.println(response);
+    }
     private void close() {
         System.out.println("Server Colsed");
 
