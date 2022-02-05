@@ -11,51 +11,219 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.geometry.Rectangle2D?>
+<?import java.net.URL?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image:url('/Resources/menuback.jpg')" styleClass="Container" stylesheets="@../style/GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OnlinePlayersController">
+
+   <stylesheets>
+      <URL value="@../style/gameboard.css" />
+   </stylesheets>
    <children>
-      <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="gamePan" visible="false">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="347.0" fitWidth="605.0" pickOnBounds="true">
                <image>
-                  <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
+                  <Image url="@../Resources/tic_tac_toe_loader_.gif" />
                </image>
             </ImageView>
-         </children>
-      </HBox>
-      <ScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="310.0" prefHeight="252.0" prefWidth="950.0" styleClass="TPSscrollPane" stylesheets="@../style/GameStyle.css" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="310.0">
-        <content>
-          <AnchorPane prefHeight="163.0" prefWidth="950.0" />
-        </content>
-      </ScrollPane>
-      <HBox alignment="CENTER" layoutY="178.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <ImageView fitHeight="99.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Resources/online-game (1).png" />
-               </image>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </ImageView>
-            <Label prefHeight="59.0" prefWidth="322.0" text="Online Players" textFill="#af44d2">
-               <font>
-                  <Font name="Arial Black" size="40.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <Pane layoutX="20.0" layoutY="24.0">
-         <children>
-            <Button fx:id="BackBtn" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
-               <graphic>
-                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <Pane layoutX="-1.0" layoutY="324.0" prefHeight="282.0" prefWidth="605.0" style="-fx-background-color: #ff4c4c;" />
+            <Pane prefHeight="720.0" prefWidth="1280.0">
+               <children>
+                  <FlowPane prefHeight="606.0" prefWidth="594.0">
+                     <children>
+                        <ImageView fitHeight="605.0" fitWidth="597.0" opacity="0.06" pickOnBounds="true">
+                           <image>
+                              <Image url="@../Resources/background.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </FlowPane>
+                  <FlowPane fx:id="FlowPane" layoutX="90.0" layoutY="222.0" mouseTransparent="true" prefHeight="338.0" prefWidth="414.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                        </Button>
+                        <Button id="Button2" fx:id="Button2" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" styleClass="Button" stylesheets="@../style/gameboard.css" textAlignment="CENTER" textFill="WHITE">
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="Button3" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="Button4" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="Button5" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="Button6" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="Button7" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                        </Button>
+                        <Button fx:id="Button8" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #ffebcd; -fx-background-radius: 10;" textAlignment="CENTER" textFill="WHITE">
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="Button9" mnemonicParsing="false" prefHeight="80.0" prefWidth="100.0" style="-fx-background-color: #ffebcd; -fx-background-radius: 10;" styleClass="Button" stylesheets="@../style/gameboard.css" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="30.0" />
+                           </font>
+                           <FlowPane.margin>
+                              <Insets left="25.0" top="25.0" />
+                           </FlowPane.margin>
+                        </Button>
+                     </children>
+                  </FlowPane>
+               </children>
+            </Pane>
+            <Pane layoutX="598.0" prefHeight="606.0" prefWidth="406.0" style="-fx-background-color: #434876;">
+               <children>
+                  <ImageView fitHeight="606.0" fitWidth="406.0" opacity="0.06" pickOnBounds="true">
                      <image>
-                        <Image url="@../Resources/icons8-go-back-100.png" />
+                        <Image url="@../Resources/background.jpg" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
+                  <ImageView fitHeight="62.0" fitWidth="204.0" layoutX="112.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/tictactoe.gif" />
+                     </image>
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </ImageView>
+                  <FlowPane layoutX="39.0" layoutY="142.0" prefHeight="291.0" prefWidth="333.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 50;">
+                     <children>
+                        <Button fx:id="Rematch" mnemonicParsing="false" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Rematch" textFill="#fcdb1c">
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="18.0" />
+                           </font>
+                           <FlowPane.margin>
+                              <Insets left="46.0" top="200.0" />
+                           </FlowPane.margin>
+                        </Button>
+                        <Button fx:id="Exit" mnemonicParsing="false" onAction="#ExitBtnHandling" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Exit" textFill="#fcdb1c">
+                           <FlowPane.margin>
+                              <Insets left="30.0" top="200.0" />
+                           </FlowPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </FlowPane>
+               </children></Pane>
+            <Pane layoutX="49.0" layoutY="34.0">
+               <children>
+                  <Button fx:id="BackBtn2" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
+                     <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Resources/icons8-go-back-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </Pane>
          </children>
-      </Pane>
+      </AnchorPane>
+
+
+
+
+
+
+      <AnchorPane fx:id="onlinePan">
+         <children>
+            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <ScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="310.0" prefHeight="252.0" prefWidth="950.0" styleClass="TPSscrollPane" stylesheets="@../style/GameStyle.css" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="310.0">
+               <content>
+                  <AnchorPane prefHeight="163.0" prefWidth="950.0" />
+               </content>
+            </ScrollPane>
+            <HBox alignment="CENTER" layoutY="178.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="99.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/online-game (1).png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Label prefHeight="59.0" prefWidth="322.0" text="Online Players" textFill="#af44d2">
+                     <font>
+                        <Font name="Arial Black" size="40.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Pane layoutX="20.0" layoutY="24.0">
+               <children>
+                  <Button fx:id="BackBtn" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
+                     <graphic>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Resources/icons8-go-back-100.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+
+
+
    </children>
 </AnchorPane>
