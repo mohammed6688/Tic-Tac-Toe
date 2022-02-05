@@ -128,9 +128,7 @@
          </children></Pane>
       <Pane layoutX="49.0" layoutY="34.0">
          <children>
-
-<!--            <Button fx:id="BackBtn2" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">-->
-
+            <Button fx:id="BackBtn2" mnemonicParsing="false"  styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
             <Button fx:id="backtolevel" mnemonicParsing="false" onAction="#BackToChoiceLevel" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
                <graphic>
                   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
@@ -140,6 +138,8 @@
                   </ImageView>
                </graphic>
             </Button>
+            </Button>
+
          </children>
       </Pane>
       <GridPane fx:id="grid" alignment="CENTER" layoutX="10.0" layoutY="153.0" prefHeight="300.0" prefWidth="550.0" AnchorPane.topAnchor="260.0">
