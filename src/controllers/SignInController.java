@@ -106,6 +106,8 @@ private void getOnlinePlayersLayout() throws IOException {
     window.show();
 
     window.setOnCloseRequest((event1) -> {
+        String message="logout "+SignInController.currentPlayer.getId();
+        ServerChannel.logOut(message);
         System.exit(1);
     });
 }
@@ -147,6 +149,10 @@ private void getOnlinePlayersLayout() throws IOException {
             Scene newscene = new Scene(signupView);
             Stage curStage = (Stage) signinRoot.getScene().getWindow();
             curStage.setScene(newscene);
+            curStage.setOnCloseRequest((event) -> {
+                ServerChannel.closeConnection();
+                System.exit(1);
+            });
         }
         catch (IOException ex) {
             ex.printStackTrace();
@@ -174,6 +180,7 @@ private void getOnlinePlayersLayout() throws IOException {
                 ,token.nextToken(),
                 Boolean.parseBoolean(token.nextToken()),
                 Boolean.parseBoolean(token.nextToken()));
+        System.out.println(currentPlayer.getId());
         return currentPlayer;
     }
 }

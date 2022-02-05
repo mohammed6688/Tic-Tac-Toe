@@ -1,9 +1,13 @@
+import Client.ServerChannel;
+import controllers.SignInController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 
 public class GameMainStage extends Application {
@@ -37,8 +41,11 @@ public class GameMainStage extends Application {
         primaryStage.show();
 
         primaryStage.setOnCloseRequest((event) -> {
+
             System.exit(1);
+
         });
+
     }
 
     /**

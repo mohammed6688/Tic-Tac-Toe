@@ -35,9 +35,9 @@ import java.util.*;
 
 public class OnlinePlayersController implements Initializable {
 
-//    static Socket socket;
-//    static DataInputStream dis;
-//    static PrintStream ps;
+    static Socket socket;
+    static DataInputStream dis;
+    static PrintStream ps;
     public AnchorPane mainRoot;
 
     List<Player> onlinePlayers = new ArrayList<>();
@@ -54,15 +54,15 @@ public class OnlinePlayersController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-            ServerChannel.ps.println("playerlist "+SignInController.currentPlayer.getEmail());
+        if (connection()) {
+            ps.println("playerlist mohamed@gmail.com");
 
             thread = new Thread(() -> {
                 while (true) {
                     onlinePlayers.clear();
                     do {
                         try {
-                            String data = ServerChannel.dis.readLine();
+                            String data = dis.readLine();
                             if (data.equals("null")) {
                                 break;
                             }
@@ -80,7 +80,7 @@ public class OnlinePlayersController implements Initializable {
                                 case "close":
                                     close();
                                 default:
-                                    //System.out.println("default");
+                                    System.out.println("default");
                                     readOnlineList(data);
                             }
                         } catch (IOException ex) {
@@ -93,11 +93,12 @@ public class OnlinePlayersController implements Initializable {
                     } catch (InterruptedException ex) {
                         thread.stop();
                     }
+
                 }
             });
 
             thread.start();
-
+        }
     }
 
     private void startGame() throws IOException {
@@ -105,13 +106,13 @@ public class OnlinePlayersController implements Initializable {
             if(alert.isShowing())
                 alert.close();
         });
-        String OpponentUsername = ServerChannel.dis.readLine();
+        String OpponentUsername = dis.readLine();
         System.out.println("player 2 accepted");
         //showGame(true,OpponentUsername);
     }
 
     private void receivedRequest() throws IOException {
-        String opponentData = ServerChannel.dis.readLine();
+        String opponentData = dis.readLine();
         System.out.println("received request");
         StringTokenizer token = new StringTokenizer(opponentData, " ");
         String opponentMail = token.nextToken();
@@ -147,11 +148,11 @@ public class OnlinePlayersController implements Initializable {
                     if (result.get() == Yes) { // accept to play
                         System.out.println("game on");
 
-                        ServerChannel.ps.println("accept " + SignInController.currentPlayer.getEmail() + " " + SignInController.currentPlayer.getUsername() + " " + opponentMail);
+                        //ps.println("accept " + MainController.hash.get("email") + " " + MainController.hash.get("username") + " " + opponentMail);
                         //showGame(false, opponentUsername);
                     } else {
                         System.out.println("no first request");
-                        ServerChannel.ps.println("decline " + opponentMail);
+                        ps.println("decline " + opponentMail);
                     }
                     delay.play();
                 }
@@ -184,7 +185,6 @@ public class OnlinePlayersController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-
                 scrollPane.getScene().getStylesheets().add(getClass().getResource("/style/GameStyle.css").toString());
                 scrollPane.setContent(null);
                 hbox.getChildren().clear();
@@ -220,10 +220,10 @@ public class OnlinePlayersController implements Initializable {
 
                     button.setOnAction(event -> {
                         System.out.println(x.getUsername());
-                        ServerChannel.ps.println("request " + x.getEmail() + " " + SignInController.currentPlayer.getEmail());
+                        ps.println("request " + x.getEmail() + " " + "mohamed@gmail.com");
 
                         for (Player player : onlinePlayers) {
-                            if (player.getEmail().equals(x.getEmail()) || player.getEmail().equals(SignInController.currentPlayer.getEmail())) {
+                            if (player.getEmail().equals(x.getEmail()) || player.getEmail().equals("mohamed@gmail.com")) {
                                 game.put(player.getEmail(), player);
                             }
                         }
@@ -262,7 +262,7 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void readOnlineList(String state) {
-        StringTokenizer token = new StringTokenizer(state, " ");
+       StringTokenizer token = new StringTokenizer(state, " ");
         int playerId = Integer.parseInt(token.nextToken());
         String UserName = token.nextToken();
         String email = token.nextToken();
@@ -280,42 +280,65 @@ public class OnlinePlayersController implements Initializable {
         ));
     }
 
-    public void BackToMain() throws Exception {
-        String message = "logout " + SignInController.currentPlayer.getId();
-        ServerChannel.logOut(message);
+    public boolean connection() {
+        try {
+            if (socket == null || socket.isClosed()) {
+                socket = new Socket("127.0.0.1", 5005);
 
-        FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(150));
-        transition.setNode(mainRoot);
-        transition.setFromValue(1);
-        transition.setToValue(0);
-        transition.setOnFinished(event -> {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
-                Stage window = (Stage) BackBtn.getScene().getWindow();
-                window.setTitle("Home");
-                Scene scene = new Scene(root);
-                scene.setFill(Color.TRANSPARENT);
-                window.setScene(scene);
-                window.show();
-            } catch (IOException e) {
-                e.printStackTrace();
+                dis = new DataInputStream(socket.getInputStream());
+                ps = new PrintStream(socket.getOutputStream());
             }
-        });
-        transition.play();
 
+            return true;
+        } catch (IOException ex) {
+            try {
+                System.out.println("closing socket in main controller");
+                if (socket != null) {
+                    socket.close();
+                    dis.close();
+                    ps.close();
+                }
+            } catch (IOException ex1) {
+                System.out.println("error in closing socket");
+            }
+            return false;
+        }
+    }
+
+    public void BackToMain() throws Exception {
+        String message="logout "+SignInController.currentPlayer.getId();
+       if( ServerChannel.logOut(message)) {
+           FadeTransition transition = new FadeTransition();
+           transition.setDuration(Duration.millis(150));
+           transition.setNode(mainRoot);
+           transition.setFromValue(1);
+           transition.setToValue(0);
+           transition.setOnFinished(event -> {
+               try {
+                   Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+                   Stage window = (Stage) BackBtn.getScene().getWindow();
+                   window.setTitle("Home");
+                   Scene scene = new Scene(root);
+                   scene.setFill(Color.TRANSPARENT);
+                   window.setScene(scene);
+                   window.show();
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           });
+           transition.play();
+       }
     }
 
     private void close() {
         System.out.println("Server Colsed");
 
-//        Platform.runLater(() -> {
-//            AskDialog serverIssueAlert  = new AskDialog();
-//            serverIssueAlert.serverIssueAlert("There is issue in connection game page will be closed");
+        Platform.runLater(() -> {
+            AskDialog serverIssueAlert  = new AskDialog();
+            serverIssueAlert.serverIssueAlert("There is issue in connection game page will be closed");
 //            ButtonBack backtoLoginPage = new ButtonBack("/view/sample.fxml");
 //            backtoLoginPage.navigateToAnotherPage(emailtxt);
-//        });
-        ServerChannel.closeConnection();
+        });
         thread.stop();
     }
 }
