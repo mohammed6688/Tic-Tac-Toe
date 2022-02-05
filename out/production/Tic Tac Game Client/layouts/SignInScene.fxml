@@ -14,14 +14,14 @@
          <children>
             <VBox prefHeight="37.0" prefWidth="153.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="34.0" text="Email"  />
-                  <TextField fx:id="email" prefWidth="270.0" />
+                  <Label prefHeight="17.0" prefWidth="34.0" text="Email" />
+                  <TextField prefWidth="270.0" />
                </children>
             </VBox>
             <VBox prefHeight="37.0" prefWidth="153.0">
                <children>
                   <Label prefHeight="17.0" prefWidth="53.0" text="Password" />
-                  <TextField fx:id="password"  />
+                  <TextField />
                </children>
             </VBox>
          </children>

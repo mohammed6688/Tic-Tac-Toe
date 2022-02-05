@@ -24,9 +24,9 @@ public class GameMainFXMLController implements Initializable {
 
 
     @FXML
-    Button BackBtn2;
+    Button backtolevel;
     @FXML
-     Button  singlePlayer, multiPlayers , BackBtn , easyLevel , backtolevel;
+     Button singlePlayer, multiPlayers , BackBtn , easyLevel;
     private double xOffset = 0;
     private double yOffset = 0;    
     @Override
@@ -36,7 +36,7 @@ public class GameMainFXMLController implements Initializable {
 
  public void singlePlayerBtnHandling () throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/layouts/SinglePlayer.fxml"));
         Stage window = (Stage)singlePlayer.getScene().getWindow();
         //grab your root here
         root.setOnMousePressed(event -> {
@@ -65,7 +65,7 @@ public class GameMainFXMLController implements Initializable {
     }
 
 
-    public void easyLevelBtnHandling () throws Exception {
+    public void easyLevelBtnHandling() throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoard.fxml"));
         Stage window = (Stage)easyLevel.getScene().getWindow();
@@ -96,7 +96,7 @@ public class GameMainFXMLController implements Initializable {
     }
 
 
- public void multiPlayersBtnHandling () throws Exception {
+ public void multiPlayersBtnHandling() throws Exception {
 
      //   Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
      Parent root = FXMLLoader.load(getClass().getResource("/layouts/TwoPlayers.fxml"));
@@ -127,7 +127,7 @@ public class GameMainFXMLController implements Initializable {
         });
     }
 
-      public void BackToMain () throws Exception {
+      public void BackToMain() throws Exception {
 
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
         Stage window = (Stage)BackBtn.getScene().getWindow();
@@ -155,36 +155,6 @@ public class GameMainFXMLController implements Initializable {
         window.setOnCloseRequest((event) -> {
             System.exit(1);
         });       
-    }
-
-    public void BackToChoiceLevel () throws Exception {
-
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
-        Stage window = (Stage)backtolevel.getScene().getWindow();
-        //grab your root here
-        root.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        //move around here
-        root.setOnMouseDragged(event -> {
-            window.setX(event.getScreenX() - xOffset);
-            window.setY(event.getScreenY() - yOffset);
-        });
-        window.setTitle("Choice Level");
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
-
-        Scene scene = new Scene(root);
-        //set transparent
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.show();
-
-        window.setOnCloseRequest((event) -> {
-            System.exit(1);
-        });
     }
 
 
