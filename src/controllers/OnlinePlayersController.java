@@ -37,6 +37,15 @@ import java.util.*;
 public class OnlinePlayersController implements Initializable {
 
     public AnchorPane mainRoot;
+    @FXML
+    public Button BackBtn2;
+
+    @FXML
+    public AnchorPane gamePan;
+
+    @FXML
+    public AnchorPane onlinePan;
+
     List<Player> onlinePlayers = new ArrayList<>();
     @FXML
     Button BackBtn;
@@ -85,7 +94,9 @@ public class OnlinePlayersController implements Initializable {
                         close();
                     }
                 }
-                setOnlinePlayers();
+               if (scrollPane!=null) {
+                   setOnlinePlayers();
+               }
                 try {
                     Thread.sleep(300);
                     //System.out.println("thread sleep");
@@ -111,13 +122,24 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void showGame(String opponentUsername) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/MultiGameBoard.fxml"));
-        Stage window = (Stage) BackBtn.getScene().getWindow();
-        window.setTitle("Home");
-        Scene scene = new Scene(root);
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.show();
+
+        Platform.runLater(() -> {
+            gamePan.setVisible(true);
+            onlinePan.setVisible(false);
+
+//                statelbl.setText(myTic);
+//                if(myTurn && myTic.equals("X")){
+//                    stateanc.setStyle("-fx-background-color: #008000");
+//                }else{
+//                    stateanc.setStyle("-fx-background-color: #FA2C56");
+//                }
+//
+//                scoretxt.setText(name);
+//                scrollpane.setDisable(true);
+//                currentScore = Integer.parseInt(MainController.hash.get("score"));
+//                player1lbl.setText(""+currentScore);
+//                player2lbl.setText(""+opponentScore);
+        });
     }
 
     private void receivedRequest() throws IOException {
@@ -192,8 +214,10 @@ public class OnlinePlayersController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+
                 scrollPane.getScene().getStylesheets().add(getClass().getResource("/style/GameStyle.css").toString());
                 scrollPane.setContent(null);
+
                 hbox.getChildren().clear();
                 hbox.setSpacing(80);
 
@@ -290,27 +314,32 @@ public class OnlinePlayersController implements Initializable {
     }
 
     public void BackToMain() throws Exception {
-        String message = "logout " + SignInController.currentPlayer.getId();
-        if (ServerChannel.logOut(message)) {
-            FadeTransition transition = new FadeTransition();
-            transition.setDuration(Duration.millis(150));
-            transition.setNode(mainRoot);
-            transition.setFromValue(1);
-            transition.setToValue(0);
-            transition.setOnFinished(event -> {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
-                    Stage window = (Stage) BackBtn.getScene().getWindow();
-                    window.setTitle("Home");
-                    Scene scene = new Scene(root);
-                    scene.setFill(Color.TRANSPARENT);
-                    window.setScene(scene);
-                    window.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            transition.play();
+        if (gamePan.isVisible()){
+            gamePan.setVisible(false);
+            onlinePan.setVisible(true);
+        }else {
+            String message = "logout " + SignInController.currentPlayer.getId();
+            if (ServerChannel.logOut(message)) {
+                FadeTransition transition = new FadeTransition();
+                transition.setDuration(Duration.millis(150));
+                transition.setNode(mainRoot);
+                transition.setFromValue(1);
+                transition.setToValue(0);
+                transition.setOnFinished(event -> {
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+                        Stage window = (Stage) BackBtn.getScene().getWindow();
+                        window.setTitle("Home");
+                        Scene scene = new Scene(root);
+                        scene.setFill(Color.TRANSPARENT);
+                        window.setScene(scene);
+                        window.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                transition.play();
+            }
         }
     }
     private void getUnFinishedGames() {
