@@ -1,5 +1,6 @@
 package controllers;
 
+import Client.ServerChannel;
 import helper.AskDialog;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -184,7 +185,6 @@ public class OnlinePlayersController implements Initializable {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-
                 scrollPane.getScene().getStylesheets().add(getClass().getResource("/style/GameStyle.css").toString());
                 scrollPane.setContent(null);
                 hbox.getChildren().clear();
@@ -262,7 +262,7 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void readOnlineList(String state) {
-        StringTokenizer token = new StringTokenizer(state, " ");
+       StringTokenizer token = new StringTokenizer(state, " ");
         int playerId = Integer.parseInt(token.nextToken());
         String UserName = token.nextToken();
         String email = token.nextToken();
@@ -306,26 +306,28 @@ public class OnlinePlayersController implements Initializable {
     }
 
     public void BackToMain() throws Exception {
-        FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(150));
-        transition.setNode(mainRoot);
-        transition.setFromValue(1);
-        transition.setToValue(0);
-        transition.setOnFinished(event -> {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
-                Stage window = (Stage) BackBtn.getScene().getWindow();
-                window.setTitle("Home");
-                Scene scene = new Scene(root);
-                scene.setFill(Color.TRANSPARENT);
-                window.setScene(scene);
-                window.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        transition.play();
-
+        String message="logout "+SignInController.currentPlayer.getId();
+       if( ServerChannel.logOut(message)) {
+           FadeTransition transition = new FadeTransition();
+           transition.setDuration(Duration.millis(150));
+           transition.setNode(mainRoot);
+           transition.setFromValue(1);
+           transition.setToValue(0);
+           transition.setOnFinished(event -> {
+               try {
+                   Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+                   Stage window = (Stage) BackBtn.getScene().getWindow();
+                   window.setTitle("Home");
+                   Scene scene = new Scene(root);
+                   scene.setFill(Color.TRANSPARENT);
+                   window.setScene(scene);
+                   window.show();
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           });
+           transition.play();
+       }
     }
 
     private void close() {

@@ -42,8 +42,6 @@ public class ServerChannel {
         return response;
     }
     public static boolean logOut(String message) {
-        String response=null;
-
             ps.println(message);
             closeConnection();
         return true;

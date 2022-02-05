@@ -22,7 +22,7 @@
             </ImageView>
          </children>
       </HBox>
-      <ScrollPane layoutX="25.0" layoutY="310.0" prefHeight="252.0" prefWidth="950.0" styleClass="TPSscrollPane" stylesheets="@../style/GameStyle.css" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="310.0">
+      <ScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="310.0" prefHeight="252.0" prefWidth="950.0" styleClass="TPSscrollPane" stylesheets="@../style/GameStyle.css" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="310.0">
         <content>
           <AnchorPane prefHeight="163.0" prefWidth="950.0" />
         </content>
