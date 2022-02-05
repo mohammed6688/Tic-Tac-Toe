@@ -56,7 +56,8 @@ public class SignInController implements Initializable {
 
 
         String message="SignIn "+email.getText()+" "+password.getText();
-       response= ServerChannel.signIn(message);
+        //String message="SignIn "+"mohamed@gmail.com"+" "+"123";
+        response= ServerChannel.signIn(message);
         System.out.println(response);
         System.out.println(response.contains("Logged in successfully "));
 
