@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+
 public class GameMainStage extends Application {
     private double xOffset = 0;
     private double yOffset = 0;
