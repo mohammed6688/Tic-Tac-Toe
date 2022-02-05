@@ -146,13 +146,12 @@ public class GameDAO {
 
     public String checkSignIn(String email, String password) {
         try {
-<<<<<<< HEAD
+
             PreparedStatement stmt = con.prepareStatement("select * from player where Email = ?");
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             Player player = null;
-            if(rs!=null)
-            {
+            if (rs != null) {
                 rs.next();
                 player = new Player(rs.getInt("playerid"),
                         rs.getString("username"),
@@ -165,36 +164,19 @@ public class GameDAO {
             }
 
 
-            if (player != null && password.equals(player.password) && player.status!=true) {
+            if (player != null && password.equals(player.password) && player.status != true) {
                 return "Logged in successfully";
-            }
-            else if(player.status==true && password.equals(player.password))
-            {
+            } else if (player.status == true && password.equals(player.password)) {
                 return "you have already signed in from another device";
-            }
-            else {
+            } else {
                 return "Email or Password is not correct";
             }
         } catch (SQLException ex) {
             return "Email or Password is not correct";
 
-=======
-            PreparedStatement stmt = this.con.prepareStatement("select * from player where email = ?");
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-
-            Player player;
-            for(player = null; rs.next(); player = new Player(rs.getInt("id"), rs.getString("username"), rs.getString("email"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame"))) {
-            }
-
-            System.out.println(email + " " + player.password);
-            return player != null && password.equals(player.password) ? "Logged in successfully" : "Email or Password is not correct";
-        } catch (SQLException var6) {
-            System.out.println(var6);
-            return "Connection issue, please try again later";
->>>>>>> 7106f4d6047e294013f639e66387e7360b21bd6d
         }
     }
+
 
     public void logOut(int PlayerId) {
         String query = new String("Update player set isonline=false ,isingame=false where PlayerId=?");
