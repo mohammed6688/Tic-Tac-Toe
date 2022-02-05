@@ -30,7 +30,7 @@ public class GameMainFXMLController implements Initializable {
     @FXML
     Button backtolevel;
     @FXML
-     Button singlePlayer, multiPlayers , BackBtn , easyLevel;
+     Button singlePlayer, multiPlayers , BackBtn , easyLevel ,hardLevel;
     private double xOffset = 0;
     private double yOffset = 0;
     @Override
@@ -100,6 +100,35 @@ public class GameMainFXMLController implements Initializable {
         });
     }
 
+    public void hardLevelBtnHandling() throws Exception {
+
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoardHard.fxml"));
+        Stage window = (Stage)hardLevel.getScene().getWindow();
+        //grab your root here
+        root.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        //move around here
+        root.setOnMouseDragged(event -> {
+            window.setX(event.getScreenX() - xOffset);
+            window.setY(event.getScreenY() - yOffset);
+        });
+        window.setTitle("Hard Level");
+        window.setMinWidth(1000);
+        window.setMinHeight(600);
+
+        Scene scene = new Scene(root);
+        //set transparent
+        scene.setFill(Color.TRANSPARENT);
+        window.setScene(scene);
+        window.show();
+
+        window.setOnCloseRequest((event) -> {
+            System.exit(1);
+        });
+    }
 
  public void multiPlayersBtnHandling() throws Exception {
 
