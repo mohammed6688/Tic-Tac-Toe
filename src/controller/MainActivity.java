@@ -88,6 +88,7 @@ public class MainActivity implements Initializable {
                 scrollPane.setContent(null);
                 vbox.getChildren().clear();
                 vbox.getStyleClass().add("onlineVbox");
+                vbox.setSpacing(5);
 
                 HBox hBox;
 

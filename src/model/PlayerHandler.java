@@ -261,7 +261,7 @@ public class PlayerHandler extends Thread {
 
     private void requestPlaying() {
         String secondaryPlayerMail = token.nextToken(); // opponent mail
-        String mainPlayerData = token.nextToken(""); // "mail&username"
+        String mainPlayerData = token.nextToken(); // mail
         for (PlayerHandler i : playersList) {
             if (i.player.email.equals(secondaryPlayerMail)) {
                 System.out.println("sending request");

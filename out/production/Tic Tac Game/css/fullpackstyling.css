@@ -191,8 +191,6 @@
     -fx-font-size: 25px;
     -fx-font-style: italic;
     -fx-text-fill: #ffffff
-
-
 }
 .dialog-pane .button{
     -fx-background-color : #FA2C56;
