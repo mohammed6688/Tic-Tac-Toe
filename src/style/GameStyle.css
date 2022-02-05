@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 */
 .Container
 {
-    -fx-background-image: url('/Resources/menuback.jpg');
+    -fx-background-image: url('../Resources/menuback.jpg');
     -fx-background-repeat: no-repeat; 
    -fx-background-size: cover;
     -fx-background-position: center;
