@@ -428,4 +428,8 @@ public class EasyLevelController implements Initializable {
     public void ExitBtnHandling() throws Exception {
         System.exit(1);
     }
+
+    public void BackToMain(ActionEvent actionEvent) {
+
+    }
 }

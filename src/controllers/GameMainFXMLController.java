@@ -114,8 +114,12 @@ public class GameMainFXMLController implements Initializable {
     }
 
     public void BackToMain() throws Exception {
-        String message = "logout " + SignInController.currentPlayer.getId();
-        ServerChannel.logOut(message);
+
+        if (SignInController.currentPlayer!=null) {
+            String message = "logout " + SignInController.currentPlayer.getId();
+            ServerChannel.logOut(message);
+        }
+
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
         Stage window = (Stage) BackBtn.getScene().getWindow();
         //grab your root here
