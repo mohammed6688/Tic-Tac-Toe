@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Leader Board">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <SplitPane focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <items>
+        <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
+          <content>
+            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="546.0" prefWidth="898.0">
+              <children>
+                <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="View" textAlignment="CENTER" wrapText="false">
+                           <font>
+                      <Font size="18.0" fx:id="x1" />
+                           </font>
+                           <textFill>
+                      <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
+                           </textFill></Label>
+                        <ImageView fitHeight="545.0" fitWidth="889.0">
+                           <image>
+                              <Image url="@../../../out/production/loayouts&amp;clients/Resources/backgroundLB.jpg" />
+                           </image>
+                        </ImageView>
+                        <AnchorPane layoutX="325.0" prefHeight="87.0" prefWidth="278.0" style="-fx-background-color: none;">
+                           <children>
+                              <AnchorPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Text fill="#faf5f5" fontSmoothingType="LCD" layoutX="15.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Leader Board" textAlignment="CENTER" wrappingWidth="239.00393676757812">
+                                       <font>
+                                          <Font name="Chiller" size="51.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="52.0" layoutY="120.0" prefHeight="423.0" prefWidth="212.0" style="-fx-border-color: gold; -fx-border-radius: 5;">
+                           <children>
+                              <TextField alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="75.0" prefWidth="210.0" style="-fx-background-color: green; -fx-border-radius: 50; -fx-text-fill: white;">
+                                 <font>
+                                    <Font name="Chiller" size="36.0" />
+                                 </font>
+                              </TextField>
+                              <TextField layoutX="5.0" layoutY="80.0" prefHeight="344.0" prefWidth="202.0" style="-fx-background-color: none;" />
+                              <ImageView fitHeight="70.0" fitWidth="81.0" layoutX="58.0" layoutY="1.0">
+                                 <image>
+                                    <Image url="@../../../out/production/loayouts&amp;clients/Resources/rank.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="317.0" layoutY="121.0" prefHeight="420.0" prefWidth="200.0" style="-fx-border-color: gold; -fx-border-radius: 5;">
+                           <children>
+                              <TextField alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="73.0" prefWidth="230.0" style="-fx-background-color: green; -fx-border-radius: 50;">
+                                 <font>
+                                    <Font name="Calibri Light" size="23.0" />
+                                 </font>
+                              </TextField>
+                              <TextField layoutX="5.0" layoutY="72.0" prefHeight="358.0" prefWidth="227.0" style="-fx-background-color: none;" />
+                              <ImageView fitHeight="72.0" fitWidth="90.0" layoutX="68.0" layoutY="-4.0">
+                                 <image>
+                                    <Image url="@../../../out/production/loayouts&amp;clients/Resources/rank.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="589.0" layoutY="122.0" prefHeight="422.0" prefWidth="200.0" style="-fx-border-color: gold; -fx-border-radius: 5;">
+                           <children>
+                              <TextField alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="62.0" prefWidth="223.0" style="-fx-background-color: green; -fx-border-radius: 50;">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <TextField layoutX="5.0" layoutY="67.0" prefHeight="347.0" prefWidth="218.0" style="-fx-background-color: none;" />
+                              <ImageView fitHeight="64.0" fitWidth="87.0" layoutX="61.0" layoutY="-1.0">
+                                 <image>
+                                    <Image url="@../../../out/production/loayouts&amp;clients/Resources/rank.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <ImageView fitHeight="61.0" fitWidth="64.0" layoutX="814.0" layoutY="17.0" mouseTransparent="true" opacity="0.75">
+                           <image>
+                              <Image url="@../../../out/production/loayouts&amp;clients/Resources/winner-removebg-preview.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="62.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0">
+                           <image>
+                              <Image url="@../../../out/production/loayouts&amp;clients/Resources/1000x312.jpg" />
+                           </image>
+                        </ImageView>
+              </children>
+            </AnchorPane>
+          </content>
+        </ScrollPane>
+      </items>
+    </SplitPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+      <children>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+          <font>
+            <Font size="11.0" fx:id="x3" />
+          </font>
+          <textFill>
+            <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+          </textFill>
+        </Label>
+        <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>
