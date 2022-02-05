@@ -324,8 +324,9 @@ public class PlayerHandler extends Thread {
         String email = token.nextToken();
         String password = token.nextToken();
         String checker = database.checkSignIn(email, password);
-
+        System.out.println(checker);
         switch (checker) {
+
             case "Logged in successfully":
                 boolean updated = database.updateStatus(email, true);
                 if (updated) {
@@ -349,8 +350,10 @@ public class PlayerHandler extends Thread {
             case "Connection issue, please try again later":
                 ps.println("ConnectionIssue,PleaseTryAgainLater");
                 break;
+            case "you have already signed in from another device" :
+                ps.println("already signed in");
+                break;
         }
-
 
     }
 

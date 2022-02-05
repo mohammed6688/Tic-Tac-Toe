@@ -153,28 +153,37 @@ public class GameDAO {
 
     public String checkSignIn(String email, String password) {
         try {
-            PreparedStatement stmt = con.prepareStatement("select * from player where email = ?");
+            PreparedStatement stmt = con.prepareStatement("select * from player where Email = ?");
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             Player player = null;
-            while (rs.next()) {
-                player = new Player(rs.getInt("id"),
+            if(rs!=null)
+            {
+                rs.next();
+                player = new Player(rs.getInt("playerid"),
                         rs.getString("username"),
-                        rs.getString("email"),
+                        rs.getString("Email"),
                         rs.getString("userpassword"),
                         rs.getBoolean("isonline"),
                         rs.getBoolean("isingame"));
-            }
-            System.out.println(email + " " + player.password);
 
-            if (player != null && password.equals(player.password)) {
+                System.out.println(email + " " + player.password);
+            }
+
+
+            if (player != null && password.equals(player.password) && player.status!=true) {
                 return "Logged in successfully";
-            } else {
+            }
+            else if(player.status==true && password.equals(player.password))
+            {
+                return "you have already signed in from another device";
+            }
+            else {
                 return "Email or Password is not correct";
             }
         } catch (SQLException ex) {
-            System.out.println(ex);
-            return "Connection issue, please try again later";
+            return "Email or Password is not correct";
+
         }
     }
 
