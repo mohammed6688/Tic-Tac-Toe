@@ -87,7 +87,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="passwordTF" />
+                  <PasswordField fx:id="passwordTF" />
                </children>
             </VBox>
             <VBox prefHeight="54.0" prefWidth="303.0">
@@ -113,7 +113,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="confirmpasswordTF" />
+                  <PasswordField fx:id="confirmpasswordTF" />
                </children>
             </VBox>
          </children>

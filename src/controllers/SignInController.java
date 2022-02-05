@@ -11,17 +11,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import javafx.scene.control.TextField;
+import model.Player;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 public class SignInController implements Initializable {
     @FXML
@@ -32,10 +31,11 @@ public class SignInController implements Initializable {
     private PasswordField password;
     @FXML
     private Button signIn;
+    private DialogPane dialog;
     private double xOffset = 0;
     private double yOffset = 0;
-    public static String response;
-
+    public  String response;
+    public static Player currentPlayer;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         signinRoot.setOpacity(0);
@@ -48,28 +48,37 @@ public class SignInController implements Initializable {
     }
     @FXML
     private void toSignInHandler (ActionEvent event) throws IOException ,Exception {
+        if(email.getText().isEmpty() || password.getText().isEmpty())
+        {
+            makeAlertDialog("Empty Fields","ALERT","some fileds may be empty");
+
+        }else{
+
+
         String message="SignIn "+email.getText()+" "+password.getText();
        response= ServerChannel.signIn(message);
         System.out.println(response);
         System.out.println(response.contains("Logged in successfully "));
 
-        if(response.contains("LoggedInSuccessfully"))
-      {
+        if(response.contains("LoggedInSuccessfully")) {
+            createPlayerObj();
           getOnlinePlayersLayout();
 
-      }
-      else if(response=="CantUpdateStatus")
-      {
+        }
+        else if(response.contains("already signed in")) {
 
-      }
-      else if(response=="EmailOrPasswordIsIncorrect")
-      {
+            makeAlertDialog("WARNING","ALERT","THIS ACCOUNT ALREADY SIGNED IN FROM ANOTHER DEVICE");
 
-      }
-      else if(response=="ConnectionIssue,PleaseTryAgainLater")
-      {
+        }
+        else {
 
-      }
+
+            makeAlertDialog("WARNING","WRONG CREDENTIAL","Email or Password may be wrong ");
+
+
+        }
+        }
+
     }
 private void getOnlinePlayersLayout() throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
@@ -141,5 +150,29 @@ private void getOnlinePlayersLayout() throws IOException {
         catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+    private void makeAlertDialog(String title ,String HeaderText ,String Content)
+    {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        dialog=a.getDialogPane();
+        dialog.getStylesheets().add(getClass().getResource("../style/style.css").toString());
+        dialog.getStyleClass().add("dialog");
+
+        a.setTitle(title);
+        a.setHeaderText(HeaderText);
+        a.setContentText(Content);
+        a.show();
+    }
+    private Player createPlayerObj()
+    {
+        StringTokenizer token=new StringTokenizer(response," ");
+        token.nextToken();
+        currentPlayer =new Player(Integer.parseInt(token.nextToken()),
+                token.nextToken(),
+                token.nextToken()
+                ,token.nextToken(),
+                Boolean.parseBoolean(token.nextToken()),
+                Boolean.parseBoolean(token.nextToken()));
+        return currentPlayer;
     }
 }

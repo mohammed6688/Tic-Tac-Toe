@@ -109,7 +109,8 @@ public class GameMainFXMLController implements Initializable {
     }
 
       public void BackToMain () throws Exception {
-
+        String message="logout "+SignInController.currentPlayer.getId();
+        ServerChannel.logOut(message);
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
         Stage window = (Stage)BackBtn.getScene().getWindow();
         //grab your root here
@@ -137,28 +138,7 @@ public class GameMainFXMLController implements Initializable {
             System.exit(1);
         });       
     }
-    public void BackToMain2() throws Exception {
-        Parent root = (Parent)FXMLLoader.load(this.getClass().getResource("GameMainFXML.fxml"));
-        Stage window = (Stage)this.BackBtn2.getScene().getWindow();
-        root.setOnMousePressed((event) -> {
-            this.xOffset = event.getSceneX();
-            this.yOffset = event.getSceneY();
-        });
-        root.setOnMouseDragged((event) -> {
-            window.setX(event.getScreenX() - this.xOffset);
-            window.setY(event.getScreenY() - this.yOffset);
-        });
-        window.setTitle("Home");
-        window.setMinWidth(1000.0D);
-        window.setMinHeight(600.0D);
-        Scene scene = new Scene(root);
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.show();
-        window.setOnCloseRequest((event) -> {
-            System.exit(1);
-        });
-    }
+
 
     public void ExitBtnHandling() throws Exception {
         System.exit(1);

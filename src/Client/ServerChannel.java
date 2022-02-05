@@ -31,5 +31,32 @@ public class ServerChannel {
         }
         return response;
     }
+    public static String signUP(String message) {
+        String response=null;
+        try {
+            ps.println(message);
+            response=dis.readLine();
+        } catch (IOException e) {
+
+        }
+        return response;
+    }
+    public static boolean logOut(String message) {
+        String response=null;
+
+            ps.println(message);
+            closeConnection();
+        return true;
+    }
+    public static void closeConnection() {
+        try {
+            dis.close();
+            ps.close();
+            socket.close();
+        } catch (IOException e) {
+        }
+
+    }
+
 
 }

@@ -12,3 +12,26 @@
     -fx-border-width: 0  0.1 0.1 0.1;
     -fx-background-radius: 0 5 0 0;
 }
+.dialog
+{
+ -fx-background-color: linear-gradient(to right ,yellow ,magenta);
+}
+.dialog:header *.header-panel{
+ -fx-background-color:   linear-gradient(to right ,yellow ,magenta);;
+}
+.dialog > *.content.label
+{
+-fx-font-size: 20px;
+
+}
+.dialog:header *.header-panel *.label{
+-fx-font-size: 20px;
+  -fx-font-weight: bold;
+}
+.dialog > *.button-bar *.button{
+-fx-pref-width: 120px;
+ -fx-background-color:  red;
+}
+.dialog > *.button-bar *.button:hover{
+ -fx-background-color:  white;
+}
