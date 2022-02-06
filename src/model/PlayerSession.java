@@ -30,10 +30,27 @@ public class PlayerSession {
         this.gameDate=gameDate;
     }
 
+
     public PlayerSession(int playerId, int gameId,int sign) {
         this.playerId = playerId;
         GameId = gameId;
         this.sign=sign;
+    }
+
+    public int getSign() {
+        return sign;
+    }
+
+    public void setSign(int sign) {
+        this.sign = sign;
+    }
+
+    public String getGameDate() {
+        return gameDate;
+    }
+
+    public void setGameDate(String gameDate) {
+        this.gameDate = gameDate;
     }
 
     public int getPlayerId() {
@@ -182,5 +199,49 @@ public class PlayerSession {
                 }
                 break;
         }
+    }
+    public boolean getCell(int cellRow ,int cellColumn){
+        switch (cellRow){
+            case 0:
+                switch (cellColumn){
+                    case 0:
+                        return c00;
+
+                    case 1:
+                        return c01;
+
+                    case 2:
+                        return c02;
+
+                }
+                break;
+            case 1:
+                switch (cellColumn){
+                    case 0:
+                        return c10;
+
+                    case 1:
+                        return c11;
+
+                    case 2:
+                        return c12;
+
+                }
+                break;
+            case 2:
+                switch (cellColumn){
+                    case 0:
+                        return c20;
+
+                    case 1:
+                        return c21;
+
+                    case 2:
+                        return c22;
+
+                }
+                break;
+        }
+        return false;
     }
 }
