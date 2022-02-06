@@ -11,6 +11,7 @@ public class Player {
     boolean inGame;
     int score;
 
+
     public Player(int id, String username, String email, String password, boolean status, boolean inGame) {
         this.id = id;
         this.username = username;

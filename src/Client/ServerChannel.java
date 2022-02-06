@@ -56,6 +56,7 @@ public class ServerChannel {
             closeConnection();
         return true;
     }
+
     public static void closeConnection() {
         try {
             dis.close();
