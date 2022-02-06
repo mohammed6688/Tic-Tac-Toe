@@ -2,21 +2,14 @@
  * Empty Stylesheet file.
  */
 
-.Button {
-    
- 
- -fx-background-color: #ff4c4c ;
- -fx-text-fill: #fcdb1c ;
- -fx-background-radius: 30 ;
- 
-}
+
 
 .Button:hover {
     
  
  -fx-background-color: #fcdb1c ;
- -fx-text-fill: #ff4c4c ;
- -fx-background-radius: 30 ;
+ -fx-text-fill:  #ff4c4c ;
+ -fx-background-radius: 25 ;
  
  
 

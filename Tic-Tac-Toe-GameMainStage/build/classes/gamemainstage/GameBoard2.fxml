@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gamemainstage.GameMainFXMLController">
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 20;" BorderPane.alignment="CENTER">
+         <top>
+            <BorderPane prefHeight="126.0" prefWidth="514.0" style="-fx-background-color: #434876;" BorderPane.alignment="CENTER">
+               <center>
+                  <ImageView fitHeight="111.0" fitWidth="288.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../Resources/tictactoe.gif" />
+                     </image>
+                     <BorderPane.margin>
+                        <Insets top="10.0" />
+                     </BorderPane.margin>
+                  </ImageView>
+               </center>
+            </BorderPane>
+         </top>
+         <bottom>
+            <BorderPane prefHeight="363.0" prefWidth="514.0" style="-fx-background-color: #434876;" BorderPane.alignment="CENTER">
+               <bottom>
+                  <BorderPane prefHeight="203.0" prefWidth="514.0" BorderPane.alignment="CENTER">
+                     <top>
+                        <BorderPane prefHeight="111.0" prefWidth="514.0" BorderPane.alignment="CENTER">
+                           <left>
+                              <Button fx:id="Button4" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="50.0" left="80.0" />
+                                 </BorderPane.margin>
+                                 <font>
+                                    <Font name="Leelawadee UI Bold" size="25.0" />
+                                 </font>
+                              </Button>
+                           </left>
+                           <center>
+                              <Button fx:id="Button5" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="50.0" />
+                                 </BorderPane.margin>
+                                 <font>
+                                    <Font name="Leelawadee UI Bold" size="25.0" />
+                                 </font>
+                              </Button>
+                           </center>
+                           <right>
+                              <Button fx:id="Button6" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="50.0" right="80.0" />
+                                 </BorderPane.margin>
+                                 <font>
+                                    <Font name="Leelawadee UI Bold" size="25.0" />
+                                 </font>
+                              </Button>
+                           </right>
+                        </BorderPane>
+                     </top>
+                     <left>
+                        <Button fx:id="Button7" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="40.0" left="80.0" />
+                           </BorderPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="25.0" />
+                           </font>
+                        </Button>
+                     </left>
+                     <center>
+                        <Button fx:id="Button8" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="40.0" />
+                           </BorderPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="25.0" />
+                           </font>
+                        </Button>
+                     </center>
+                     <right>
+                        <Button fx:id="Button9" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="40.0" right="80.0" />
+                           </BorderPane.margin>
+                           <font>
+                              <Font name="Leelawadee UI Bold" size="25.0" />
+                           </font>
+                        </Button>
+                     </right>
+                  </BorderPane>
+               </bottom>
+               <left>
+                  <Button fx:id="Button1" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" stylesheets="@gameboard.css" text="x" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="80.0" />
+                     </BorderPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="25.0" />
+                     </font>
+                  </Button>
+               </left>
+               <center>
+                  <Button fx:id="Button2" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="25.0" />
+                     </font>
+                  </Button>
+               </center>
+               <right>
+                  <Button fx:id="Button3" mnemonicParsing="false" prefHeight="55.0" prefWidth="70.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 21;" text="x" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="80.0" />
+                     </BorderPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="25.0" />
+                     </font>
+                  </Button>
+               </right>
+            </BorderPane>
+         </bottom>
+         <center>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #434876;" BorderPane.alignment="CENTER">
+               <left>
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="121.0" style="-fx-background-color: WHITE; -fx-background-radius: 25;" styleClass="Button" stylesheets="@gameboard.css" text="Reload" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="90.0" />
+                     </BorderPane.margin>
+                     <graphic>
+                        <ImageView fitHeight="42.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Resources/reloading.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="16.0" />
+                     </font>
+                  </Button>
+               </left>
+               <right>
+                  <Button fx:id="Exit" mnemonicParsing="false" onAction="#ExitBtnHandling" prefHeight="50.0" prefWidth="121.0" style="-fx-background-color: White; -fx-background-radius: 25;" styleClass="Button" stylesheets="@gameboard.css" text="Exit" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="90.0" />
+                     </BorderPane.margin>
+                     <graphic>
+                        <ImageView fitHeight="37.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Resources/logout.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="16.0" />
+                     </font></Button>
+               </right>
+            </BorderPane>
+         </center>
+      </BorderPane>
+   </center>
+   <left>
+      <BorderPane prefHeight="600.0" prefWidth="264.0" style="-fx-background-color: #ff4c4c;" BorderPane.alignment="CENTER">
+         <bottom>
+            <FlowPane prefHeight="367.0" prefWidth="266.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 50;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Player O">
+                     <FlowPane.margin>
+                        <Insets left="93.0" top="75.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="Salah" textFill="#468671">
+                     <FlowPane.margin>
+                        <Insets left="106.0" top="25.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="Score">
+                     <FlowPane.margin>
+                        <Insets left="105.0" top="20.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="15" textFill="#468671">
+                     <FlowPane.margin>
+                        <Insets left="120.0" top="25.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+               </children></FlowPane>
+         </bottom>
+         <top>
+            <Button fx:id="BackBtn2" mnemonicParsing="false" onAction="#BackToMain2" prefHeight="80.0" prefWidth="163.0" style="-fx-background-color: #ff4c4c; -fx-background-radius: 40;" styleClass="Button" stylesheets="@gameboard2.css" text="Back" textFill="#edefee" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="70.0" />
+               </BorderPane.margin>
+               <graphic>
+                  <ImageView fitHeight="116.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Resources/icons8-go-back-100%20(1).png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font name="Leelawadee UI Bold" size="27.0" />
+               </font></Button>
+         </top>
+      </BorderPane>
+   </left>
+   <right>
+      <BorderPane prefHeight="600.0" prefWidth="264.0" style="-fx-background-color: #ff4c4c;" BorderPane.alignment="CENTER">
+         <top>
+            <ImageView fitHeight="211.0" fitWidth="265.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../Resources/tic_tac_toe_loader_.gif" />
+               </image>
+            </ImageView>
+         </top>
+         <bottom>
+            <FlowPane prefHeight="367.0" prefWidth="266.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 50;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="74.0" prefWidth="120.0" text="Player X" textAlignment="CENTER">
+                     <FlowPane.margin>
+                        <Insets left="93.0" top="50.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="Ahmed" textFill="#468671">
+                     <FlowPane.margin>
+                        <Insets left="95.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="38.0" prefWidth="87.0" text="Score">
+                     <FlowPane.margin>
+                        <Insets left="105.0" top="20.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="35" textFill="#468671">
+                     <FlowPane.margin>
+                        <Insets left="120.0" top="25.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font name="Leelawadee UI Bold" size="23.0" />
+                     </font>
+                  </Label>
+               </children></FlowPane>
+         </bottom>
+      </BorderPane>
+   </right>
+</BorderPane>
