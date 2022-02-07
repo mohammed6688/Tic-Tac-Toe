@@ -4,23 +4,25 @@
  */
 package controllers;
 
-import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -43,6 +45,9 @@ public class EasyLevelController implements Initializable {
     private Preferences prefs ;
     private int score = 0;
     private boolean computerWin = false ;
+
+    private Alert alert;
+    private DialogPane dialog;
 
     @FXML
     Button backtolevel;
@@ -74,8 +79,8 @@ public class EasyLevelController implements Initializable {
     private Label labUserName;
     @FXML
     private Label labScore;
-//    @FXML
-//    private  Button btnPlayAgain;
+    @FXML
+    private  Button rematch;
 
     @FXML
     private AnchorPane anchorpane;
@@ -391,6 +396,64 @@ public class EasyLevelController implements Initializable {
             labScore.setText(""+ score);
         }else if(computerWin){
             System.out.println("Computer wins");
+        }
+
+    }
+
+    public void RematchBtnHandling() throws Exception
+    {
+        alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Rematch");
+        // Header Text: null
+        alert.setResizable(true);
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure that you want to Rematch ?");
+
+        ButtonType OkBtn = new ButtonType("OK");
+        ButtonType CancelBtn = new ButtonType("Cancel");
+        // Remove default ButtonTypes
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(OkBtn,CancelBtn);
+
+        alert.getDialogPane().setPrefSize(750, 150);
+        dialog=alert.getDialogPane();
+        dialog.getStylesheets().add(getClass().getResource("../style/rematchAlert.css").toString());
+        dialog.getStyleClass().addAll("dialog");
+
+        // option != null.
+        Optional<ButtonType> option = alert.showAndWait();
+        if(option.isPresent() && option.get() == OkBtn)
+        {
+            Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoard.fxml"));
+            Stage window = (Stage)rematch.getScene().getWindow();
+            //grab your root here
+            root.setOnMousePressed(event -> {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
+
+            //move around here
+            root.setOnMouseDragged(event -> {
+                window.setX(event.getScreenX() - xOffset);
+                window.setY(event.getScreenY() - yOffset);
+            });
+            window.setTitle("Easy Level");
+            window.setMinWidth(1000);
+            window.setMinHeight(600);
+
+            Scene scene = new Scene(root);
+            //set transparent
+            scene.setFill(Color.TRANSPARENT);
+            window.setScene(scene);
+            window.show();
+
+            window.setOnCloseRequest((event) -> {
+                System.exit(1);
+            });
+        }
+        else
+        {
+            //don't do anything
         }
 
     }
