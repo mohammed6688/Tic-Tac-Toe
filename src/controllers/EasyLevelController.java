@@ -489,7 +489,31 @@ public class EasyLevelController implements Initializable {
     }
 
     public void ExitBtnHandling() throws Exception {
-        System.exit(1);
+
+        alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Rematch");
+        // Header Text: null
+        alert.setResizable(true);
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure that you want to Exit ?");
+
+        ButtonType OkBtn = new ButtonType("Yes");
+        ButtonType CancelBtn = new ButtonType("Cancel");
+        // Remove default ButtonTypes
+        alert.getButtonTypes().clear();
+        alert.getButtonTypes().addAll(OkBtn,CancelBtn);
+
+        alert.getDialogPane().setPrefSize(750, 150);
+        dialog=alert.getDialogPane();
+        dialog.getStylesheets().add(getClass().getResource("../style/rematchAlert.css").toString());
+        dialog.getStyleClass().addAll("dialog");
+
+        // option != null.
+        Optional<ButtonType> option = alert.showAndWait();
+        if(option.isPresent() && option.get() == OkBtn)
+        {
+            System.exit(1);
+        }
     }
 
     public void BackToMain(ActionEvent actionEvent) {
