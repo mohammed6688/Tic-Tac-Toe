@@ -6,7 +6,6 @@ import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,8 +31,6 @@ import model.PlayerSession;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 public class OnlinePlayersController implements Initializable {
@@ -47,23 +44,23 @@ public class OnlinePlayersController implements Initializable {
     public AnchorPane onlinePan;
 
     @FXML
-    private  Button btn1;
+    private Button btn1;
     @FXML
-    private  Button btn2;
+    private Button btn2;
     @FXML
-    private  Button btn3;
+    private Button btn3;
     @FXML
-    private  Button btn4;
+    private Button btn4;
     @FXML
-    private  Button btn5;
+    private Button btn5;
     @FXML
-    private  Button btn6;
+    private Button btn6;
     @FXML
-    private  Button btn7;
+    private Button btn7;
     @FXML
-    private  Button btn8;
+    private Button btn8;
     @FXML
-    private  Button btn9;
+    private Button btn9;
 
     List<Player> onlinePlayers = new ArrayList<>();
     @FXML
@@ -76,10 +73,10 @@ public class OnlinePlayersController implements Initializable {
     Thread thread;
     Alert alert;
     HashMap<String, Player> game = new HashMap();
-    boolean myTurn,opponentTurn,gameState=false;
-    private String myTic,oppTic;
-    private String opponentUsername ;
-    private Preferences pref ;
+    boolean myTurn, opponentTurn, gameState = false;
+    private String myTic, oppTic;
+    private String opponentUsername;
+    private Preferences pref;
     private Boolean isrecord = false;
 
     private int currentScore;
@@ -88,9 +85,10 @@ public class OnlinePlayersController implements Initializable {
     private Boolean display = false;
     private Player opponentPlayer;
     private HashMap<String, Button> btn;
-    ArrayList<PlayerSession> unFinishedList=new ArrayList<>();
+    ArrayList<PlayerSession> unFinishedList = new ArrayList<>();
     private Player clickedPlayer;
     int[][] gameBoard = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -110,10 +108,10 @@ public class OnlinePlayersController implements Initializable {
         thread = new Thread(() -> {
             while (true) {
                 onlinePlayers.clear();
-               while (true){
+                while (true) {
                     try {
                         String data = ServerChannel.dis.readLine();
-                        if (data.equals("null")){
+                        if (data.equals("null")) {
                             //System.out.println("data is null");
                             break;
                         }
@@ -126,7 +124,7 @@ public class OnlinePlayersController implements Initializable {
                                 popUpRefuse();
                                 break;
                             case "gameOn":
-                                startGame(false);
+                                startGame();
                                 break;
                             case "gameTic":
                                 opponentTurn();
@@ -135,17 +133,19 @@ public class OnlinePlayersController implements Initializable {
                                 opponentTurn();
                                 reset();
                                 break;
-                            case "unFinishedList":
+                            /*case "unFinishedList":
                                 getUnFinishedGamesList();
-                                break;
+                                break;*/
                             case "withdraw":
                                 System.out.println("withdraw");
                                 updateScore();
-                                ServerChannel.ps.println("available "+opponentPlayer.getEmail());
+                                //ServerChannel.ps.println("available " + opponentPlayer.getEmail());
+                                gamePan.setVisible(false);
+                                onlinePan.setVisible(true);
                                 Platform.runLater(() -> {
-                                    AskDialog  serverIssueAlert  = new AskDialog();
+                                    AskDialog serverIssueAlert = new AskDialog();
                                     serverIssueAlert.serverIssueAlert("You opponent has withdrawed, you are the winner!!!");
-                                    thread.stop();
+                                    //thread.stop();
 
                                 });
                                 break;
@@ -157,11 +157,13 @@ public class OnlinePlayersController implements Initializable {
                         }
                     } catch (IOException ex) {
                         close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-               if (scrollPane!=null) {
-                   setOnlinePlayers();
-               }
+                if (scrollPane != null) {
+                    setOnlinePlayers();
+                }
                 try {
                     Thread.sleep(300);
                     //System.out.println("thread sleep");
@@ -176,7 +178,7 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void getUnFinishedGamesList() throws IOException {
-        if (ServerChannel.dis.readLine().equals("noUnfinished")){
+        if (ServerChannel.dis.readLine().equals("noUnfinished")) {
             ServerChannel.ps.println("request " + clickedPlayer.getEmail() + " " + SignInController.currentPlayer.getEmail());
 
             for (Player player : onlinePlayers) {
@@ -203,7 +205,7 @@ public class OnlinePlayersController implements Initializable {
 
             alert.show();
             delay.play();
-        }else {
+        } else {
             for (int i = 0; i < 2; i++) {
                 String data = ServerChannel.dis.readLine();
                 StringTokenizer token1 = new StringTokenizer(data, " ");
@@ -226,43 +228,70 @@ public class OnlinePlayersController implements Initializable {
             }
 
 
-            startGame(true);
-            System.out.println("list size: "+unFinishedList.size());
+            startGame();
+            System.out.println("list size: " + unFinishedList.size());
         }
 
     }
 
-    private void startGame(boolean state) throws IOException {
-        if (state){
-            showGame(true,true);
-        }else {
-            Platform.runLater(() -> {
-                if (alert.isShowing())
-                    alert.close();
-            });
-            String OpponentUsername = ServerChannel.dis.readLine();
-            String OpponentMail = ServerChannel.dis.readLine();
-            String OpponentId = ServerChannel.dis.readLine();
-            String OpponentScore = ServerChannel.dis.readLine();
+    private void startGame() throws IOException {
+        Platform.runLater(() -> {
+            if (alert.isShowing())
+                alert.close();
+        });
+        String OpponentUsername = ServerChannel.dis.readLine();
+        String OpponentMail = ServerChannel.dis.readLine();
+        String OpponentId = ServerChannel.dis.readLine();
+        String OpponentScore = ServerChannel.dis.readLine();
+        String flag = ServerChannel.dis.readLine();
 
+        System.out.println("flag is : " +flag);
+        if (flag.equals("true")) {
+            for (int i = 0; i < 2; i++) {
+                String data = ServerChannel.dis.readLine();
+                StringTokenizer token1 = new StringTokenizer(data, " ");
+                PlayerSession playerSession1 = new PlayerSession(Integer.parseInt(token1.nextToken()),
+                        Integer.parseInt(token1.nextToken()),
+                        Integer.parseInt(token1.nextToken()),
+                        token1.nextToken(),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        null,
+                        null);
+                unFinishedList.add(playerSession1);
+            }
+            System.out.println("list size: " + unFinishedList.size());
+            showGame(true, true);
+
+        } else if (flag.equals("false")){
             opponentPlayer = new Player(Integer.parseInt(OpponentId),
                     OpponentUsername,
                     OpponentMail,
                     "",
                     true,
-                    false);
+                    true);
 
             //String OpponentUsername = "";
             System.out.println("player 2 accepted");
-            showGame(true,false);
+            showGame(true, false);
         }
+
     }
 
-    private void showGame(boolean state,boolean unFinishedMode) throws IOException {
+    private void showGame(boolean state, boolean unFinishedMode) throws IOException {
 
-        if (unFinishedMode){
+        if (unFinishedMode) {
+            myTurn = state;
+            gameState = true;
             setCells();
-        }else {
+        } else {
             System.out.println("my state: " + state);
             myTurn = state;
             opponentTurn = !state;
@@ -289,89 +318,90 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void setCells() {
-        for (PlayerSession playerSession:unFinishedList){
-            if (SignInController.currentPlayer.getId()==playerSession.getPlayerId()){
-                if (playerSession.getSign()==1){
+        for (PlayerSession playerSession : unFinishedList) {
+            if (SignInController.currentPlayer.getId() == playerSession.getPlayerId()) {
+                if (playerSession.getSign() == 1) {
                     myTic = "X";
                     oppTic = "O";
-                }else {
+                } else {
                     myTic = "O";
                     oppTic = "X";
                 }
             }
-            if (playerSession.isC00()){
-                if (playerSession.getSign()==1) {
+
+            if (playerSession.isC00()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c00", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c00", "O");
                 }
             }
-            if (playerSession.isC01()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC01()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c01", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c01", "O");
                 }
             }
-            if (playerSession.isC02()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC02()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c02", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c02", "O");
                 }
             }
 
-            if (playerSession.isC10()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC10()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c10", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c10", "O");
                 }
             }
-            if (playerSession.isC11()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC11()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c11", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c11", "O");
                 }
             }
-            if (playerSession.isC12()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC12()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c12", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c12", "O");
                 }
             }
 
-            if (playerSession.isC20()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC20()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c20", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c20", "O");
                 }
             }
-            if (playerSession.isC21()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC21()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c21", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c21", "O");
                 }
             }
-            if (playerSession.isC22()){
-                if (playerSession.getSign()==1) {
+            if (playerSession.isC22()) {
+                if (playerSession.getSign() == 1) {
                     saveCell("c22", "X");
-                }else{
+                } else if (playerSession.getSign() == 2){
                     saveCell("c22", "O");
                 }
             }
 
-            for (int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    if(gameBoard[i][j]!=0){
+                    if (gameBoard[i][j] != 0) {
                         if (gameBoard[i][j] == 1) {
-                            switch (i){
+                            switch (i) {
                                 case 0:
-                                    switch (j){
+                                    switch (j) {
                                         case 0:
                                             btn1.setText("X");
                                             break;
@@ -384,7 +414,7 @@ public class OnlinePlayersController implements Initializable {
                                     }
                                     break;
                                 case 1:
-                                    switch (j){
+                                    switch (j) {
                                         case 0:
                                             btn4.setText("X");
                                             break;
@@ -397,7 +427,7 @@ public class OnlinePlayersController implements Initializable {
                                     }
                                     break;
                                 case 2:
-                                    switch (j){
+                                    switch (j) {
                                         case 0:
                                             btn7.setText("X");
                                             break;
@@ -411,9 +441,9 @@ public class OnlinePlayersController implements Initializable {
                                     break;
                             }
                         } else if (gameBoard[i][j] == 2) {
-                            switch (i){
+                            switch (i) {
                                 case 0:
-                                    switch (j){
+                                    switch (j) {
                                         case 0:
                                             btn1.setText("O");
                                             break;
@@ -426,7 +456,7 @@ public class OnlinePlayersController implements Initializable {
                                     }
                                     break;
                                 case 1:
-                                    switch (j){
+                                    switch (j) {
                                         case 0:
                                             btn4.setText("O");
                                             break;
@@ -439,7 +469,7 @@ public class OnlinePlayersController implements Initializable {
                                     }
                                     break;
                                 case 2:
-                                    switch (j){
+                                    switch (j) {
                                         case 0:
                                             btn7.setText("O");
 
@@ -506,12 +536,35 @@ public class OnlinePlayersController implements Initializable {
 
     private void receivedRequest() throws IOException {
 
-        String opponentMail =ServerChannel.dis.readLine();
-        String opponentName =ServerChannel.dis.readLine();
-        String opponentId =ServerChannel.dis.readLine();
-        String opponentScore =ServerChannel.dis.readLine();
+        String opponentMail = ServerChannel.dis.readLine();
+        String opponentName = ServerChannel.dis.readLine();
+        String opponentId = ServerChannel.dis.readLine();
+        String opponentScore = ServerChannel.dis.readLine();
+        String flag = ServerChannel.dis.readLine();
+        if (flag.equals("true")) {
+            for (int i = 0; i < 2; i++) {
+                String data = ServerChannel.dis.readLine();
+                StringTokenizer token1 = new StringTokenizer(data, " ");
+                PlayerSession playerSession1 = new PlayerSession(Integer.parseInt(token1.nextToken()),
+                        Integer.parseInt(token1.nextToken()),
+                        Integer.parseInt(token1.nextToken()),
+                        token1.nextToken(),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        Boolean.parseBoolean(token1.nextToken()),
+                        null,
+                        null);
+                unFinishedList.add(playerSession1);
+            }
+        }
 
-        opponentPlayer=new Player(Integer.parseInt(opponentId),
+        opponentPlayer = new Player(Integer.parseInt(opponentId),
                 opponentName,
                 opponentMail,
                 "",
@@ -519,7 +572,7 @@ public class OnlinePlayersController implements Initializable {
                 false);
 
 
-        System.out.println("opponent "+opponentName);
+        System.out.println("opponent " + opponentName);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -546,7 +599,12 @@ public class OnlinePlayersController implements Initializable {
 
                     ServerChannel.ps.println("accept " + opponentMail + " " + SignInController.currentPlayer.getEmail());
                     try {
-                        showGame(false,false);
+                        if (flag.equals("true")){
+                            showGame(false, true);
+                        }else {
+                            showGame(false, false);
+                        }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -621,9 +679,34 @@ public class OnlinePlayersController implements Initializable {
 
                     button.setOnAction(event -> {
                         System.out.println(x.getUsername());
-                        clickedPlayer=x;
-                        ServerChannel.ps.println("checkUnFinished " + x.getId() + " " + SignInController.currentPlayer.getId());
+                        clickedPlayer = x;
+                        //ServerChannel.ps.println("checkUnFinished " + x.getId() + " " + SignInController.currentPlayer.getId());
+                        ServerChannel.ps.println("request " + clickedPlayer.getEmail() + " " + SignInController.currentPlayer.getEmail());
 
+                        for (Player player : onlinePlayers) {
+                            if (player.getEmail().equals(clickedPlayer.getEmail()) || player.getEmail().equals(SignInController.currentPlayer.getEmail())) {
+                                game.put(player.getEmail(), player);
+                            }
+                        }
+
+                        // pop up waiting for response from server
+                        ButtonType Yes = new ButtonType("Ok"); // can use an Alert, Dialog, or PopupWindow as needed...
+                        alert = new Alert(Alert.AlertType.NONE);
+                        alert.setTitle("Information Dialog");
+                        alert.setHeaderText("Please Wait The Opponent to respond..");
+                        alert.getDialogPane().getButtonTypes().addAll(Yes);
+
+                        DialogPane dialogPane = alert.getDialogPane();
+                        dialogPane.getStylesheets().add(
+                                getClass().getResource("/style/GameStyle.css").toExternalForm());
+                        dialogPane.getStyleClass().add("infoDialog");
+
+                        // hide popup after 3 seconds:
+                        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+                        delay.setOnFinished(e -> alert.hide());
+
+                        alert.show();
+                        delay.play();
                     });
                     hbox.getChildren().add(vBox);
                     Group group = new Group(hbox);
@@ -660,10 +743,11 @@ public class OnlinePlayersController implements Initializable {
     }
 
     public void BackToMain() throws Exception {
-        if (gamePan.isVisible()){
+        if (gamePan.isVisible()) {
             gamePan.setVisible(false);
             onlinePan.setVisible(true);
-        }else {
+            ServerChannel.ps.println("withdraw "+SignInController.currentPlayer.getId());
+        } else {
             String message = "logout " + SignInController.currentPlayer.getId();
             if (ServerChannel.logOut(message)) {
                 FadeTransition transition = new FadeTransition();
@@ -690,12 +774,12 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void getUnFinishedGames() {
-        String message="getUnfinishedGames "+SignInController.currentPlayer.getId();
-        String response= ServerChannel.getUnFinishedGames(message);
+        String message = "getUnfinishedGames " + SignInController.currentPlayer.getId();
+        String response = ServerChannel.getUnFinishedGames(message);
         System.out.println(response);
     }
 
-    private void opponentTurn(){
+    private void opponentTurn() {
         try {
             String oppPressed = ServerChannel.dis.readLine();
             System.out.println(oppPressed);
@@ -706,68 +790,64 @@ public class OnlinePlayersController implements Initializable {
                     @Override
                     public void run() {
                         button.setText(oppTic);
-                        System.out.println("myTic "+ oppTic);
+                        System.out.println("myTic " + oppTic);
 
                         checkState();
                     }
                 });
             });
             btnOpp.fire();
-            myTurn= true;
+            myTurn = true;
             opponentTurn = false;
             //stateanc.setStyle("-fx-background-color: #008000");
 
 
         } catch (IOException ex) {
-            System.out.println("error "+ex);
+            System.out.println("error " + ex);
         }
     }
 
-    private void checkRows(){
-        if(btn1.getText().equals(btn2.getText()) && btn2.getText().equals(btn3.getText()) && !btn1.getText().equals("")){
+    private void checkRows() {
+        if (btn1.getText().equals(btn2.getText()) && btn2.getText().equals(btn3.getText()) && !btn1.getText().equals("")) {
             gameState = false;
-            if(btn1.getText().equals(myTic)){
+            if (btn1.getText().equals(myTic)) {
                 display = true;
                 updateScore();
-            }else{
+            } else {
                 System.out.println("opp win");
             }
-        }
-        else if(btn4.getText().equals(btn5.getText()) && btn5.getText().equals(btn6.getText()) && !btn4.getText().equals("")){
+        } else if (btn4.getText().equals(btn5.getText()) && btn5.getText().equals(btn6.getText()) && !btn4.getText().equals("")) {
             gameState = false;
-            if(btn4.getText().equals(myTic)){
+            if (btn4.getText().equals(myTic)) {
                 display = true;
                 updateScore();
-            }else{
+            } else {
                 System.out.println("opp won!");
             }
-        }
-        else if(btn7.getText().equals(btn8.getText()) && btn8.getText().equals(btn9.getText()) && !btn7.getText().equals("")){
+        } else if (btn7.getText().equals(btn8.getText()) && btn8.getText().equals(btn9.getText()) && !btn7.getText().equals("")) {
             gameState = false;
-            if(btn7.getText().equals(myTic)){
+            if (btn7.getText().equals(myTic)) {
                 display = true;
                 updateScore();
             }
         }
     }
 
-    private void checkColumns(){
-        if(btn1.getText().equals(btn4.getText()) && btn4.getText().equals(btn7.getText()) && !btn1.getText().equals("")){
-            if(btn1.getText().equals(myTic)){
+    private void checkColumns() {
+        if (btn1.getText().equals(btn4.getText()) && btn4.getText().equals(btn7.getText()) && !btn1.getText().equals("")) {
+            if (btn1.getText().equals(myTic)) {
                 display = true;
                 updateScore();
             }
             gameState = false;
-        }
-        else if(btn2.getText().equals(btn5.getText()) && btn5.getText().equals(btn8.getText()) && !btn2.getText().equals("")){
-            if(btn2.getText().equals(myTic)){
+        } else if (btn2.getText().equals(btn5.getText()) && btn5.getText().equals(btn8.getText()) && !btn2.getText().equals("")) {
+            if (btn2.getText().equals(myTic)) {
                 display = true;
                 updateScore();
             }
             gameState = false;
-        }
-        else if(btn3.getText().equals(btn6.getText()) && btn6.getText().equals(btn9.getText()) && !btn3.getText().equals("")){
-            if(btn3.getText().equals(myTic)){
+        } else if (btn3.getText().equals(btn6.getText()) && btn6.getText().equals(btn9.getText()) && !btn3.getText().equals("")) {
+            if (btn3.getText().equals(myTic)) {
                 display = true;
                 updateScore();
             }
@@ -775,16 +855,15 @@ public class OnlinePlayersController implements Initializable {
         }
     }
 
-    private void checkDiagonal(){
-        if(btn1.getText().equals(btn5.getText()) && btn5.getText().equals(btn9.getText()) && !btn1.getText().equals("")){
-            if(btn1.getText().equals(myTic)){
+    private void checkDiagonal() {
+        if (btn1.getText().equals(btn5.getText()) && btn5.getText().equals(btn9.getText()) && !btn1.getText().equals("")) {
+            if (btn1.getText().equals(myTic)) {
                 display = true;
                 updateScore();
             }
             gameState = false;
-        }
-        else if(btn3.getText().equals(btn5.getText()) && btn5.getText().equals(btn7.getText()) && !btn3.getText().equals("")){
-            if(btn3.getText().equals(myTic)){
+        } else if (btn3.getText().equals(btn5.getText()) && btn5.getText().equals(btn7.getText()) && !btn3.getText().equals("")) {
+            if (btn3.getText().equals(myTic)) {
                 display = true;
                 updateScore();
             }
@@ -792,33 +871,33 @@ public class OnlinePlayersController implements Initializable {
         }
     }
 
-    private boolean isFullGrid(){
-        if(!btn1.getText().equals("") && !btn2.getText().equals("") && !btn3.getText().equals("") && !btn4.getText().equals("")
-                && !btn5.getText().equals("") && !btn6.getText().equals("")&& !btn7.getText().equals("")
-                && !btn8.getText().equals("") && !btn9.getText().equals("")){
+    private boolean isFullGrid() {
+        if (!btn1.getText().equals("") && !btn2.getText().equals("") && !btn3.getText().equals("") && !btn4.getText().equals("")
+                && !btn5.getText().equals("") && !btn6.getText().equals("") && !btn7.getText().equals("")
+                && !btn8.getText().equals("") && !btn9.getText().equals("")) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    private boolean checkState(){
+    private boolean checkState() {
         System.out.println("checking state");
         checkColumns();
         checkRows();
         checkDiagonal();
 
-        if(!gameState){
+        if (!gameState) {
             //ServerChannel.ps.println("updateGameState###"+ServerChannel.hash.get("email"));
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    if(display){
+                    if (display) {
                         displayVideo("winner");
                         //AskDialog  serverIssueAlert  = new AskDialog();
                         //serverIssueAlert.serverIssueAlert("Congrats !! , your score right now is :"+ MainController.hash.get("score"));
 
-                    }else{
+                    } else {
                         displayVideo("lose");
                         //AskDialog  serverIssueAlert  = new AskDialog();
                         //serverIssueAlert.serverIssueAlert("Oh, Hardluck next time..");
@@ -828,10 +907,10 @@ public class OnlinePlayersController implements Initializable {
             reset();
             return true; // ended game
 
-        }else if(isFullGrid()){
+        } else if (isFullGrid()) {
 
             Platform.runLater(() -> {
-                AskDialog  serverIssueAlert  = new AskDialog();
+                AskDialog serverIssueAlert = new AskDialog();
                 serverIssueAlert.serverIssueAlert("It's a draw !!");
 
             });
@@ -841,7 +920,7 @@ public class OnlinePlayersController implements Initializable {
         return false;
     }
 
-    private void reset(){
+    private void reset() {
         //ServerChannel.ps.println("available###"+ServerChannel.hash.get("email"));
         thread.stop();
         Platform.runLater(() -> {
@@ -850,19 +929,19 @@ public class OnlinePlayersController implements Initializable {
         });
     }
 
-    private void displayVideo(String type){
-        if(type.equals("winner")){
+    private void displayVideo(String type) {
+        if (type.equals("winner")) {
             System.out.println("you won");
 //            ButtonBack displayVideo = new ButtonBack("/view/VideoWindow.fxml");
 //            displayVideo.displayVideo("winner","Congratulation");
-        }else{
+        } else {
             System.out.println("you loss");
 //            ButtonBack displayVideo = new ButtonBack("/view/VideoWindow.fxml");
 //            displayVideo.displayVideo("opps","opps!!");
         }
     }
 
-    private void updateScore(){
+    private void updateScore() {
         /*Platform.runLater(() -> {
             try{
                 currentScore += 10;
@@ -876,13 +955,13 @@ public class OnlinePlayersController implements Initializable {
     }
 
     @FXML
-    public void buttonPressed(ActionEvent e){
-        Button buttonPressed ;
-        if(gameState && myTurn){
+    public void buttonPressed(ActionEvent e) {
+        Button buttonPressed;
+        if (gameState && myTurn) {
             buttonPressed = (Button) e.getSource();
-            if(buttonPressed.getText().equals("")){
+            if (buttonPressed.getText().equals("")) {
                 buttonPressed.setText(myTic);
-                System.out.println("My Turn " +myTic);
+                System.out.println("My Turn " + myTic);
 
                 myTurn = false;
                 opponentTurn = true;
@@ -891,18 +970,18 @@ public class OnlinePlayersController implements Initializable {
 //                }else{
 //                    stateanc.setStyle("-fx-background-color: #FA2C56");
 //                }
-                System.out.println("I pressed "+buttonPressed.getId());
-                if(checkState()){
-                    ServerChannel.ps.println("finishgameTic "+SignInController.currentPlayer.getId()+" "+ getCellNumber(buttonPressed.getId())+" "+buttonPressed.getId()+" "+myTic);
-                }else{
-                    ServerChannel.ps.println("gameTic "+ SignInController.currentPlayer.getId() +" "+ getCellNumber(buttonPressed.getId())+" "+buttonPressed.getId()+" "+myTic);
+                System.out.println("I pressed " + buttonPressed.getId());
+                if (checkState()) {
+                    ServerChannel.ps.println("finishgameTic " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
+                } else {
+                    ServerChannel.ps.println("gameTic " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
                 }
             }
         }
     }
 
     private String getCellNumber(String id) {
-        switch (id){
+        switch (id) {
             case "btn1":
                 return "c00";
             case "btn2":
