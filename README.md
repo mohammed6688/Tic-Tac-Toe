@@ -15,7 +15,7 @@ done as the java project @ ITI intake 42 by students of the open source (IOT & T
 
 # screenshots:
 ![MainPage](https://user-images.githubusercontent.com/96912241/152891184-c7720115-4c68-4677-8132-29d290ced1bb.png)
-*
+* *
 ![Levels](https://user-images.githubusercontent.com/96912241/152891236-21487f56-d19c-427a-9dd1-5966b656f845.png)
 
 
