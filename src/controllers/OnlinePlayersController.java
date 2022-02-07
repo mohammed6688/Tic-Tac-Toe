@@ -320,10 +320,11 @@ public class OnlinePlayersController implements Initializable {
     private void setCells() {
         for (PlayerSession playerSession : unFinishedList) {
             if (SignInController.currentPlayer.getId() == playerSession.getPlayerId()) {
+                System.out.println("my tick is : "+playerSession.getSign());
                 if (playerSession.getSign() == 1) {
                     myTic = "X";
                     oppTic = "O";
-                } else {
+                } else if (playerSession.getSign() == 2){
                     myTic = "O";
                     oppTic = "X";
                 }
@@ -746,7 +747,7 @@ public class OnlinePlayersController implements Initializable {
         if (gamePan.isVisible()) {
             gamePan.setVisible(false);
             onlinePan.setVisible(true);
-            ServerChannel.ps.println("withdraw "+SignInController.currentPlayer.getId());
+            ServerChannel.ps.println("withdraw "+SignInController.currentPlayer.getId()+" "+myTic);
         } else {
             String message = "logout " + SignInController.currentPlayer.getId();
             if (ServerChannel.logOut(message)) {
@@ -922,7 +923,7 @@ public class OnlinePlayersController implements Initializable {
 
     private void reset() {
         //ServerChannel.ps.println("available###"+ServerChannel.hash.get("email"));
-        thread.stop();
+        //thread.stop();
         Platform.runLater(() -> {
 //            ButtonBack reload = new ButtonBack("/view/OnlinePlayer.fxml");
 //            reload.navigateToAnotherPage(player1lbl);
