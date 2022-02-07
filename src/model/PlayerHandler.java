@@ -10,16 +10,17 @@ import java.util.*;
 public class PlayerHandler extends Thread {
 
     private GameDAO database;
-    Game gameObj=null;
+    static Game gameObj=null;
     Player player;
     String query;
     StringTokenizer token;
     DataInputStream dis;
     PrintStream ps;
     static ArrayList<PlayerHandler> playersList = new ArrayList<>();
-    HashMap<String, PlayerHandler> game = new HashMap();   //key is player id : value is obj of PlayerHandler
-    int[][] gameBoard = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-
+    static HashMap<String, PlayerHandler> game = new HashMap();   //key is player id : value is obj of PlayerHandler
+    static int[][] gameBoard = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+    static boolean unFinished=false;
+    static ArrayList<PlayerSession> unfinishedList;
     public PlayerHandler(Socket socket) throws IOException, SQLException {
         dis = new DataInputStream(socket.getInputStream());    //internal socket ear
         ps = new PrintStream(socket.getOutputStream());      //internal socket mouth
@@ -27,12 +28,8 @@ public class PlayerHandler extends Thread {
         database = new GameDAO();
         start();                                 //start the thread
     }
-//    //for testing
-//    public PlayerHandler() throws SQLException
-//    {
-//        database = new GameDAO();
-//
-//    }
+
+
     @Override
     public void run() {
         try {
@@ -71,7 +68,10 @@ public class PlayerHandler extends Thread {
                     case "finishgameTic":
                         finalForwardPress();
                         break;
-                    /*case "updateScore":
+                    /*case "checkUnFinished":
+                        checkUnfinishedGame();
+                        break;
+                    case "updateScore":
                         updateScore();
                         break;
                     case "available":
@@ -85,31 +85,34 @@ public class PlayerHandler extends Thread {
                 }
 
             }
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             e.printStackTrace();
             try {
                 dis.close();
+                ps.close();
+                playersList.remove(this);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            ps.close();
-            playersList.remove(this);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     private void finalForwardPress() throws SQLException{         //when the final tic played
         String playerId = token.nextToken();  //first player id
         String cellNum = token.nextToken();
+        String buttonId = token.nextToken();
         String sign = token.nextToken();  //x or o
+
+        System.out.println("in final tic");
 
         PlayerHandler connection = game.get(playerId);
         connection.ps.println("gameTic");
-        connection.ps.println(cellNum);
+        connection.ps.println(buttonId);
+
+        saveCell(cellNum, sign);
 
         int fPlayerSign=0,sPlayerSign=0;
-        if (sign.equals("x")){
+        if (sign.equals("X")){
             fPlayerSign=1;
             sPlayerSign=2;
         }else {
@@ -123,24 +126,31 @@ public class PlayerHandler extends Thread {
                 sPlayerId=Integer.parseInt(set.getKey());
             }
         }
+        System.out.println("fUserId "+playerId);
+        System.out.println("sUserId "+sPlayerId);
+
+
         updatePlayerSessions(Integer.parseInt(playerId), sPlayerId ,gameObj.gameId,fPlayerSign,sPlayerSign);
-        database.updateGameSession(gameObj.gameId,true);    //game is finished
+        database.updateGameSession(gameObj.gameId, Integer.parseInt(playerId),true);    //game is finished
     }
 
     private void forwardPress() {                    //when a tic played
-        String playerId = token.nextToken();
+        String playerId = token.nextToken();        //the opponent player
         String cellNum = token.nextToken();
+        String buttonId = token.nextToken();
         String sign = token.nextToken();    //x or o
 
+        System.out.println(playerId);
         PlayerHandler connection = game.get(playerId);
+        System.out.println("the target player "+connection.player.getUsername());
         connection.ps.println("gameTic");
-        connection.ps.println(cellNum);
+        connection.ps.println(buttonId);
         saveCell(cellNum, sign);
     }
 
     private void saveCell(String cellNum, String sign) {
         int flag;
-        if (sign.equals("x")) {
+        if (sign.equals("X")) {
             flag = 1;
         } else {
             flag = 2;
@@ -196,21 +206,21 @@ public class PlayerHandler extends Thread {
 
     private void withdraw() throws SQLException {
         String playerId = token.nextToken();  //first player id
-        String cellNum = token.nextToken();
-        String sign = token.nextToken();  //x or o
+        String sign = token.nextToken();  //first player id
 
         PlayerHandler connection = game.get(playerId);
-        connection.ps.println("gameTic");
-        connection.ps.println(cellNum);
+        connection.ps.println("withdraw");
+        //connection.ps.println(playerId);
 
         int fPlayerSign=0,sPlayerSign=0;
-        if (sign.equals("x")){
+        if (sign.equals("X")){
             fPlayerSign=1;
             sPlayerSign=2;
         }else {
             fPlayerSign=2;
             sPlayerSign=1;
         }
+
 
         int sPlayerId = -1;  //second player id
         for (Map.Entry<String, PlayerHandler> set : game.entrySet()){
@@ -219,6 +229,7 @@ public class PlayerHandler extends Thread {
             }
         }
         updatePlayerSessions(Integer.parseInt(playerId), sPlayerId ,gameObj.gameId,fPlayerSign,sPlayerSign);
+        database.updateInGame(Integer.parseInt(playerId),sPlayerId,false);
     }
 
     private void refusedChallenge() {
@@ -234,39 +245,66 @@ public class PlayerHandler extends Thread {
         String secondaryPlayerMail = token.nextToken(); //the accepter, opponent mail
         String mainPlayerMail = token.nextToken();   //the request sender mail
 
-        String secondaryPlayerId="",mainPlayerId="";
+        int secondaryPlayerId=-1,mainPlayerId=-1;
+        PlayerHandler p1 = null, p2 = null;
+
         for (PlayerHandler player:playersList){
             if (player.player.email.equals(secondaryPlayerMail)){
-                secondaryPlayerId= String.valueOf(player.player.id);
+                secondaryPlayerId=player.player.id;
+                player.ps.println("gameOn");
+                p2 = player;
             }
             if (player.player.email.equals(mainPlayerMail)){
-                mainPlayerId= String.valueOf(player.player.id);
+                mainPlayerId= player.player.id;
+                //player.ps.println("gameOn");
+                p1 = player;
             }
+        }
+        p2.ps.println(p1.player.getUsername());
+        p2.ps.println(p1.player.getEmail());
+        p2.ps.println(p1.player.getId());
+        p2.ps.println(p1.player.getScore());
+
+        if (unFinished){
+            p2.ps.println("true");
+            sendPlayerSessionData(p2,unfinishedList);
+            setCells(unfinishedList);
+        }else {
+            p2.ps.println("false");
+            this.gameObj= database.createGameSession(mainPlayerId, secondaryPlayerId);
         }
 
-        this.gameObj= database.createGameSession(mainPlayerId, secondaryPlayerId);
-        PlayerHandler p1 = null, p2 = null;
-        for (PlayerHandler i : playersList) {
-            if (i.player.email.equals(mainPlayerId)) {
-                ps.println("gameOn");
-                p1 = i;
-            } else if (i.player.email.equals(secondaryPlayerId)) {
-                ps.println("gameOn");
-                p2 = i;
-            }
-        }
-        game.put(mainPlayerId, p2);     //player 1 has obj from player 2
-        game.put(secondaryPlayerId, p1);   //player 2 has obj from player 1
+        game.put(String.valueOf(mainPlayerId), p2);     //player 1 has obj from player 2
+        game.put(String.valueOf(secondaryPlayerId), p1);   //player 2 has obj from player 1
+
+        //System.out.println("game size "+game.size());
+
     }
 
-    private void requestPlaying() {
+    private void requestPlaying() throws SQLException {
         String secondaryPlayerMail = token.nextToken(); // opponent mail
         String mainPlayerData = token.nextToken(); // mail
         for (PlayerHandler i : playersList) {
             if (i.player.email.equals(secondaryPlayerMail)) {
                 System.out.println("sending request");
+                System.out.println(i.player.email);
+                System.out.println("opponent mail"+mainPlayerData);
+
+                Player oppPlayer=null;
+                for (PlayerHandler player : playersList) {
+                    if (player.player.getEmail().equals(mainPlayerData)) {
+                        oppPlayer = player.player;
+
+                    }
+                }
+
                 i.ps.println("requestPlaying");
-                i.ps.println(mainPlayerData);
+                i.ps.println(oppPlayer.getEmail());
+                i.ps.println(oppPlayer.getUsername());
+                i.ps.println(oppPlayer.getId());
+                i.ps.println(oppPlayer.getScore());
+
+                checkUnfinishedGame(i,oppPlayer.getId(),i.player.getId());
             }
         }
     }
@@ -278,20 +316,30 @@ public class PlayerHandler extends Thread {
     }
 
     private void listOnlinePlayers() {
-        String email = token.nextToken();     //playerEmail
-        List<Player> onlinePlayers = database.getOnlinePlayers();
-        System.out.println(onlinePlayers.size());
-        for (Player player : onlinePlayers) {
-            if (!player.email.equals(email)) {         //to not send the current player as one of the online players
-                ps.println(player.id + " " +
-                        player.getUsername() + " " +
-                        player.getEmail() + " " +
-                        player.getPassword() + " " +       //TODO remove password from list
-                        player.isStatus() + " " +
-                        player.isInGame());
+        Thread thread =  new Thread(() -> {
+            while(true){
+                //String email = token.nextToken();     //playerEmail
+                List<Player> onlinePlayers = database.getOnlinePlayers();
+                //System.out.println(onlinePlayers.size());
+                for (Player player : onlinePlayers) {
+                    //if (!player.email.equals(email)) {         //to not send the current player as one of the online players
+                    ps.println(player.id + " " +
+                            player.getUsername() + " " +
+                            player.getEmail() + " " +
+                            player.getPassword() + " " +       //TODO remove password from list
+                            player.isStatus() + " " +
+                            player.isInGame());
+                    //}
+                }
+                ps.println("null");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                }
             }
-        }
-        ps.println("null");
+        });
+        thread.start();
+
     }
 
     private void signUp() throws SQLException{
@@ -385,11 +433,131 @@ public class PlayerHandler extends Thread {
                 }
             }
         }
-
-
         database.updatingGame(firstPlayerSession,secondPlayerSession);
+    }
+
+    public void checkUnfinishedGame(PlayerHandler i,int fPlayerId,int sPlayerId) throws SQLException {
+//        String fPlayerId=token.nextToken();
+//        String sPlayerId=token.nextToken();
+
+        Game game=database.getUnFinishedGamesForACertainOpponent(fPlayerId,sPlayerId);
+        if (game!=null){
+            System.out.println("there is unfinished game");
+            System.out.println("gameId: "+game.gameId);
+
+            unFinished=true;
+            unfinishedList =game.obj;
+            i.ps.println("true");
+            //ps.println("unFinishedList");
+            //ps.println("hasUnfinishedList");
+            sendPlayerSessionData(i,unfinishedList);
+            //setCells(unfinishedList);
+
+        }else {
+            unFinished=false;
+            i.ps.println("false");
+            //ps.println("unFinishedList");
+            //ps.println("noUnfinished");
+            System.out.println("no unfinished game");
+        }
+    }
+
+    private void sendPlayerSessionData(PlayerHandler i,ArrayList<PlayerSession> playerSessions) {
+
+        for (PlayerSession playerSession:playerSessions){
+            String data = playerSession.playerId +" "
+                    +playerSession.GameId+" "
+                    +playerSession.sign+" "
+                    +playerSession.gameDate+" "
+                    +playerSession.c00+" "
+                    +playerSession.c01+" "
+                    +playerSession.c02+" "
+                    +playerSession.c10+" "
+                    +playerSession.c11+" "
+                    +playerSession.c12+" "
+                    +playerSession.c20+" "
+                    +playerSession.c21+" "
+                    +playerSession.c22;
+            i.ps.println(data+" ");
+            System.out.println("player id: "+playerSession.playerId+" player tick "+playerSession.sign);
+        }
+    }
+
+    private void setCells(ArrayList<PlayerSession> playerSessions) {
+        for (PlayerSession playerSession:playerSessions){
+
+            if (playerSession.isC00()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c00", "X");
+                }else{
+                    saveCell("c00", "O");
+                }
+            }
+            if (playerSession.isC01()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c01", "X");
+                }else{
+                    saveCell("c01", "O");
+                }
+            }
+            if (playerSession.isC02()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c02", "X");
+                }else{
+                    saveCell("c02", "O");
+                }
+            }
+
+            if (playerSession.isC10()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c10", "X");
+                }else{
+                    saveCell("c10", "O");
+                }
+            }
+            if (playerSession.isC11()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c11", "X");
+                }else{
+                    saveCell("c11", "O");
+                }
+            }
+            if (playerSession.isC12()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c12", "X");
+                }else{
+                    saveCell("c12", "O");
+                }
+            }
+
+            if (playerSession.isC20()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c20", "X");
+                }else{
+                    saveCell("c20", "O");
+                }
+            }
+            if (playerSession.isC21()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c21", "X");
+                }else{
+                    saveCell("c21", "O");
+                }
+            }
+            if (playerSession.isC22()){
+                if (playerSession.getSign()==1) {
+                    saveCell("c22", "X");
+                }else{
+                    saveCell("c22", "O");
+                }
+            }
 
 
+//            for (int i =0;i<9;i++){
+//                 playerSession.getCell(0,0);
+//            }
+
+        }
     }
 
 }

@@ -28,12 +28,29 @@ public class PlayerSession {
         this.game = game;
         this.player = player;
         this.gameDate=gameDate;
+        this.sign=sign;
     }
 
     public PlayerSession(int playerId, int gameId,int sign) {
         this.playerId = playerId;
         GameId = gameId;
         this.sign=sign;
+    }
+
+    public int getSign() {
+        return sign;
+    }
+
+    public void setSign(int sign) {
+        this.sign = sign;
+    }
+
+    public String getGameDate() {
+        return gameDate;
+    }
+
+    public void setGameDate(String gameDate) {
+        this.gameDate = gameDate;
     }
 
     public int getPlayerId() {
