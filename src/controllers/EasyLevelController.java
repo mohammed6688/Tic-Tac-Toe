@@ -92,7 +92,7 @@ public class EasyLevelController implements Initializable {
         try {
             if (prefs.nodeExists("/controllers"))
             {
-                String userName=prefs.get("username","Mohamed");
+                String userName=prefs.get("username","");
                 score=prefs.getInt("score",0);
 
                 if (userName.length() != 0)
@@ -460,6 +460,10 @@ public class EasyLevelController implements Initializable {
 
     public void BackToChoiceLevel () throws Exception {
 
+        Preferences prefs =Preferences.userNodeForPackage(GameMainFXMLController.class);
+        prefs.remove("username");
+        prefs.remove("score");
+
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
         Stage window = (Stage)backtolevel.getScene().getWindow();
         //grab your root here
@@ -512,6 +516,9 @@ public class EasyLevelController implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
         if(option.isPresent() && option.get() == OkBtn)
         {
+            Preferences prefs =Preferences.userNodeForPackage(GameMainFXMLController.class);
+            prefs.remove("username");
+            prefs.remove("score");
             System.exit(1);
         }
     }

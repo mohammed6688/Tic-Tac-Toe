@@ -1,15 +1,13 @@
 
 package model;
 
-import controllers.HardLevelController;
-import javafx.application.Platform;
-import javafx.geometry.Bounds;
+
 import javafx.scene.control.Button;
-import javafx.scene.shape.Line;
+
 
 /**
  *
- * @author dell
+ * @author moham
  */
 public class DifficultLevel {
     //check for win game

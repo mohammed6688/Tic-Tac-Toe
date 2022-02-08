@@ -5,11 +5,10 @@
 package controllers;
 
 import java.net.URL;
-import java.nio.channels.Channel;
-import java.sql.Connection;
 import java.util.ResourceBundle;
-
+import java.util.prefs.Preferences;
 import Client.ServerChannel;
+import helper.CustomDialog;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,9 +32,13 @@ public class GameMainFXMLController implements Initializable {
      Button singlePlayer, multiPlayers , BackBtn , easyLevel ,hardLevel;
     private double xOffset = 0;
     private double yOffset = 0;
+    Preferences prefs;
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
     }   
 
  public void singlePlayerBtnHandling () throws Exception {
@@ -72,67 +75,99 @@ public class GameMainFXMLController implements Initializable {
 
     public void easyLevelBtnHandling() throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoard.fxml"));
-        Stage window = (Stage)easyLevel.getScene().getWindow();
-        //grab your root here
-        root.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
+        if (prefs.nodeExists("/controllers")) {
+            String s = prefs.get("username", "");
+            System.out.println(s.length());
+            if (s.length() == 0) {
+                CustomDialog cd = new CustomDialog();
+                Boolean isCancled = cd.displayDialog("Enter Your Name");
+                prefs.put("username", cd.getName());
+                if (!isCancled) {
 
-        //move around here
-        root.setOnMouseDragged(event -> {
-            window.setX(event.getScreenX() - xOffset);
-            window.setY(event.getScreenY() - yOffset);
-        });
-        window.setTitle("Easy Level");
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
+                    Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoard.fxml"));
+                    Stage window = (Stage) easyLevel.getScene().getWindow();
+                    //grab your root here
+                    root.setOnMousePressed(event -> {
+                        xOffset = event.getSceneX();
+                        yOffset = event.getSceneY();
+                    });
 
-        Scene scene = new Scene(root);
-        //set transparent
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.show();
+                    //move around here
+                    root.setOnMouseDragged(event -> {
+                        window.setX(event.getScreenX() - xOffset);
+                        window.setY(event.getScreenY() - yOffset);
+                    });
+                    window.setTitle("Easy Level");
+                    window.setMinWidth(1000);
+                    window.setMinHeight(600);
 
-        window.setOnCloseRequest((event) -> {
-            System.exit(1);
-        });
+                    Scene scene = new Scene(root);
+                    //set transparent
+                    scene.setFill(Color.TRANSPARENT);
+                    window.setScene(scene);
+                    window.show();
+
+                    window.setOnCloseRequest((event) -> {
+                        System.exit(1);
+                    });
+                }
+            }
+            else
+            {
+             //don't do anything
+            }
+        }
     }
 
     public void hardLevelBtnHandling() throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoardHard.fxml"));
-        Stage window = (Stage)hardLevel.getScene().getWindow();
-        //grab your root here
-        root.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
+        if (prefs.nodeExists("/controllers")) {
+            String s = prefs.get("username", "");
+            System.out.println(s.length());
+            if (s.length() == 0) {
+                CustomDialog cd = new CustomDialog();
+                Boolean isCancled = cd.displayDialog("Enter Your Name");
+                prefs.put("username", cd.getName());
+                if (!isCancled) {
 
-        //move around here
-        root.setOnMouseDragged(event -> {
-            window.setX(event.getScreenX() - xOffset);
-            window.setY(event.getScreenY() - yOffset);
-        });
-        window.setTitle("Hard Level");
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
+                    Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoardHard.fxml"));
+                    Stage window = (Stage) easyLevel.getScene().getWindow();
+                    //grab your root here
+                    root.setOnMousePressed(event -> {
+                        xOffset = event.getSceneX();
+                        yOffset = event.getSceneY();
+                    });
 
-        Scene scene = new Scene(root);
-        //set transparent
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.show();
+                    //move around here
+                    root.setOnMouseDragged(event -> {
+                        window.setX(event.getScreenX() - xOffset);
+                        window.setY(event.getScreenY() - yOffset);
+                    });
+                    window.setTitle("Hard Level");
+                    window.setMinWidth(1000);
+                    window.setMinHeight(600);
 
-        window.setOnCloseRequest((event) -> {
-            System.exit(1);
-        });
+                    Scene scene = new Scene(root);
+                    //set transparent
+                    scene.setFill(Color.TRANSPARENT);
+                    window.setScene(scene);
+                    window.show();
+
+                    window.setOnCloseRequest((event) -> {
+                        System.exit(1);
+                    });
+                }
+            }
+            else
+            {
+                //don't do anything
+            }
+        }
     }
 
  public void multiPlayersBtnHandling() throws Exception {
 
-     //   Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
+
      if (ServerChannel.startChannel()) {
          Parent root = FXMLLoader.load(getClass().getResource("/layouts/SignInScene.fxml"));
          Stage window = (Stage) multiPlayers.getScene().getWindow();

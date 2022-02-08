@@ -225,6 +225,10 @@ public class HardLevelController implements Initializable {
 
     public void BackToChoiceLevel () throws Exception {
 
+        Preferences prefs =Preferences.userNodeForPackage(GameMainFXMLController.class);
+        prefs.remove("username");
+        prefs.remove("score");
+
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
         Stage window = (Stage)backtolevel.getScene().getWindow();
         //grab your root here
@@ -276,6 +280,9 @@ public class HardLevelController implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
         if(option.isPresent() && option.get() == OkBtn)
         {
+            Preferences prefs =Preferences.userNodeForPackage(GameMainFXMLController.class);
+            prefs.remove("username");
+            prefs.remove("score");
             System.exit(1);
         }
     }
