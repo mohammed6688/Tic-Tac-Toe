@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Tic Tac Game Client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Tic_Tac_Game_Client_jar</output-path>
+    <root id="archive" name="Tic Tac Game Client.jar">
+      <element id="module-output" name="Tic Tac Game Client" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../torrent/jfoenix-8.0.10.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

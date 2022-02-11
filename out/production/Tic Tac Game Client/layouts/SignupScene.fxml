@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+
+<?import javafx.scene.Group?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+
+<AnchorPane fx:id="signupRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="1000.0" styleClass="panelBG" stylesheets="@../style/style.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.SignUpController">
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+            <children>
+                <Group StackPane.alignment="CENTER">
+                    <VBox prefHeight="280.0" prefWidth="273.0" spacing="30.0">
+                        <children>
+                            <ImageView fitHeight="125.0" fitWidth="354.0" pickOnBounds="true"
+                                       preserveRatio="true">
+                                <image>
+                                    <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png"/>
+                                </image>
+                            </ImageView>
+                            <VBox prefHeight="54.0" prefWidth="303.0">
+                                <children>
+                                    <Label prefHeight="29.0" prefWidth="77.0" text="Username" wrapText="true" styleClass="SignInLabel"
+                                           stylesheets="@../style/GameStyle.css">
+                                        <font>
+                                            <Font size="14.0"/>
+                                        </font>
+                                    </Label>
+                                    <JFXTextField fx:id="usernameTF" styleClass="textField"
+                                                  stylesheets="@../style/GameStyle.css"/>
+                                </children>
+                            </VBox>
+                            <VBox prefHeight="54.0" prefWidth="303.0">
+                                <children>
+                                    <Label prefHeight="29.0" prefWidth="77.0" text="Email" wrapText="true" styleClass="SignInLabel"
+                                           stylesheets="@../style/GameStyle.css">
+                                        <font>
+                                            <Font size="14.0"/>
+                                        </font>
+                                    </Label>
+                                    <JFXTextField fx:id="emailTF" styleClass="textField"
+                                                  stylesheets="@../style/GameStyle.css"/>
+                                </children>
+                            </VBox>
+                            <VBox prefHeight="54.0" prefWidth="303.0">
+                                <children>
+                                    <Label prefHeight="29.0" prefWidth="77.0" text="Password" wrapText="true" styleClass="SignInLabel"
+                                           stylesheets="@../style/GameStyle.css">
+                                        <font>
+                                            <Font size="14.0"/>
+                                        </font>
+                                    </Label>
+                                    <JFXPasswordField fx:id="passwordTF" styleClass="textField"
+                                                      stylesheets="@../style/GameStyle.css"/>
+                                </children>
+                            </VBox>
+                            <VBox prefHeight="54.0" prefWidth="303.0">
+                                <children>
+                                    <Label prefHeight="29.0" prefWidth="118.0" text="Confirm Password" wrapText="true" styleClass="SignInLabel"
+                                           stylesheets="@../style/GameStyle.css">
+                                        <font>
+                                            <Font size="14.0"/>
+                                        </font>
+                                    </Label>
+                                    <JFXPasswordField fx:id="confirmpasswordTF" styleClass="textField"
+                                                      stylesheets="@../style/GameStyle.css"/>
+                                </children>
+                            </VBox>
+                        </children>
+                        <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        </padding>
+                        <JFXButton alignment="CENTER" defaultButton="true"
+                                   onAction="#registerbuttonHandler" prefHeight="62.0"
+                                   prefWidth="182.0" ripplerFill="BLACK"
+                                   styleClass="mainBtn" text="Regesiter" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="24.0"/>
+                            </font>
+                        </JFXButton>
+                    </VBox>
+
+                </Group>
+            </children>
+        </StackPane>
+        <Button mnemonicParsing="false" onAction="#backToSignIn" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
+            <graphic>
+                <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../Resources/icons8-go-back-100.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
+</AnchorPane>
