@@ -4,10 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.GameDAO;
-import model.PlayerHandler;
-import model.PlayerSession;
-import model.Server;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;

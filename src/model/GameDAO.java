@@ -24,8 +24,8 @@ public class GameDAO {
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/";
     public static final String DB_NAME = "javaGame";
     public static final String USER = "postgres";
-    //public static final String PASS = "mina2508";
-    public static final String PASS = "1502654";
+    public static final String PASS = "mina2508";
+    //public static final String PASS = "1502654";
     private Connection con;
     private static GameDAO instanceData;
 
@@ -375,14 +375,17 @@ public class GameDAO {
     }
 
     public Game getUnFinishedGamesForACertainOpponent(int firstPlayerId, int secondPlayerId) throws SQLException {
-        String queryString = new String("select ps.playerid ,ps.gameid,p.username,p.email, ps.sign,g.gamedate" +
+       /* String queryString = new String("select ps.playerid ,ps.gameid,p.username,p.email, ps.sign,g.gamedate" +
                 ",ps.cell00,ps.cell01,ps.cell02,ps.cell10,ps.cell11,ps.cell12,ps.cell20,ps.cell21,ps.cell22 from playersession ps,player p , game g \n" +
                 "where ps.playerid=p.playerid and ps.gameid=g.gameid and g.gamestatus=false \n" +
-                "and ps.gameid=any(select gameid from playersession where playerid=?)and ps.playerid in (?,?)");
-        PreparedStatement pst = con.prepareStatement(queryString);
+                "and ps.gameid=any(select gameid from playersession where playerid=?)and ps.playerid in (?,?)");*/
+        String queryString1 = new String("select ps.playerid ,ps.gameid,p.username,p.email, ps.sign,g.gamedate,ps.cell00,ps.cell01,ps.cell02,ps.cell10,ps.cell11,ps.cell12,ps.cell20,ps.cell21,ps.cell22 from playersession ps,player p , game g where ps.playerid=p.playerid and ps.gameid=g.gameid and g.gamestatus=false and ps.gameid=any(select gameid from playersession where playerid in (?,?) group by gameid having count(gameid)=2)\n");
+
+        PreparedStatement pst = con.prepareStatement(queryString1);
         pst.setInt(1, secondPlayerId);
         pst.setInt(2, firstPlayerId);
-        pst.setInt(3, secondPlayerId);
+
+
         ResultSet rs = pst.executeQuery();
         ArrayList<PlayerSession> playerSessions = new ArrayList<PlayerSession>();
         PlayerSession playerSession = null;
@@ -395,7 +398,9 @@ public class GameDAO {
                     rs.getBoolean(14), rs.getBoolean(15), null, player);
             playerSessions.add(playerSession);
         }
+
         Game unfinishedGame = null;
+
         if (playerSessions.size() > 0) {
             unfinishedGame = new Game(playerSession.GameId, playerSession.gameDate, 0, false, playerSessions);
         }
