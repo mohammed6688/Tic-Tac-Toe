@@ -11,14 +11,14 @@ public class Player {
     boolean inGame;
     int score;
 
-    public Player(int id, String username, String email, String password, boolean status, boolean inGame) {
+    public Player(int id, String username, String email, String password, boolean status, boolean inGame,int score) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.status = status;
         this.inGame = inGame;
-
+        this.score=score;
     }
 
     public int getId() {

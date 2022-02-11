@@ -53,7 +53,7 @@ public class GameDAO {
             ArrayList onlinePlayers = new ArrayList();
 
             while (rs.next()) {
-                onlinePlayers.add(new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("email"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame")));
+                onlinePlayers.add(new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("email"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame"), rs.getInt("score")));
             }
 
             return onlinePlayers;
@@ -71,7 +71,7 @@ public class GameDAO {
             ArrayList leaderBoard = new ArrayList();
 
             while (rs.next()) {
-                leaderBoard.add(new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("score"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame")));
+                leaderBoard.add(new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("score"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame"),rs.getInt("score")));
             }
 
             return leaderBoard;
@@ -81,22 +81,14 @@ public class GameDAO {
         }
     }
 
-    public void updateScore(int player_id, int score, List<Player> players) {
+    public void updateScore(int player_id, int score) {
         try {
-            PreparedStatement preparedStatement = this.con.prepareStatement("UPDATE player SET score=? WHERE id=?");
+            PreparedStatement preparedStatement = this.con.prepareStatement("UPDATE player SET score=? WHERE playerid=?");
             preparedStatement.setInt(1, score);
             preparedStatement.setInt(2, player_id);
             int isUpdated = preparedStatement.executeUpdate();
             if (isUpdated > 0) {
-                Player p = (Player) players.get(player_id);
-                p.setScore(score);
-
-                for (int i = 0; i < players.size(); ++i) {
-                    Player playerFound = (Player) players.get(i);
-                    if (playerFound.getId() == player_id) {
-                        players.set(i, p);
-                    }
-                }
+                System.out.println("score updated");
             }
         } catch (SQLException var9) {
             System.out.println("error in online leaderboard");
@@ -140,7 +132,7 @@ public class GameDAO {
 
     public String checkSignUp(String userName, String password, String email) throws SQLException {
         try {
-            PreparedStatement stmt = this.con.prepareStatement("insert into player (userName,userPassword,email,isonline,isingame,score) values(?,?,?,true,false,0)");
+            PreparedStatement stmt = this.con.prepareStatement("insert into player (userName,userPassword,email,isonline,isingame,score) values(?,?,?,false,false,0)");
             stmt.setString(1, userName);
             stmt.setString(2, password);
             stmt.setString(3, email);
@@ -165,7 +157,8 @@ public class GameDAO {
                         rs.getString("Email"),
                         rs.getString("userpassword"),
                         rs.getBoolean("isonline"),
-                        rs.getBoolean("isingame"));
+                        rs.getBoolean("isingame"),
+                        rs.getInt("score"));
 
                 System.out.println(email + " " + player.password);
             }
@@ -224,7 +217,7 @@ public class GameDAO {
             ResultSet rs = stmt.executeQuery();
 
             Player player;
-            for (player = null; rs.next(); player = new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("email"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame"))) {
+            for (player = null; rs.next(); player = new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("email"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame"),rs.getInt("score"))) {
             }
 
             if (player != null) {
@@ -290,6 +283,7 @@ public class GameDAO {
 
     public void updateInGame(int mainPlayer, int secondaryPlayer, boolean state) {
         try {
+            System.out.println("game updated");
             PreparedStatement stmt = this.con.prepareStatement("update player set isingame = ? where playerid = ? ");
             stmt.setBoolean(1, state);
             stmt.setInt(2, mainPlayer);
@@ -317,6 +311,28 @@ public class GameDAO {
         }
     }
 
+    public void updateGameSession(int gameId, int winnerId, boolean b,boolean isTie,int sPlayerId) {
+        try {
+            if(isTie){
+                PreparedStatement stmt = this.con.prepareStatement("update game set gamestatus = ? where gameid = ? ");
+                stmt.setBoolean(1, b);
+                stmt.setInt(2, gameId);
+                stmt.executeUpdate();
+            }
+            else{
+                PreparedStatement stmt = this.con.prepareStatement("update game set gamestatus = ?,gamewinnerid=? where gameid = ? ");
+                stmt.setBoolean(1, b);
+                stmt.setInt(2, winnerId);
+                stmt.setInt(3, gameId);
+                stmt.executeUpdate();
+            }
+            updateInGame(winnerId,sPlayerId,false);
+        } catch (SQLException var4) {
+            System.out.println(var4);
+        }
+
+    }
+    /*
     public void updateGameSession(int gameId, int winnerId, boolean b) {
         try {
             PreparedStatement stmt = this.con.prepareStatement("update game set gamestatus = ?,gamewinnerid=? where gameid = ? ");
@@ -328,7 +344,7 @@ public class GameDAO {
             System.out.println(var4);
         }
 
-    }
+    }*/
 
     public ArrayList<Game> getUnFinishedGames(int playerId) throws SQLException {
 
@@ -371,7 +387,7 @@ public class GameDAO {
         ArrayList<PlayerSession> playerSessions = new ArrayList<PlayerSession>();
         PlayerSession playerSession = null;
         while (rs.next()) {
-            Player player = new Player(rs.getInt(1), rs.getString(3), rs.getString(4), null, true, false);
+            Player player = new Player(rs.getInt(1), rs.getString(3), rs.getString(4), null, true, false,0);
             playerSession = new PlayerSession(rs.getInt(1), rs.getInt(2),
                     rs.getInt(5), rs.getDate(6).toString(),
                     rs.getBoolean(7), rs.getBoolean(8),
@@ -385,4 +401,6 @@ public class GameDAO {
         }
         return unfinishedGame;
     }
+
+
 }
