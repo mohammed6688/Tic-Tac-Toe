@@ -5,6 +5,7 @@
 package controllers;
 
 
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,7 +21,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.Random;
@@ -88,11 +91,18 @@ public class EasyLevelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        FadeTransition transition = new FadeTransition();
+        transition.setDuration(Duration.millis(500));
+        transition.setNode(anchorpane);
+        transition.setFromValue(0);
+        transition.setToValue(1);
+        transition.play();
+
         prefs = Preferences.userNodeForPackage(EasyLevelController.class);
         try {
             if (prefs.nodeExists("/controllers"))
             {
-                String userName=prefs.get("username","");
+                String userName=prefs.get("username","Mohamed");
                 score=prefs.getInt("score",0);
 
                 if (userName.length() != 0)
@@ -460,36 +470,46 @@ public class EasyLevelController implements Initializable {
 
     public void BackToChoiceLevel () throws Exception {
 
-        Preferences prefs =Preferences.userNodeForPackage(GameMainFXMLController.class);
-        prefs.remove("username");
-        prefs.remove("score");
+        FadeTransition transition = new FadeTransition();
+        transition.setDuration(Duration.millis(150));
+        transition.setNode(anchorpane);
+        transition.setFromValue(1);
+        transition.setToValue(0);
+        transition.setOnFinished(event -> {
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Stage window = (Stage)backtolevel.getScene().getWindow();
+            //grab your root here
+            root.setOnMousePressed(e -> {
+                xOffset = e.getSceneX();
+                yOffset = e.getSceneY();
+            });
 
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
-        Stage window = (Stage)backtolevel.getScene().getWindow();
-        //grab your root here
-        root.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
+            //move around here
+            root.setOnMouseDragged(ev -> {
+                window.setX(ev.getScreenX() - xOffset);
+                window.setY(ev.getScreenY() - yOffset);
+            });
+            window.setTitle("Choice Level");
+            window.setMinWidth(1000);
+            window.setMinHeight(600);
+
+            Scene scene = new Scene(root);
+            //set transparent
+            scene.setFill(Color.TRANSPARENT);
+            window.setScene(scene);
+            window.show();
+
+            window.setOnCloseRequest((e) -> {
+                System.exit(1);
+            });
         });
+        transition.play();
 
-        //move around here
-        root.setOnMouseDragged(event -> {
-            window.setX(event.getScreenX() - xOffset);
-            window.setY(event.getScreenY() - yOffset);
-        });
-        window.setTitle("Choice Level");
-        window.setMinWidth(1000);
-        window.setMinHeight(600);
-
-        Scene scene = new Scene(root);
-        //set transparent
-        scene.setFill(Color.TRANSPARENT);
-        window.setScene(scene);
-        window.show();
-
-        window.setOnCloseRequest((event) -> {
-            System.exit(1);
-        });
     }
 
     public void ExitBtnHandling() throws Exception {
@@ -516,9 +536,6 @@ public class EasyLevelController implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
         if(option.isPresent() && option.get() == OkBtn)
         {
-            Preferences prefs =Preferences.userNodeForPackage(GameMainFXMLController.class);
-            prefs.remove("username");
-            prefs.remove("score");
             System.exit(1);
         }
     }

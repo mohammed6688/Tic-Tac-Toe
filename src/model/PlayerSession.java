@@ -28,6 +28,7 @@ public class PlayerSession {
         this.game = game;
         this.player = player;
         this.gameDate=gameDate;
+        this.sign=sign;
     }
 
 

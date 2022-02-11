@@ -33,21 +33,21 @@ import java.net.URL;
 import java.util.*;
 import java.util.prefs.Preferences;
 
-public class OnlinePlayersController implements Initializable {
+public class MultiPlayerController implements Initializable {
 
     public AnchorPane mainRoot;
     @FXML
     public Button BackBtn2;
+
     @FXML
     public AnchorPane gamePan;
     @FXML
     public StackPane onlinePan;
-    public AnchorPane rootAnchor;
-    public Label playerName;
-    public Label playerScore;
-    public Label labUserName;
-    public Label labScore;
 
+    @FXML
+    public Label playerScore;
+    @FXML
+    public Label playerName;
 
     @FXML
     private Button btn1;
@@ -73,7 +73,6 @@ public class OnlinePlayersController implements Initializable {
     Button BackBtn;
     @FXML
     public ScrollPane scrollPane;
-    Button buttonPressed;
 
     private HBox hbox = new HBox();
     ImageView view;
@@ -81,7 +80,7 @@ public class OnlinePlayersController implements Initializable {
     Alert alert;
     HashMap<String, Player> game = new HashMap();
     boolean myTurn, opponentTurn, gameState = false;
-    private String myTic, oppTic;
+    private static String myTic, oppTic;
     private String opponentUsername;
     private Preferences pref;
     private Boolean isrecord = false;
@@ -96,15 +95,14 @@ public class OnlinePlayersController implements Initializable {
     private Player clickedPlayer;
     int[][] gameBoard = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     private boolean isTie;
-    private boolean secondaryPlayer = false;
+    String oppSign;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        rootAnchor.setOpacity(0);
+        gamePan.setOpacity(0);
         fadEffect();
-        playerName.setText(SignInController.currentPlayer.getUsername());
-        playerScore.setText(String.valueOf(SignInController.currentPlayer.getScore()));
-        buttonPressed = btn1;
+
         btn = new HashMap();
         btn.put("btn1", btn1);
         btn.put("btn2", btn2);
@@ -116,7 +114,6 @@ public class OnlinePlayersController implements Initializable {
         btn.put("btn8", btn8);
         btn.put("btn9", btn9);
 
-        ServerChannel.ps.println("playerlist " + SignInController.currentPlayer.getEmail());
 
         thread = new Thread(() -> {
             while (true) {
@@ -129,7 +126,7 @@ public class OnlinePlayersController implements Initializable {
                             break;
                         }
                         switch (data) {
-                            case "requestPlaying":
+                            /*case "requestPlaying":
                                 System.out.println("request received " + data);
                                 receivedRequest();
                                 break;
@@ -137,41 +134,43 @@ public class OnlinePlayersController implements Initializable {
                                 popUpRefuse();
                                 break;
                             case "gameOn":
-                                startGame(false);
-                                break;
+                                startGame();
+                                break;*/
                             case "gameTic":
                                 opponentTurn();
                                 break;
                             case "finalgameTic":
                                 opponentTurn();
-                                moveToWinner();
+                                reset();
                                 break;
-//                            case "unFinishedList":
-//                                getUnFinishedGamesList();
-//                                break;
                             case "withdraw":
                                 System.out.println("withdraw");
+                                //updateScore();
+                                //ServerChannel.ps.println("available " + opponentPlayer.getEmail());
+                                gamePan.setVisible(false);
+                                onlinePan.setVisible(true);
+
                                 Platform.runLater(() -> {
                                     AskDialog serverIssueAlert = new AskDialog();
                                     serverIssueAlert.serverIssueAlert("You opponent has withdrawed, you are the winner!!!");
+                                    //thread.stop();
+
                                 });
-                                moveToWinner();
                                 break;
                             case "close":
                                 close();
                             default:
-                                readOnlineList(data);
+                                System.out.println("default data "+data);
+                                //readOnlineList(data);
                         }
                     } catch (IOException ex) {
+                        System.out.println("error in server: "+ex);
                         close();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("error" + e.toString());
                     }
                 }
-                if (scrollPane != null) {
-                    setOnlinePlayers();
-                }
+
                 try {
                     Thread.sleep(300);
                     //System.out.println("thread sleep");
@@ -183,117 +182,53 @@ public class OnlinePlayersController implements Initializable {
             }
         });
         thread.start();
-    }
-
-    private void getUnFinishedGamesList() throws IOException {
-        if (ServerChannel.dis.readLine().equals("noUnfinished")) {
-            ServerChannel.ps.println("request " + clickedPlayer.getEmail() + " " + SignInController.currentPlayer.getEmail());
-
-            for (Player player : onlinePlayers) {
-                if (player.getEmail().equals(clickedPlayer.getEmail()) || player.getEmail().equals(SignInController.currentPlayer.getEmail())) {
-                    game.put(player.getEmail(), player);
-                }
-            }
-
-            // pop up waiting for response from server
-            ButtonType Yes = new ButtonType("Ok"); // can use an Alert, Dialog, or PopupWindow as needed...
-            alert = new Alert(Alert.AlertType.NONE);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Please Wait The Opponent to respond..");
-            alert.getDialogPane().getButtonTypes().addAll(Yes);
-
-            DialogPane dialogPane = alert.getDialogPane();
-            dialogPane.getStylesheets().add(
-                    getClass().getResource("/style/GameStyle.css").toExternalForm());
-            dialogPane.getStyleClass().add("infoDialog");
-
-            // hide popup after 3 seconds:
-            PauseTransition delay = new PauseTransition(Duration.seconds(5));
-            delay.setOnFinished(e -> alert.hide());
-
-            alert.show();
-            delay.play();
-        } else {
-            for (int i = 0; i < 2; i++) {
-                String data = ServerChannel.dis.readLine();
-                StringTokenizer token1 = new StringTokenizer(data, " ");
-                PlayerSession playerSession1 = new PlayerSession(Integer.parseInt(token1.nextToken()),
-                        Integer.parseInt(token1.nextToken()),
-                        Integer.parseInt(token1.nextToken()),
-                        token1.nextToken(),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        null,
-                        null);
-                unFinishedList.add(playerSession1);
-            }
-
-
-            startGame(true);
-            System.out.println("list size: " + unFinishedList.size());
-        }
 
     }
 
-    private void startGame(boolean state) throws IOException {
-        String OpponentUsername = ServerChannel.dis.readLine();
-        String OpponentMail = ServerChannel.dis.readLine();
-        String OpponentId = ServerChannel.dis.readLine();
-        String OpponentScore = ServerChannel.dis.readLine();
-        String flag = ServerChannel.dis.readLine();
+    public void startGame(boolean mainPlayer,String flag,Player player,ArrayList<PlayerSession> unFinishedList) throws IOException {
+        System.out.println("player is heeeer "+player.getEmail());
+//        String OpponentUsername = ServerChannel.dis.readLine();
+//        String OpponentMail = ServerChannel.dis.readLine();
+//        String OpponentId = ServerChannel.dis.readLine();
+//        String OpponentScore = ServerChannel.dis.readLine();
+//        String flag = ServerChannel.dis.readLine();
 
-        Platform.runLater(() -> {
-            labUserName.setText(OpponentUsername);
-            labScore.setText(OpponentScore);
-        });
-
-
-        System.out.println("flag is : " + flag);
+        System.out.println("flag is : " +flag);
         if (flag.equals("true")) {
-            //thread.stop();
-            for (int i = 0; i < 2; i++) {
-                String data = ServerChannel.dis.readLine();
-                System.out.println(data);
-                StringTokenizer token1 = new StringTokenizer(data, " ");
-                PlayerSession playerSession1 = new PlayerSession(Integer.parseInt(token1.nextToken()),
-                        Integer.parseInt(token1.nextToken()),
-                        Integer.parseInt(token1.nextToken()),
-                        token1.nextToken(),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        Boolean.parseBoolean(token1.nextToken()),
-                        null,
-                        null);
-                unFinishedList.add(playerSession1);
-            }
-            //thread.start();
+//            for (int i = 0; i < 2; i++) {
+//                String data = ServerChannel.dis.readLine();
+//                StringTokenizer token1 = new StringTokenizer(data, " ");
+//                PlayerSession playerSession1 = new PlayerSession(Integer.parseInt(token1.nextToken()),
+//                        Integer.parseInt(token1.nextToken()),
+//                        Integer.parseInt(token1.nextToken()),
+//                        token1.nextToken(),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        Boolean.parseBoolean(token1.nextToken()),
+//                        null,
+//                        null);
+//                unFinishedList.add(playerSession1);
+//            }
             System.out.println("list size: " + unFinishedList.size());
-            showGame(true, true);
+            showGame(mainPlayer, true);
 
-        } else if (flag.equals("false")) {
-            opponentPlayer = new Player(Integer.parseInt(OpponentId),
-                    OpponentUsername,
-                    OpponentMail,
-                    "",
-                    true,
-                    true);
+        } else if (flag.equals("false")){
+//            opponentPlayer = new Player(Integer.parseInt(OpponentId),
+//                    OpponentUsername,
+//                    OpponentMail,
+//                    "",
+//                    true,
+//                    true);
 
             //String OpponentUsername = "";
             System.out.println("player 2 accepted");
-            showGame(true, false);
+            showGame(mainPlayer, false);
         }
 
     }
@@ -301,12 +236,14 @@ public class OnlinePlayersController implements Initializable {
     private void showGame(boolean state, boolean unFinishedMode) throws IOException {
 
         if (unFinishedMode) {
+            System.out.println("unfinishedMode*****");
             myTurn = state;
             gameState = true;
             opponentTurn = !state;
             setCells();
         } else {
-            System.out.println("my state: " + state);
+            System.out.println("finishedMode*****");
+            //System.out.println("my state: " + state);
             myTurn = state;
             opponentTurn = !state;
             gameState = true;
@@ -320,8 +257,8 @@ public class OnlinePlayersController implements Initializable {
             System.out.println("my tic" + myTic);
         }
         Platform.runLater(() -> {
-            gamePan.setVisible(true);
-            onlinePan.setVisible(false);
+//            gamePan.setVisible(true);
+//            onlinePan.setVisible(false);
 
 //            scoretxt.setText(name);
 //            scrollpane.setDisable(true);
@@ -334,7 +271,7 @@ public class OnlinePlayersController implements Initializable {
     private void setCells() {
         for (PlayerSession playerSession : unFinishedList) {
             if (SignInController.currentPlayer.getId() == playerSession.getPlayerId()) {
-                System.out.println("my sign is " + playerSession.getSign());
+                System.out.println("my tick is : "+playerSession.getSign());
                 if (playerSession.getSign() == 1) {
                     myTic = "X";
                     oppTic = "O";
@@ -344,83 +281,71 @@ public class OnlinePlayersController implements Initializable {
                 }
             }
 
-            saveCells(playerSession);
-            setBtns();
-        }
-    }
+            if (playerSession.isC00()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c00", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c00", "O");
+                }
+            }
+            if (playerSession.isC01()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c01", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c01", "O");
+                }
+            }
+            if (playerSession.isC02()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c02", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c02", "O");
+                }
+            }
 
-    private void saveCells(PlayerSession playerSession) {
-        if (playerSession.isC00()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c00", "X");
-            } else {
-                saveCell("c00", "O");
+            if (playerSession.isC10()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c10", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c10", "O");
+                }
             }
-        }
-        if (playerSession.isC01()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c01", "X");
-            } else {
-                saveCell("c01", "O");
+            if (playerSession.isC11()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c11", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c11", "O");
+                }
             }
-        }
-        if (playerSession.isC02()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c02", "X");
-            } else {
-                saveCell("c02", "O");
+            if (playerSession.isC12()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c12", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c12", "O");
+                }
             }
-        }
 
-        if (playerSession.isC10()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c10", "X");
-            } else {
-                saveCell("c10", "O");
+            if (playerSession.isC20()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c20", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c20", "O");
+                }
             }
-        }
-        if (playerSession.isC11()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c11", "X");
-            } else {
-                saveCell("c11", "O");
+            if (playerSession.isC21()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c21", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c21", "O");
+                }
             }
-        }
-        if (playerSession.isC12()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c12", "X");
-            } else {
-                saveCell("c12", "O");
+            if (playerSession.isC22()) {
+                if (playerSession.getSign() == 1) {
+                    saveCell("c22", "X");
+                } else if (playerSession.getSign() == 2){
+                    saveCell("c22", "O");
+                }
             }
-        }
-
-        if (playerSession.isC20()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c20", "X");
-            } else {
-                saveCell("c20", "O");
-            }
-        }
-        if (playerSession.isC21()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c21", "X");
-            } else {
-                saveCell("c21", "O");
-            }
-        }
-        if (playerSession.isC22()) {
-            if (playerSession.getSign() == 1) {
-                saveCell("c22", "X");
-            } else {
-                saveCell("c22", "O");
-            }
-        }
-
-    }
-
-    private void setBtns() {
-        Platform.runLater(() -> {
-
 
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
@@ -514,7 +439,11 @@ public class OnlinePlayersController implements Initializable {
                     }
                 }
             }
-        });
+//            for (int i =0;i<9;i++){
+//                 playerSession.getCell(0,0);
+//            }
+
+        }
     }
 
     private void saveCell(String cellNum, String sign) {
@@ -558,18 +487,12 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void receivedRequest() throws IOException {
-        secondaryPlayer = true;
+
         String opponentMail = ServerChannel.dis.readLine();
         String opponentName = ServerChannel.dis.readLine();
         String opponentId = ServerChannel.dis.readLine();
         String opponentScore = ServerChannel.dis.readLine();
         String flag = ServerChannel.dis.readLine();
-
-        Platform.runLater(() -> {
-            labUserName.setText(opponentName);
-            labScore.setText(opponentScore);
-        });
-
         if (flag.equals("true")) {
             for (int i = 0; i < 2; i++) {
                 String data = ServerChannel.dis.readLine();
@@ -592,6 +515,7 @@ public class OnlinePlayersController implements Initializable {
                 unFinishedList.add(playerSession1);
             }
         }
+
         opponentPlayer = new Player(Integer.parseInt(opponentId),
                 opponentName,
                 opponentMail,
@@ -627,9 +551,9 @@ public class OnlinePlayersController implements Initializable {
 
                     ServerChannel.ps.println("accept " + opponentMail + " " + SignInController.currentPlayer.getEmail());
                     try {
-                        if (flag.equals("true")) {
+                        if (flag.equals("true")){
                             showGame(false, true);
-                        } else {
+                        }else {
                             showGame(false, false);
                         }
 
@@ -770,60 +694,7 @@ public class OnlinePlayersController implements Initializable {
         }
     }
 
-    public void logOut() {
-        String message = "logout " + SignInController.currentPlayer.getId();
-        if (ServerChannel.logOut(message)) {
-            FadeTransition transition = new FadeTransition();
-            transition.setDuration(Duration.millis(500));
-            transition.setNode(gamePan);
-            transition.setFromValue(1);
-            transition.setToValue(0);
-            transition.setOnFinished(event -> {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
-                    Stage window = (Stage) BackBtn.getScene().getWindow();
-                    window.setTitle("Home");
-                    Scene scene = new Scene(root);
-                    scene.setFill(Color.TRANSPARENT);
-                    window.setScene(scene);
-                    window.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            transition.play();
-        }
-    }
 
-    public void BackToMainGame() throws Exception {
-
-        ServerChannel.ps.println("withdraw " + SignInController.currentPlayer.getId() + " " + myTic);
-        moveToWinner();
-    }
-
-    private void startTransition() {
-
-        FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(500));
-        transition.setNode(gamePan);
-        transition.setFromValue(1);
-        transition.setToValue(0);
-        transition.setOnFinished(event -> {
-            FadeTransition transition2 = new FadeTransition();
-            transition2.setDuration(Duration.millis(500));
-            transition2.setNode(gamePan);
-            transition2.setFromValue(0);
-            transition2.setToValue(1);
-            transition2.play();
-            transition2.setOnFinished(e -> {
-                gamePan.setVisible(false);
-                onlinePan.setVisible(true);
-            });
-        });
-        transition.play();
-
-
-    }
 
     private void getUnFinishedGames() {
         String message = "getUnfinishedGames " + SignInController.currentPlayer.getId();
@@ -831,21 +702,19 @@ public class OnlinePlayersController implements Initializable {
         System.out.println(response);
     }
 
-    private void opponentTurn() {
+    void opponentTurn() {
         try {
             String oppPressed = ServerChannel.dis.readLine();
-            System.out.println(oppPressed);
+            oppSign = ServerChannel.dis.readLine();
+            System.out.println("user pressed button "+oppPressed);
             Button btnOpp = btn.get(oppPressed);
             btnOpp.setOnAction(event -> {
                 Button button = (Button) event.getSource();
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        button.setText(oppTic);
-                        System.out.println("myTic " + oppTic);
+                Platform.runLater(() -> {
+                    button.setText(oppTic);
+                    System.out.println("myTic " + oppTic);
 
-                        checkState();
-                    }
+                    checkState();
                 });
             });
             btnOpp.fire();
@@ -945,84 +814,82 @@ public class OnlinePlayersController implements Initializable {
                 @Override
                 public void run() {
                     if (display) {
-                        isTie = false;
+                        isTie=false;
                         displayVideo("winner");
                         //AskDialog  serverIssueAlert  = new AskDialog();
                         //serverIssueAlert.serverIssueAlert("Congrats !! , your score right now is :"+ MainController.hash.get("score"));
 
                     } else {
-                        isTie = false;
+                        isTie=false;
                         displayVideo("lose");
                         //AskDialog  serverIssueAlert  = new AskDialog();
                         //serverIssueAlert.serverIssueAlert("Oh, Hardluck next time..");
                     }
-                    gamePan.setVisible(false);
-                    onlinePan.setVisible(true);
                 }
             });
-            try {
-                thread.stop();
-                moveToWinner();
-            } catch (IOException e) {
-                System.out.println("msharady");
-            }
+            reset();
             return true; // ended game
 
         } else if (isFullGrid()) {
-            isTie = true;
+            isTie=true;
             Platform.runLater(() -> {
                 AskDialog serverIssueAlert = new AskDialog();
                 serverIssueAlert.serverIssueAlert("It's a draw !!");
-            });
-            if (secondaryPlayer) {
-                try {
-                    thread.stop();
-                    moveToWinner();
-                } catch (IOException ev) {
-                    System.out.println("msharady");
-                }
-            }
 
+            });
+            reset();
             return true;
         }
         return false;
     }
 
-    private void moveToWinner() throws IOException {
-
-        System.out.print("movvvvvved");
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/winnerlayout.fxml"));
-        Stage window = (Stage) BackBtn.getScene().getWindow();
-        //grab your root here
-
-//        window.setTitle("winner_loser");
-//        window.setMinWidth(1000);
-//        window.setMinHeight(600);
+    void reset() {
+        //ServerChannel.ps.println("available###"+ServerChannel.hash.get("email"));
+        //thread.stop();
+//        btn1.setText("");
+//        btn2.setText("");
+//        btn3.setText("");
+//        btn4.setText("");
+//        btn5.setText("");
+//        btn6.setText("");
+//        btn7.setText("");
+//        btn8.setText("");
+//        btn9.setText("");
+//        gamePan.setVisible(false);
+//        onlinePan.setVisible(true);
+//        myTurn=false;
+//        opponentTurn=false;
+//        gameState=false;
+//        myTic=null;
+//        oppTic=null;
+//        display=false;
+//        opponentPlayer=null;
+//
+//        btn.clear();
+//        btn = new HashMap();
+//        btn.put("btn1", btn1);
+//        btn.put("btn2", btn2);
+//        btn.put("btn3", btn3);
+//        btn.put("btn4", btn4);
+//        btn.put("btn5", btn5);
+//        btn.put("btn6", btn6);
+//        btn.put("btn7", btn7);
+//        btn.put("btn8", btn8);
+//        btn.put("btn9", btn9);
 
         Platform.runLater(() -> {
-            Scene scene = new Scene(root);
-            //set transparent
-            scene.setFill(Color.TRANSPARENT);
-            window.setScene(scene);
-            window.show();
-        });
 
-        window.setOnCloseRequest((event1) -> {
-            String message = "logout " + SignInController.currentPlayer.getId();
-            ServerChannel.logOut(message);
-            System.exit(1);
+//            ButtonBack reload = new ButtonBack("/view/OnlinePlayer.fxml");
+//            reload.navigateToAnotherPage(player1lbl);
         });
-        thread.stop();
     }
 
     private void displayVideo(String type) {
         if (type.equals("winner")) {
             System.out.println("you won");
-            AskDialog askDialog = new AskDialog();
-            askDialog.serverIssueAlert("yoy win :)");
+//            ButtonBack displayVideo = new ButtonBack("/view/VideoWindow.fxml");
+//            displayVideo.displayVideo("winner","Congratulation");
         } else {
-            AskDialog askDialog = new AskDialog();
-            askDialog.serverIssueAlert("you loss :(");
             System.out.println("you loss");
 //            ButtonBack displayVideo = new ButtonBack("/view/VideoWindow.fxml");
 //            displayVideo.displayVideo("opps","opps!!");
@@ -1030,14 +897,12 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void updateScore() {
-        ServerChannel.ps.println("updateScore " + SignInController.currentPlayer.getId());
-        SignInController.currentPlayer.setScore(SignInController.currentPlayer.getScore() + 10);
-        playerScore.setText(String.valueOf(SignInController.currentPlayer.getScore()));
         /*Platform.runLater(() -> {
             try{
                 currentScore += 10;
                 ServerChannel.hash.put("score", ""+currentScore);
             } catch(NumberFormatException ex){
+
             }
             player1lbl.setText(""+currentScore);
             ServerChannel.ps.println("updateScore###"+ServerChannel.hash.get("email")+"###"+currentScore);
@@ -1046,6 +911,7 @@ public class OnlinePlayersController implements Initializable {
 
     @FXML
     public void buttonPressed(ActionEvent e) {
+        Button buttonPressed;
         if (gameState && myTurn) {
             buttonPressed = (Button) e.getSource();
             if (buttonPressed.getText().equals("")) {
@@ -1061,26 +927,15 @@ public class OnlinePlayersController implements Initializable {
 //                }
                 System.out.println("I pressed " + buttonPressed.getId());
 
-                if (checkState() && isTie == false) {
-                    ServerChannel.ps.println("finishgameTic false " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
-                    try {
-                        //thread.stop();
-                        moveToWinner();
-                    } catch (IOException ev) {
-                        System.out.println("msharady");
-                    }
-                } else if (checkState() && isTie == true) {
-                    ServerChannel.ps.println("finishgameTic true " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
-                    try {
-                        //thread.stop();
-                        moveToWinner();
-                    } catch (IOException ev) {
-                        System.out.println("msharady");
-                    }
-                } else {
-                    ServerChannel.ps.println("gameTic " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
+                if(checkState()&&isTie==false){
+                    ServerChannel.ps.println("finishgameTic false "+SignInController.currentPlayer.getId()+" "+ getCellNumber(buttonPressed.getId())+" "+buttonPressed.getId()+" "+myTic);
                 }
+                else if(checkState()&&isTie==true) {
+                    ServerChannel.ps.println("finishgameTic true "+SignInController.currentPlayer.getId()+" "+ getCellNumber(buttonPressed.getId())+" "+buttonPressed.getId()+" "+myTic);
 
+                } else{
+                    ServerChannel.ps.println("gameTic "+ SignInController.currentPlayer.getId() +" "+ getCellNumber(buttonPressed.getId())+" "+buttonPressed.getId()+" "+myTic);
+                }
 
                 /*if (checkState()) {
                     ServerChannel.ps.println("finishgameTic " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
@@ -1124,6 +979,62 @@ public class OnlinePlayersController implements Initializable {
         }
     }
 
+    public void BackToMain() throws Exception {
+        if (gamePan.isVisible()) {
+            startTransition();
+            gamePan.setVisible(false);
+            onlinePan.setVisible(true);
+            ServerChannel.ps.println("withdraw "+SignInController.currentPlayer.getId()+" "+myTic);
+        } else {
+            String message = "logout " + SignInController.currentPlayer.getId();
+            if (ServerChannel.logOut(message)) {
+                FadeTransition transition = new FadeTransition();
+                transition.setDuration(Duration.millis(500));
+                transition.setNode(gamePan);
+                transition.setFromValue(1);
+                transition.setToValue(0);
+                transition.setOnFinished(event -> {
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+                        Stage window = (Stage) BackBtn.getScene().getWindow();
+                        window.setTitle("Home");
+                        Scene scene = new Scene(root);
+                        scene.setFill(Color.TRANSPARENT);
+                        window.setScene(scene);
+                        window.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                transition.play();
+            }
+        }
+    }
+
+    private void startTransition() {
+
+            FadeTransition transition = new FadeTransition();
+            transition.setDuration(Duration.millis(500));
+            transition.setNode(gamePan);
+            transition.setFromValue(1);
+            transition.setToValue(0);
+            transition.setOnFinished(event -> {
+                FadeTransition transition2 = new FadeTransition();
+                transition2.setDuration(Duration.millis(500));
+                transition2.setNode(gamePan);
+                transition2.setFromValue(0);
+                transition2.setToValue(1);
+                transition2.play();
+                transition2.setOnFinished(e -> {
+                    gamePan.setVisible(false);
+                    onlinePan.setVisible(true);
+                });
+            });
+            transition.play();
+
+
+    }
+
     private void close() {
         System.out.println("Server Colsed");
 
@@ -1133,20 +1044,20 @@ public class OnlinePlayersController implements Initializable {
 //            ButtonBack backtoLoginPage = new ButtonBack("/view/sample.fxml");
 //            backtoLoginPage.navigateToAnotherPage(emailtxt);
 //        });
-        //thread.stop();
+        thread.stop();
+    }
+
+    public void ExitBtnHandling(ActionEvent actionEvent) {
+
     }
 
     private void fadEffect() {
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(500));
-        transition.setNode(rootAnchor);
+        transition.setNode(gamePan);
         transition.setFromValue(0);
         transition.setToValue(1);
         transition.play();
-
-    }
-
-    public void ExitBtnHandling(ActionEvent actionEvent) {
 
     }
 }

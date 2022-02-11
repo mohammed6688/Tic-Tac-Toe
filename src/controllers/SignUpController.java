@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class SignUpController implements Initializable {
     @FXML
-    private AnchorPane signupRoot ;
+    private AnchorPane signupRoot;
 
     @FXML
     private PasswordField confirmpasswordTF;
@@ -39,26 +39,24 @@ public class SignUpController implements Initializable {
 
     private DialogPane dialog;
     private String response;
+
     @FXML
-    private void backToSignIn (ActionEvent event){
+    private void backToSignIn(ActionEvent event) {
         gotoSignIn();
     }
 
     @FXML
     private void registerbuttonHandler(ActionEvent event) {
-        if(usernameTF.getText().isEmpty() || emailTF.getText().isEmpty() || passwordTF.getText().isEmpty() || confirmpasswordTF.getText().isEmpty())
-        {
+        if (usernameTF.getText().isEmpty() || emailTF.getText().isEmpty() || passwordTF.getText().isEmpty() || confirmpasswordTF.getText().isEmpty()) {
 
-            makeAlertDialog("Empty Fields","ALERT","some fileds may be empty");
-        }
-        else if(! passwordTF.getText().equals(confirmpasswordTF.getText())){
+            makeAlertDialog("Empty Fields", "ALERT", "some fileds may be empty");
+        } else if (!passwordTF.getText().equals(confirmpasswordTF.getText())) {
 
-            makeAlertDialog("Password Conflict","ALERT","confirm password must match the password ");
-        }
-        else{
-            String message="SignUp "+usernameTF.getText()+" "+emailTF.getText()+" "+passwordTF.getText();
-            response= ServerChannel.signUP(message);
-                finishSignUp();
+            makeAlertDialog("Password Conflict", "ALERT", "confirm password must match the password ");
+        } else {
+            String message = "SignUp " + usernameTF.getText() + " " + emailTF.getText() + " " + passwordTF.getText();
+            response = ServerChannel.signUP(message);
+            finishSignUp();
 
         }
 
@@ -72,27 +70,27 @@ public class SignUpController implements Initializable {
 
     private void toSignUpView() {
         FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(150));
+        transition.setDuration(Duration.millis(500));
         transition.setNode(signupRoot);
         transition.setFromValue(0);
         transition.setToValue(1);
         transition.play();
     }
-    private void finishSignUp()
-    {
-        if(response.contains("SignedUpSuccessfully")) {
-            makeAlertDialog("Congratulation!!","New Account Registered Successfully",
+
+    private void finishSignUp() {
+        if (response.contains("SignedUpSuccessfully")) {
+            makeAlertDialog("Congratulation!!", "New Account Registered Successfully",
                     "THANK YOU FOR TRUSTING US");
             gotoSignIn();
-        }
-        else {
+        } else {
 
-            makeAlertDialog("Conflict","ALERT","Email and UserName already may be stored");
+            makeAlertDialog("Conflict", "ALERT", "Email and UserName already may be stored");
         }
     }
-    private void gotoSignIn(){
+
+    private void gotoSignIn() {
         FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(150));
+        transition.setDuration(Duration.millis(500));
         transition.setNode(signupRoot);
         transition.setFromValue(1);
         transition.setToValue(0);
@@ -108,10 +106,10 @@ public class SignUpController implements Initializable {
         });
         transition.play();
     }
-    private void makeAlertDialog(String title ,String HeaderText ,String Content)
-    {
+
+    private void makeAlertDialog(String title, String HeaderText, String Content) {
         Alert a = new Alert(Alert.AlertType.WARNING);
-        dialog=a.getDialogPane();
+        dialog = a.getDialogPane();
         dialog.getStylesheets().add(getClass().getResource("../style/style.css").toString());
         dialog.getStyleClass().add("dialog");
 
@@ -120,6 +118,7 @@ public class SignUpController implements Initializable {
         a.setContentText(Content);
         a.show();
     }
+
     private void loadSignInScene() throws IOException {
         try {
             Parent signinView;
@@ -127,8 +126,7 @@ public class SignUpController implements Initializable {
             Scene newscene = new Scene(signinView);
             Stage curStage = (Stage) signupRoot.getScene().getWindow();
             curStage.setScene(newscene);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

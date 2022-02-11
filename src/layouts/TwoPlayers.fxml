@@ -17,287 +17,318 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image:url('/Resources/menuback.jpg')" styleClass="Container" stylesheets="@../style/GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OnlinePlayersController">
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane fx:id="rootAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="Container" stylesheets="@../style/GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OnlinePlayersController">
 
-   <stylesheets>
-      <URL value="@../style/gameboard.css" />
-   </stylesheets>
-   <children>
-      <AnchorPane fx:id="gamePan" visible="false">
-         <ImageView fitHeight="347.0" fitWidth="605.0" pickOnBounds="true">
-            <image>
-               <Image url="@../Resources/tic_tac_toe_loader_.gif" />
-            </image>
-         </ImageView>
-         <Pane layoutX="-1.0" layoutY="324.0" prefHeight="282.0" prefWidth="605.0" style="-fx-background-color: #ff4c4c;" />
-         <Pane prefHeight="606.0" prefWidth="594.0">
-            <children>
-               <FlowPane prefHeight="606.0" prefWidth="594.0">
-                  <children>
-                     <ImageView fitHeight="605.0" fitWidth="597.0" opacity="0.06" pickOnBounds="true">
-                        <image>
-                           <Image url="@../Resources/background.jpg" />
-                        </image>
-                     </ImageView>
-                  </children>
-               </FlowPane>
-            </children>
-         </Pane>
-         <Pane layoutX="598.0" prefHeight="606.0" prefWidth="406.0" style="-fx-background-color: #434876;">
-            <children>
-               <ImageView fitHeight="606.0" fitWidth="406.0" opacity="0.06" pickOnBounds="true">
-                  <image>
-                     <Image url="@../Resources/background.jpg" />
-                  </image>
-               </ImageView>
-               <ImageView fitHeight="62.0" fitWidth="204.0" layoutX="112.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../Resources/tictactoe.gif" />
-                  </image>
-                  <viewport>
-                     <Rectangle2D />
-                  </viewport>
-               </ImageView>
-               <FlowPane layoutX="37.0" layoutY="143.0" prefHeight="291.0" prefWidth="333.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 50;">
-                  <children>
-                     <Pane prefHeight="54.0" prefWidth="295.0">
+    <stylesheets>
+        <URL value="@../style/gameboard.css" />
+    </stylesheets>
+    <children>
+        <AnchorPane fx:id="gamePan" visible="false">
+            <ImageView fitHeight="347.0" fitWidth="605.0" pickOnBounds="true">
+                <image>
+                    <Image url="@../Resources/tic_tac_toe_loader_.gif" />
+                </image>
+            </ImageView>
+            <Pane layoutX="-1.0" layoutY="324.0" prefHeight="282.0" prefWidth="605.0" style="-fx-background-color: #ff4c4c;" />
+            <Pane prefHeight="606.0" prefWidth="594.0">
+                <children>
+                    <FlowPane prefHeight="606.0" prefWidth="594.0">
                         <children>
-                           <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="295.0">
-                              <children>
-                                 <Label alignment="TOP_CENTER" text="Welcome :" textFill="#0d0d0d">
-                                    <font>
-                                       <Font name="System Bold Italic" size="20.0" />
-                                    </font>
-                                    <HBox.margin>
-                                       <Insets right="8.0" />
-                                    </HBox.margin>
-                                 </Label>
-                                 <Label fx:id="labUserName" prefHeight="30.0" prefWidth="185.0" textFill="#070707">
-                                    <font>
-                                       <Font name="System Bold Italic" size="20.0" />
-                                    </font>
-                                 </Label>
-                              </children>
-                           </HBox>
+                            <ImageView fitHeight="605.0" fitWidth="597.0" opacity="0.06" pickOnBounds="true">
+                                <image>
+                                    <Image url="@../Resources/background.jpg" />
+                                </image>
+                            </ImageView>
                         </children>
-                        <FlowPane.margin>
-                           <Insets left="10.0" top="50.0" />
-                        </FlowPane.margin>
-                     </Pane>
-                     <Pane prefHeight="54.0" prefWidth="249.0">
-                        <children>
-                           <HBox alignment="CENTER_LEFT" layoutX="14.0" prefHeight="54.0" prefWidth="236.0">
-                              <children>
-                                 <Label alignment="TOP_CENTER" text="Score :" textFill="#0d0d0d">
-                                    <font>
-                                       <Font name="System Bold Italic" size="20.0" />
-                                    </font>
-                                    <HBox.margin>
-                                       <Insets right="8.0" />
-                                    </HBox.margin>
-                                 </Label>
-                                 <Label fx:id="labScore" textFill="#0d0d0d">
-                                    <font>
-                                       <Font name="System Bold Italic" size="20.0" />
-                                    </font>
-                                 </Label>
-                              </children>
-                           </HBox>
-                        </children>
-                     </Pane>
-                     <Button fx:id="Rematch" mnemonicParsing="false" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Rematch" textFill="#fcdb1c">
-                        <font>
-                           <Font name="Leelawadee UI Bold" size="18.0" />
-                        </font>
-                        <FlowPane.margin>
-                           <Insets left="46.0" top="50.0" />
-                        </FlowPane.margin>
-                     </Button>
-                     <Button fx:id="Exit" mnemonicParsing="false" onAction="#ExitBtnHandling" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Exit" textFill="#fcdb1c">
-                        <FlowPane.margin>
-                           <Insets left="30.0" top="50.0" />
-                        </FlowPane.margin>
-                        <font>
-                           <Font name="Leelawadee UI Bold" size="18.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </FlowPane>
-               <Label fx:id="txtWinner" alignment="CENTER" layoutX="39.0" layoutY="474.0" prefHeight="70.0" prefWidth="333.0" text=" " textFill="#fff2f2">
-                  <font>
-                     <Font name="Arial Black" size="30.0" />
-                  </font>
-               </Label>
-            </children></Pane>
-         <Pane layoutX="49.0" layoutY="34.0" />
-         <GridPane fx:id="grid" alignment="CENTER" layoutX="10.0" layoutY="153.0" prefHeight="300.0" prefWidth="550.0" AnchorPane.topAnchor="260.0">
-            <columnConstraints>
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
-            <children>
-               <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1">
-                  <children>
-                     <Button fx:id="btn5" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0" GridPane.rowIndex="1">
-                  <children>
-                     <Button fx:id="btn4" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0" GridPane.columnIndex="1">
-                  <children>
-                     <Button fx:id="btn2" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0" GridPane.rowIndex="2">
-                  <children>
-                     <Button fx:id="btn7" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0">
-                  <children>
-                     <Button fx:id="btn1" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0" GridPane.columnIndex="2">
-                  <children>
-                     <Button fx:id="btn3" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                  <children>
-                     <Button fx:id="btn9" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                  <children>
-                     <Button fx:id="btn6" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-               <AnchorPane prefWidth="633.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                  <children>
-                     <Button fx:id="btn8" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                        <font>
-                           <Font size="36.0" />
-                        </font>
-                     </Button>
-                  </children>
-               </AnchorPane>
-            </children>
-            <padding>
-               <Insets left="10.0" />
-            </padding>
-         </GridPane>
-         <Pane>
-            <children>
-               <Button fx:id="backtolevel" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
-                  <graphic>
-                     <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../Resources/icons8-go-back-100.png" />
-                        </image>
-                     </ImageView>
-                  </graphic>
-               </Button>
-            </children>
-         </Pane>
-      </AnchorPane>
-
-
-
-
-
-
-      <AnchorPane fx:id="onlinePan">
-         <children>
-            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <ScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="310.0" prefHeight="252.0" prefWidth="950.0" styleClass="TPSscrollPane" stylesheets="@../style/GameStyle.css" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="310.0">
-               <content>
-                  <AnchorPane prefHeight="163.0" prefWidth="950.0" />
-               </content>
-            </ScrollPane>
-            <HBox alignment="CENTER" layoutY="178.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <ImageView fitHeight="99.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../Resources/online-game (1).png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label prefHeight="59.0" prefWidth="322.0" text="Online Players" textFill="#af44d2">
-                     <font>
-                        <Font name="Arial Black" size="40.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <Pane layoutX="20.0" layoutY="24.0">
-               <children>
-                  <Button fx:id="BackBtn" mnemonicParsing="false" onAction="#BackToMain" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
-                     <graphic>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Resources/icons8-go-back-100.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
+                    </FlowPane>
+                </children>
             </Pane>
-         </children>
-      </AnchorPane>
+            <Pane layoutX="598.0" prefHeight="606.0" prefWidth="406.0" style="-fx-background-color: #434876;">
+                <children>
+                    <ImageView fitHeight="606.0" fitWidth="406.0" opacity="0.06" pickOnBounds="true">
+                        <image>
+                            <Image url="@../Resources/background.jpg" />
+                        </image>
+                    </ImageView>
+                    <ImageView fitHeight="62.0" fitWidth="204.0" layoutX="112.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../Resources/tictactoe.gif" />
+                        </image>
+                        <viewport>
+                            <Rectangle2D />
+                        </viewport>
+                    </ImageView>
+                    <FlowPane layoutX="37.0" layoutY="143.0" prefHeight="291.0" prefWidth="333.0" style="-fx-background-color: #FFEBCD; -fx-background-radius: 50;">
+                        <children>
+                            <Pane prefHeight="54.0" prefWidth="295.0">
+                                <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="295.0">
+                                        <children>
+                                            <Label alignment="TOP_CENTER" text="Opponent Name :" textFill="#0d0d0d">
+                                                <font>
+                                                    <Font name="System Bold Italic" size="20.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                    <Insets right="8.0" />
+                                                </HBox.margin>
+                                            </Label>
+                                            <Label fx:id="labUserName" prefHeight="30.0" prefWidth="185.0" textFill="#070707">
+                                                <font>
+                                                    <Font name="System Bold Italic" size="20.0" />
+                                                </font>
+                                            </Label>
+                                        </children>
+                                    </HBox>
+                                </children>
+                                <FlowPane.margin>
+                                    <Insets left="10.0" top="50.0" />
+                                </FlowPane.margin>
+                            </Pane>
+                            <Pane prefHeight="54.0" prefWidth="249.0">
+                                <children>
+                                    <HBox alignment="CENTER_LEFT" layoutX="14.0" prefHeight="54.0" prefWidth="236.0">
+                                        <children>
+                                            <Label alignment="TOP_CENTER" text="Opponent Score :" textFill="#0d0d0d">
+                                                <font>
+                                                    <Font name="System Bold Italic" size="20.0" />
+                                                </font>
+                                                <HBox.margin>
+                                                    <Insets right="8.0" />
+                                                </HBox.margin>
+                                            </Label>
+                                            <Label fx:id="labScore" textFill="#0d0d0d">
+                                                <font>
+                                                    <Font name="System Bold Italic" size="20.0" />
+                                                </font>
+                                            </Label>
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </Pane>
+                            <Button visible="false" fx:id="Rematch" mnemonicParsing="false" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Rematch" textFill="#fcdb1c">
+                                <font>
+                                    <Font name="Leelawadee UI Bold" size="18.0" />
+                                </font>
+                                <FlowPane.margin>
+                                    <Insets left="46.0" top="50.0" />
+                                </FlowPane.margin>
+                            </Button>
+                            <Button visible="false" fx:id="Exit" mnemonicParsing="false" onAction="#ExitBtnHandling" prefHeight="46.0" prefWidth="106.0" styleClass="Button" stylesheets="@../style/gameboard.css" text="Exit" textFill="#fcdb1c">
+                                <FlowPane.margin>
+                                    <Insets left="30.0" top="50.0" />
+                                </FlowPane.margin>
+                                <font>
+                                    <Font name="Leelawadee UI Bold" size="18.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </FlowPane>
+                    <Label fx:id="txtWinner" alignment="CENTER" layoutX="39.0" layoutY="474.0" prefHeight="70.0" prefWidth="333.0" text=" " textFill="#fff2f2">
+                        <font>
+                            <Font name="Arial Black" size="30.0" />
+                        </font>
+                    </Label>
+                </children></Pane>
+            <Pane layoutX="49.0" layoutY="34.0" />
+            <GridPane fx:id="grid" alignment="CENTER" layoutX="10.0" layoutY="153.0" prefHeight="300.0" prefWidth="550.0" AnchorPane.topAnchor="260.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <children>
+                    <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <children>
+                            <Button fx:id="btn5" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0" GridPane.rowIndex="1">
+                        <children>
+                            <Button fx:id="btn4" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0" GridPane.columnIndex="1">
+                        <children>
+                            <Button fx:id="btn2" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0" GridPane.rowIndex="2">
+                        <children>
+                            <Button fx:id="btn7" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0">
+                        <children>
+                            <Button fx:id="btn1" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0" GridPane.columnIndex="2">
+                        <children>
+                            <Button fx:id="btn3" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <children>
+                            <Button fx:id="btn9" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <children>
+                            <Button fx:id="btn6" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                    <AnchorPane prefWidth="633.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <children>
+                            <Button fx:id="btn8" alignment="CENTER" mnemonicParsing="false" onAction="#buttonPressed" pickOnBounds="false" prefWidth="295.0" styleClass="tic" stylesheets="@../style/gameboard.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                            </Button>
+                        </children>
+                    </AnchorPane>
+                </children>
+                <padding>
+                    <Insets left="10.0" />
+                </padding>
+            </GridPane>
+            <Pane>
+                <children>
+                    <Button fx:id="backtolevel" mnemonicParsing="false" onAction="#BackToMainGame" styleClass="buttonBack" stylesheets="@../style/GameStyle.css">
+                        <graphic>
+                            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../Resources/icons8-go-back-100.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </children>
+            </Pane>
+        </AnchorPane>
 
 
 
-   </children>
+
+
+
+        <StackPane fx:id="onlinePan" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0">
+            <children>
+                <Group StackPane.alignment="CENTER">
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER" spacing="5">
+                            <HBox layoutY="80" alignment="CENTER" spacing="5" styleClass="playerInfoBox"
+                                  stylesheets="@../style/GameStyle.css">
+                                <HBox.margin>
+                                    <Insets>
+                                        <top>20</top>
+                                    </Insets>
+                                </HBox.margin>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Resources/user2.png"/>
+                                    </image>
+                                </ImageView>
+                                <Label fx:id="playerName" prefHeight="8.0" text="Mohammed Ashraf"
+                                       styleClass="playerInfo" stylesheets="@../style/GameStyle.css"/>
+                                <Label fx:id="playerScore" prefHeight="8.0" text="50" styleClass="playerInfo"
+                                       stylesheets="@../style/GameStyle.css"/>
+                            </HBox>
+
+                        </HBox>
+                        <HBox visible="false" alignment="CENTER" prefHeight="150.0" prefWidth="200.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                            <children>
+                                <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png"/>
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                            <children>
+                                <ImageView fitHeight="99.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../Resources/online-game (1).png"/>
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets right="20.0"/>
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label prefHeight="59.0" prefWidth="322.0" text="Online Players"
+                                       styleClass="onlinePlayers" stylesheets="@../style/GameStyle.css">
+                                    <font>
+                                        <Font name="Arial Black" size="40.0"/>
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <ScrollPane fx:id="scrollPane" prefHeight="252.0" prefWidth="950.0" styleClass="TPSscrollPane"
+                                    stylesheets="@../style/GameStyle.css" AnchorPane.bottomAnchor="38.0"
+                                    AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0"
+                                    AnchorPane.topAnchor="310.0">
+                            <content>
+                                <AnchorPane fx:id="scrollAnchor" prefHeight="163.0" prefWidth="950.0"/>
+                            </content>
+                        </ScrollPane>
+                    </VBox>
+                    <Button fx:id="BackBtn" mnemonicParsing="false" onAction="#logOut" styleClass="buttonBack"
+                            stylesheets="@../style/GameStyle.css">
+                        <graphic>
+                            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../Resources/icons8-go-back-100.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
+                </Group>
+            </children>
+        </StackPane>
+
+
+
+    </children>
 </AnchorPane>

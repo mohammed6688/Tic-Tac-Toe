@@ -55,7 +55,6 @@ public class AskDialog {
      * @return
      */
     public void serverIssueAlert(String message) {
-
         ButtonType yes = new ButtonType("Yes");
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setTitle("Alert Issue");

@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="Container" stylesheets="@../style/GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameMainFXMLController">
+<AnchorPane fx:id="rootAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="Container" stylesheets="@../style/GameStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SelectLevelController">
    <children>
       <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -30,22 +30,12 @@
                <children>
                   <Pane minHeight="-Infinity" minWidth="-Infinity">
                      <children>
-                        <Button fx:id="easyLevel" mnemonicParsing="false" onAction="#easyLevelBtnHandling" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
+                        <Button fx:id="easyLevel" mnemonicParsing="false" onAction="#easyLevelBtnHandling" prefHeight="300.0" prefWidth="210.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
                            <graphic>
                               <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="300.0" prefWidth="250.0">
                                  <children>
-                                    <Circle layoutX="118.0" layoutY="150.0" radius="110.0" stroke="BLACK" strokeType="INSIDE" styleClass="MainCircle">
-                                       <fill>
-                                          <LinearGradient endX="0.5339805825242718" endY="0.5533980582524272" startX="0.5436893203883495" startY="0.5436893203883495">
-                                             <stops>
-                                                <Stop color="#ff341f" />
-                                                <Stop color="#3b4e65" offset="1.0" />
-                                             </stops>
-                                          </LinearGradient>
-                                       </fill>
-                                    </Circle>
-                                    <Label layoutX="77.0" layoutY="188.0" styleClass="EasyHardLables" stylesheets="@../style/GameStyle.css" text="Easy" />
-                                    <ImageView fitHeight="150.0" fitWidth="147.0" layoutX="39.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                                    <Label layoutX="55.0" layoutY="188.0" styleClass="EasyHardLables" stylesheets="@../style/GameStyle.css" text="Easy" />
+                                    <ImageView fitHeight="140.0" fitWidth="125.0" layoutX="35.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Resources/icons8-friday-night-funkin-240.png" />
                                        </image>
@@ -61,28 +51,16 @@
                   </Pane>
                   <Pane minHeight="-Infinity" minWidth="-Infinity">
                      <children>
-                        <Button fx:id="hardLevel" mnemonicParsing="false" onAction="#hardLevelBtnHandling" prefHeight="300.0" prefWidth="250.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
+                        <Button fx:id="hardLevel" mnemonicParsing="false" onAction="#hardLevelBtnHandling" prefHeight="300.0" prefWidth="210.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
                            <graphic>
                               <AnchorPane prefHeight="300.0" prefWidth="250.0">
                                  <children>
-                                    <Circle layoutX="125.0" layoutY="150.0" radius="110.0" stroke="BLACK" strokeType="INSIDE" styleClass="MainCircle">
-                                       <fill>
-                                          <LinearGradient endX="0.5339805825242718" endY="0.5533980582524272" startX="0.5436893203883495" startY="0.5436893203883495">
-                                             <stops>
-                                                <Stop color="#ff341f" />
-                                                <Stop color="#ff3421" offset="0.9477124183006537" />
-                                                <Stop color="#ff3421" offset="0.9477124183006537" />
-                                                <Stop color="#3b4e65" offset="1.0" />
-                                             </stops>
-                                          </LinearGradient>
-                                       </fill>
-                                    </Circle>
-                                    <ImageView fitHeight="161.0" fitWidth="130.0" layoutX="57.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="161.0" fitWidth="125.0" layoutX="30.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Resources/icons8-undyne-240.png" />
                                        </image>
                                     </ImageView>
-                                    <Label layoutX="79.0" layoutY="184.0" styleClass="EasyHardLables" stylesheets="@../style/GameStyle.css" text="Hard" />
+                                    <Label layoutX="55.0" layoutY="184.0" styleClass="EasyHardLables" stylesheets="@../style/GameStyle.css" text="Hard" />
                                  </children>
                               </AnchorPane>
                            </graphic>
