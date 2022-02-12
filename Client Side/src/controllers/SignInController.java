@@ -200,7 +200,8 @@ public class SignInController implements Initializable {
                 token.nextToken()
                 , token.nextToken(),
                 Boolean.parseBoolean(token.nextToken()),
-                Boolean.parseBoolean(token.nextToken()));
+                Boolean.parseBoolean(token.nextToken()),
+                Integer.parseInt(token.nextToken()));
         System.out.println(currentPlayer.getId());
         return currentPlayer;
     }

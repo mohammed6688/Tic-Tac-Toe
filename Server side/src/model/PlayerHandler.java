@@ -395,7 +395,8 @@ public class PlayerHandler extends Thread {
                             player.getEmail() + " " +
                             player.getPassword() + " " +       //TODO remove password from list
                             player.isStatus() + " " +
-                            player.isInGame());
+                            player.isInGame()+ " " +
+                            player.getScore());
                     //}
                 }
                 ps.println("null");
@@ -451,7 +452,8 @@ public class PlayerHandler extends Thread {
                             player.getEmail() + " " +
                             player.getPassword() + " " +
                             player.isStatus() + " " +
-                            player.isInGame());
+                            player.isInGame()+ " " +
+                            player.getScore());
                     this.player = player;
                     playersList.add(this);
                 } else {

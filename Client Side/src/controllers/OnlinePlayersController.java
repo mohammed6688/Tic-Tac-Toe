@@ -82,7 +82,7 @@ public class OnlinePlayersController implements Initializable {
     HashMap<String, Player> game = new HashMap();
     boolean myTurn, opponentTurn, gameState = false;
     private String myTic, oppTic;
-    private String opponentUsername;
+    public String opponentUsername;
     private Preferences pref;
     private Boolean isrecord = false;
 
@@ -90,14 +90,15 @@ public class OnlinePlayersController implements Initializable {
     private int opponentScore;
 
     private Boolean display = false;
-    private Player opponentPlayer;
+    static public Player opponentPlayer;
     private HashMap<String, Button> btn;
     ArrayList<PlayerSession> unFinishedList = new ArrayList<>();
     private Player clickedPlayer;
     int[][] gameBoard = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     private boolean isTie;
     private boolean secondaryPlayer = false;
-
+    public boolean winner;
+    Preferences prefs = Preferences.userNodeForPackage(OnlinePlayersController.class);
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         rootAnchor.setOpacity(0);
@@ -143,18 +144,18 @@ public class OnlinePlayersController implements Initializable {
                                 opponentTurn();
                                 break;
                             case "finalgameTic":
+                                winner=false;
+                                prefs.put("userState","loser");
+                                prefs.put("winner",opponentUsername);
                                 opponentTurn();
                                 moveToWinner();
                                 break;
-//                            case "unFinishedList":
-//                                getUnFinishedGamesList();
-//                                break;
                             case "withdraw":
                                 System.out.println("withdraw");
-                                Platform.runLater(() -> {
-                                    AskDialog serverIssueAlert = new AskDialog();
-                                    serverIssueAlert.serverIssueAlert("You opponent has withdrawed, you are the winner!!!");
-                                });
+//                                Platform.runLater(() -> {
+//                                    AskDialog serverIssueAlert = new AskDialog();
+//                                    serverIssueAlert.serverIssueAlert("You opponent has withdrawed, you are the winner!!!");
+//                                });
                                 moveToWinner();
                                 break;
                             case "close":
@@ -249,9 +250,16 @@ public class OnlinePlayersController implements Initializable {
         String OpponentScore = ServerChannel.dis.readLine();
         String flag = ServerChannel.dis.readLine();
 
+        opponentUsername=OpponentUsername;
+
         Platform.runLater(() -> {
             labUserName.setText(OpponentUsername);
             labScore.setText(OpponentScore);
+        });
+
+        Platform.runLater(()->{
+            if (alert.isShowing())
+                alert.close();
         });
 
 
@@ -289,7 +297,8 @@ public class OnlinePlayersController implements Initializable {
                     OpponentMail,
                     "",
                     true,
-                    true);
+                    true,
+                    Integer.parseInt(OpponentScore));
 
             //String OpponentUsername = "";
             System.out.println("player 2 accepted");
@@ -338,7 +347,7 @@ public class OnlinePlayersController implements Initializable {
                 if (playerSession.getSign() == 1) {
                     myTic = "X";
                     oppTic = "O";
-                } else if (playerSession.getSign() == 2){
+                } else if (playerSession.getSign() == 2) {
                     myTic = "O";
                     oppTic = "X";
                 }
@@ -564,6 +573,7 @@ public class OnlinePlayersController implements Initializable {
         String opponentId = ServerChannel.dis.readLine();
         String opponentScore = ServerChannel.dis.readLine();
         String flag = ServerChannel.dis.readLine();
+        opponentUsername=opponentName;
 
         Platform.runLater(() -> {
             labUserName.setText(opponentName);
@@ -597,7 +607,8 @@ public class OnlinePlayersController implements Initializable {
                 opponentMail,
                 "",
                 true,
-                false);
+                false,
+                Integer.parseInt(opponentScore));
 
 
         System.out.println("opponent " + opponentName);
@@ -755,9 +766,9 @@ public class OnlinePlayersController implements Initializable {
         String UserName = token.nextToken();
         String email = token.nextToken();
         String password = token.nextToken();
-        //System.out.println(UserName);
         boolean isOnline = Boolean.parseBoolean(token.nextToken());
         boolean isInGame = Boolean.parseBoolean(token.nextToken());
+        int score = Integer.parseInt(token.nextToken());
         if (!email.equals(SignInController.currentPlayer.getEmail())) {
             onlinePlayers.add(new Player(
                     playerId,
@@ -765,7 +776,8 @@ public class OnlinePlayersController implements Initializable {
                     email,
                     password,
                     isOnline,
-                    isInGame
+                    isInGame,
+                    score
             ));
         }
     }
@@ -823,12 +835,6 @@ public class OnlinePlayersController implements Initializable {
         transition.play();
 
 
-    }
-
-    private void getUnFinishedGames() {
-        String message = "getUnfinishedGames " + SignInController.currentPlayer.getId();
-        String response = ServerChannel.getUnFinishedGames(message);
-        System.out.println(response);
     }
 
     private void opponentTurn() {
@@ -940,25 +946,27 @@ public class OnlinePlayersController implements Initializable {
         checkDiagonal();
 
         if (!gameState) {
-            //ServerChannel.ps.println("updateGameState###"+ServerChannel.hash.get("email"));
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    if (display) {
-                        isTie = false;
-                        displayVideo("winner");
-                        //AskDialog  serverIssueAlert  = new AskDialog();
-                        //serverIssueAlert.serverIssueAlert("Congrats !! , your score right now is :"+ MainController.hash.get("score"));
+            Platform.runLater(() -> {
+                if (display) {
+                    isTie = false;
+                    winner=true;
+                    prefs.put("userState","winner");
+                    prefs.put("winner",SignInController.currentPlayer.getUsername());
+                    displayVideo("winner");
+                    //AskDialog  serverIssueAlert  = new AskDialog();
+                    //serverIssueAlert.serverIssueAlert("Congrats !! , your score right now is :"+ MainController.hash.get("score"));
 
-                    } else {
-                        isTie = false;
-                        displayVideo("lose");
-                        //AskDialog  serverIssueAlert  = new AskDialog();
-                        //serverIssueAlert.serverIssueAlert("Oh, Hardluck next time..");
-                    }
-                    gamePan.setVisible(false);
-                    onlinePan.setVisible(true);
+                } else {
+                    isTie = false;
+                    winner=false;
+                    prefs.put("userState","loser");
+                    prefs.put("winner",opponentUsername);
+                    displayVideo("lose");
+                    //AskDialog  serverIssueAlert  = new AskDialog();
+                    //serverIssueAlert.serverIssueAlert("Oh, Hardluck next time..");
                 }
+                gamePan.setVisible(false);
+                onlinePan.setVisible(true);
             });
             try {
                 thread.stop();
@@ -970,10 +978,12 @@ public class OnlinePlayersController implements Initializable {
 
         } else if (isFullGrid()) {
             isTie = true;
-            Platform.runLater(() -> {
-                AskDialog serverIssueAlert = new AskDialog();
-                serverIssueAlert.serverIssueAlert("It's a draw !!");
-            });
+            winner=false;
+            prefs.put("userState","draw");
+//            Platform.runLater(() -> {
+//                AskDialog serverIssueAlert = new AskDialog();
+//                serverIssueAlert.serverIssueAlert("It's a draw !!");
+//            });
             if (secondaryPlayer) {
                 try {
                     thread.stop();
@@ -989,19 +999,13 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void moveToWinner() throws IOException {
-
-        System.out.print("movvvvvved");
+        //System.out.print("movvvvvved");
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/winnerlayout.fxml"));
+
         Stage window = (Stage) BackBtn.getScene().getWindow();
-        //grab your root here
-
-//        window.setTitle("winner_loser");
-//        window.setMinWidth(1000);
-//        window.setMinHeight(600);
-
         Platform.runLater(() -> {
             Scene scene = new Scene(root);
-            //set transparent
+            window.setTitle("winner_loser");
             scene.setFill(Color.TRANSPARENT);
             window.setScene(scene);
             window.show();
@@ -1018,12 +1022,16 @@ public class OnlinePlayersController implements Initializable {
     private void displayVideo(String type) {
         if (type.equals("winner")) {
             System.out.println("you won");
-            AskDialog askDialog = new AskDialog();
-            askDialog.serverIssueAlert("yoy win :)");
+            prefs.put("userState","winner");
+            prefs.put("winner",SignInController.currentPlayer.getUsername());
+//            AskDialog askDialog = new AskDialog();
+//            askDialog.serverIssueAlert("yoy win :)");
         } else {
-            AskDialog askDialog = new AskDialog();
-            askDialog.serverIssueAlert("you loss :(");
+//            AskDialog askDialog = new AskDialog();
+//            askDialog.serverIssueAlert("you loss :(");
             System.out.println("you loss");
+            prefs.put("userState","loser");
+            prefs.put("winner",opponentUsername);
 //            ButtonBack displayVideo = new ButtonBack("/view/VideoWindow.fxml");
 //            displayVideo.displayVideo("opps","opps!!");
         }
@@ -1032,16 +1040,9 @@ public class OnlinePlayersController implements Initializable {
     private void updateScore() {
         ServerChannel.ps.println("updateScore " + SignInController.currentPlayer.getId());
         SignInController.currentPlayer.setScore(SignInController.currentPlayer.getScore() + 10);
-        playerScore.setText(String.valueOf(SignInController.currentPlayer.getScore()));
-        /*Platform.runLater(() -> {
-            try{
-                currentScore += 10;
-                ServerChannel.hash.put("score", ""+currentScore);
-            } catch(NumberFormatException ex){
-            }
-            player1lbl.setText(""+currentScore);
-            ServerChannel.ps.println("updateScore###"+ServerChannel.hash.get("email")+"###"+currentScore);
-        });*/
+        Platform.runLater(() -> {
+            playerScore.setText(String.valueOf(SignInController.currentPlayer.getScore()));
+        });
     }
 
     @FXML
@@ -1061,7 +1062,7 @@ public class OnlinePlayersController implements Initializable {
 //                }
                 System.out.println("I pressed " + buttonPressed.getId());
 
-                if (checkState() && isTie == false) {
+                if (checkState() && !isTie) {
                     ServerChannel.ps.println("finishgameTic false " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
                     try {
                         //thread.stop();
@@ -1069,7 +1070,7 @@ public class OnlinePlayersController implements Initializable {
                     } catch (IOException ev) {
                         System.out.println("msharady");
                     }
-                } else if (checkState() && isTie == true) {
+                } else if (checkState() && isTie) {
                     ServerChannel.ps.println("finishgameTic true " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
                     try {
                         //thread.stop();
@@ -1080,13 +1081,6 @@ public class OnlinePlayersController implements Initializable {
                 } else {
                     ServerChannel.ps.println("gameTic " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
                 }
-
-
-                /*if (checkState()) {
-                    ServerChannel.ps.println("finishgameTic " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
-                } else {
-                    ServerChannel.ps.println("gameTic " + SignInController.currentPlayer.getId() + " " + getCellNumber(buttonPressed.getId()) + " " + buttonPressed.getId() + " " + myTic);
-                }*/
             }
         }
     }
@@ -1125,14 +1119,13 @@ public class OnlinePlayersController implements Initializable {
     }
 
     private void close() {
-        System.out.println("Server Colsed");
+        System.out.println("Server Closed");
 
-//        Platform.runLater(() -> {
-//            AskDialog serverIssueAlert = new AskDialog();
-//            serverIssueAlert.serverIssueAlert("There is issue in connection game page will be closed");
-//            ButtonBack backtoLoginPage = new ButtonBack("/view/sample.fxml");
-//            backtoLoginPage.navigateToAnotherPage(emailtxt);
-//        });
+        Platform.runLater(() -> {
+            AskDialog serverIssueAlert = new AskDialog();
+            serverIssueAlert.serverIssueAlert("There is issue in connection game page will be closed");
+
+        });
         //thread.stop();
     }
 

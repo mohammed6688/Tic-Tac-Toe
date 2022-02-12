@@ -32,7 +32,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-style: italic;
     -fx-text-fill: #ffffff
 }
-
+.winnerBox{
+    -fx-background-color: linear-gradient(#00A2FE, #BD2CFE );
+    -fx-background-radius: 25;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-padding: 30;
+    -fx-font-family: Helvetica;
+    -fx-min-width: 355px;
+    -fx-min-height: 160px;
+    -fx-font-weight: bold;
+    -fx-border-width: 2;
+    -fx-border-color: white;
+    -fx-border-radius: 25;
+    -fx-text-alignment: center;
+}
 .onlineHbox {
     -fx-background-color: linear-gradient(#00A2FE, #BD2CFE );
     -fx-background-radius: 25;
@@ -64,7 +78,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-text-alignment: center;
 
 }
-
+.Winner{
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: Helvetica;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+}
 .playerInfoBox{
     -fx-background-color: #00A2FE;
     -fx-background-radius: 35;
