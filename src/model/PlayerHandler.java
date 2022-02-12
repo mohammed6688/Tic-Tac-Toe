@@ -325,6 +325,7 @@ public class PlayerHandler extends Thread {
                 p1 = player;
             }
         }
+        p2.player.setInGame(true);
         p2.ps.println(p1.player.getUsername());
         p2.ps.println(p1.player.getEmail());
         p2.ps.println(p1.player.getId());

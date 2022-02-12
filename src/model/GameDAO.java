@@ -379,7 +379,7 @@ public class GameDAO {
                 ",ps.cell00,ps.cell01,ps.cell02,ps.cell10,ps.cell11,ps.cell12,ps.cell20,ps.cell21,ps.cell22 from playersession ps,player p , game g \n" +
                 "where ps.playerid=p.playerid and ps.gameid=g.gameid and g.gamestatus=false \n" +
                 "and ps.gameid=any(select gameid from playersession where playerid=?)and ps.playerid in (?,?)");*/
-        String queryString1 = new String("select ps.playerid ,ps.gameid,p.username,p.email, ps.sign,g.gamedate,ps.cell00,ps.cell01,ps.cell02,ps.cell10,ps.cell11,ps.cell12,ps.cell20,ps.cell21,ps.cell22 from playersession ps,player p , game g where ps.playerid=p.playerid and ps.gameid=g.gameid and g.gamestatus=false and ps.gameid=any(select gameid from playersession where playerid in (?,?) group by gameid having count(gameid)=2)\n");
+        String queryString1 = new String("select ps.playerid ,ps.gameid,p.username,p.email, ps.sign,g.gamedate,ps.cell00,ps.cell01,ps.cell02,ps.cell10,ps.cell11,ps.cell12,ps.cell20,ps.cell21,ps.cell22,p.Score from playersession ps,player p , game g where ps.playerid=p.playerid and ps.gameid=g.gameid and g.gamestatus=false and ps.gameid=any(select gameid from playersession where playerid in (?,?) group by gameid having count(gameid)=2)\n");
 
         PreparedStatement pst = con.prepareStatement(queryString1);
         pst.setInt(1, secondPlayerId);
@@ -390,7 +390,7 @@ public class GameDAO {
         ArrayList<PlayerSession> playerSessions = new ArrayList<PlayerSession>();
         PlayerSession playerSession = null;
         while (rs.next()) {
-            Player player = new Player(rs.getInt(1), rs.getString(3), rs.getString(4), null, true, false,0);
+            Player player = new Player(rs.getInt(1), rs.getString(3), rs.getString(4), null, true, false,rs.getInt(16));
             playerSession = new PlayerSession(rs.getInt(1), rs.getInt(2),
                     rs.getInt(5), rs.getDate(6).toString(),
                     rs.getBoolean(7), rs.getBoolean(8),
