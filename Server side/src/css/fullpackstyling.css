@@ -1,0 +1,319 @@
+.button1{
+    -fx-background-color : #ffffff;
+    -fx-background-radius :  0 30 30 0;
+    -fx-text-fill: black;
+    -fx-font-size: 18px;
+    -fx-pref-width: 245px;
+    -fx-font-family: Helvetica;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+
+}
+.button1:hover{
+    -fx-border-color: #ffffff;
+    -fx-border-width: 1;
+    -fx-border-radius: 0 30 30 0;
+    -fx-background-color : #0C3648 ;
+    -fx-background-radius :  0 30 30 0;
+    /*-fx-pref-width: 200px;*/
+}
+.button1:pressed{
+    -fx-background-color : #ffffff ;
+    -fx-background-radius :  0 30 30 0;
+}
+
+.startButton{
+    -fx-background-color :linear-gradient(to top left, #0C3648, #310D4A);
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-family: Helvetica;
+    -fx-font-size: 24;
+    -fx-alignment: center;
+
+}
+
+.stopButton {
+    -fx-background-color :linear-gradient(to top left, #0C3648, #310D4A);
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-family: Helvetica;
+    -fx-font-size: 24;
+}
+.circle{
+    -fx-background: #ff0303;
+    -fx-background-color: #ff0303;
+
+
+    -fx-font-size: 18px;
+    -fx-pref-width: 245px;
+    -fx-text-alignment: center;
+}
+.mainBg{
+    -fx-background-color :linear-gradient(to top left, #0C3648, #310D4A);
+}
+.leftSide{
+    -fx-background-color :linear-gradient(to top left, #310D4A,#0C3648);
+    -fx-background-radius :  0 50 50 0;
+    -fx-border-width:1;
+    -fx-border-radius: 0 50 50 0;
+    -fx-border-color: #ffffff;
+}
+.scrollBane{
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+
+.button2
+{
+    -fx-background-color : #393351;
+    -fx-background-radius :  20;
+}
+.button2:hover
+{
+    -fx-background-color : #524A7B ;
+    -fx-background-radius :  20;
+}
+.button2:pressed
+{
+    -fx-background-color : #2F2B43 ;
+    -fx-background-radius :  20;
+}
+
+.button3
+{
+    -fx-background-color : #141124;
+    -fx-background-radius :  0 0 0 0;
+}
+.button3:hover
+{
+    -fx-background-color : #524A7B ;
+}
+.button3:pressed
+{
+    -fx-background-color : #2F2B43 ;
+}
+
+.button4
+{
+    -fx-background-color :linear-gradient(to top left, #41951C, #D4CEE3);
+    -fx-background-radius :  30 30 30 30;
+}
+.button4:hover
+{
+    -fx-background-color :linear-gradient(to top left, #D4CEE3, #41951C);
+    -fx-background-radius :  30 30 30 30;
+}
+.button4:pressed
+{
+    -fx-background-color :linear-gradient(to top left, #41951C, #D4CEE3);
+    -fx-background-radius :  30 30 30 30;
+}
+
+.button5
+{
+    -fx-background-color : #FA2C56;
+    -fx-background-radius :  5 5 5 5;
+}
+.button5:hover
+{
+    -fx-background-color : #524A7B ;
+    -fx-background-radius :  5 0 0 5;
+}
+.button5:pressed
+{
+    -fx-background-color : #2F2B43 ;
+    -fx-background-radius :  5 0 0 5;
+}
+
+#circleID:hover{
+
+    -fx-background-color :linear-gradient( #41951C, #D4CEE3);
+    -fx-background-radius :  30 30 30 30;
+
+}
+
+.buttonBack
+{
+    -fx-background-color : #2F2B43;
+    -fx-background-radius :  20 20 20 20;
+}
+.buttonBackOnlineMode
+{
+    -fx-background-color : #393351;
+    -fx-background-radius :  40 40 40 40;
+}
+
+.myDialog{
+    -fx-background-color: #393351;
+    -fx-padding: 20 20 20 25;
+}
+.myDialog > *.button-bar > *.container{
+    -fx-background-color: #393351;
+}
+.myDialog > *.label.content{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.myDialog:header *.header-panel{
+    -fx-background-color: #393351;
+}
+.myDialog:header *.header-panel *.label{
+    -fx-font-size: 30px;
+    -fx-font-style: italic;
+    -fx-text-fill: #ffffff
+
+
+}
+
+.infoDialog{
+    -fx-background-color: #393351;
+    -fx-padding: 20 20 20 25;
+}
+.infoDialog > *.button-bar > *.container{
+    -fx-background-color: #393351;
+    -fx-alignment:center;
+}
+.infoDialog > *.label.content{
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+.infoDialog:header *.header-panel{
+    -fx-background-color: #393351;
+}
+.infoDialog:header *.header-panel *.label{
+    -fx-font-size: 25px;
+    -fx-font-style: italic;
+    -fx-text-fill: #ffffff
+}
+.dialog-pane .button{
+    -fx-background-color : #FA2C56;
+    -fx-background-radius :  5 5 5 5;
+    -fx-text-fill:white;
+
+}
+
+
+.combo-box
+{
+    -fx-background-color : #141124;
+    -fx-border-color:  #515658;
+    -fx-border-radius: 30;
+}
+.combo-box:hover
+{
+    -fx-background-color : #141124;
+    -fx-border-color:  #FFFF;
+    -fx-border-radius: 30;
+}
+.combo-box:pressed
+{
+    -fx-background-color : #141124;
+    -fx-border-color:  #FFFF;
+    -fx-border-radius: 30;
+}
+
+.table-view .column-header,
+.table-view .column-header-background .filler {
+    -fx-cell-size : 20;
+    -fx-background-color:   #2D75E8;
+}
+.table-view .column-header .label{
+
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+.table-view .cell{
+    -fx-cell-size: 30;
+    -fx-alignment: center-left;
+    -fx-text-fill: #000000;
+}
+
+.table-row-cell:selected {
+    -fx-background-color:  rgb(127, 172, 243);
+}
+.table-row-cell:selected .text {
+    -fx-fill : white ;
+
+}
+/* scroll bar starts here */
+
+/* The increment and decrement button CSS class of scrollbar */
+.table-view .increment-button ,.table-view .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 2em;
+
+}
+
+/* The main scrollbar **track** CSS class  */
+.table-view .scroll-bar:horizontal .track,
+.table-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive(  #2D75E8,80%);
+    -fx-background-radius: 2em;
+    -fx-border-radius:2em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.table-view .scroll-bar:horizontal .thumb,
+.table-view .scroll-bar:vertical .thumb {
+    -fx-background-color:derive( #2D75E8,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+
+/* chart properties */
+
+.chart {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+    -fx-legend-visible: false;
+}
+.chart-plot-background {
+    -fx-background-color:transparent;
+}
+
+.chart-pie {
+    -fx-border-color: derive(-fx-pie-color, 1%);
+    -fx-border-width: 0px;
+}
+.linear-grad
+{
+    -fx-background-color: linear-gradient(to bottom left, #A868A0, #2D75E8);
+}
+
+.list-view .list-cell:even {
+    -fx-background-color:  #393351;
+    -fx-text-fill: white;
+
+    -fx-background-radius :  30 0 0 30;
+}
+.list-view .list-cell:odd {
+    -fx-background-color : #2F2B43 ;
+    -fx-text-fill: white;
+    -fx-background-radius :  30 0 0 30;
+}
+
+.tic{
+    -fx-background-color : #393351;
+    -fx-background-radius :  30 30 30 30;
+    -fx-padding: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 245px;
+    -fx-text-alignment: left;
+    -fx-font-size: 36px;
+}
+.anchorPane{
+    -fx-background-color : #393351;
+    -fx-background-radius :  20;
+}
+

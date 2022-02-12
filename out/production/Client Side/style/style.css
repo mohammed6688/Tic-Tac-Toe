@@ -1,0 +1,48 @@
+.panelBG{
+    -fx-background-color: linear-gradient(to bottom right,#00A2FE, #BD2CFE);
+    /*-fx-background-color: linear-gradient(to bottom right, #8136a7, #2c88a1);*/
+}
+
+/* Buttons */
+.mainBtn{
+    -fx-background-color:  #00A2FE;
+    -fx-border-width: 2;
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 35;
+    -fx-background-radius: 35;
+}
+.mainBtnSignUp{
+    -fx-background-color:  #BD2CFE;
+    -fx-background-radius: 35;
+    -fx-border-width: 2;
+    -fx-border-color: #ffffff;
+    -fx-border-radius: 35;
+}
+.backBtn{
+    -fx-background-color:  #480958;
+    -fx-border-width: 0  0.1 0.1 0.1;
+    -fx-background-radius: 0 5 0 0;
+}
+.dialog
+{
+ -fx-background-color: linear-gradient(to right ,yellow ,magenta);
+}
+.dialog:header *.header-panel{
+ -fx-background-color:   linear-gradient(to right ,yellow ,magenta);;
+}
+.dialog > *.content.label
+{
+-fx-font-size: 20px;
+
+}
+.dialog:header *.header-panel *.label{
+-fx-font-size: 20px;
+  -fx-font-weight: bold;
+}
+.dialog > *.button-bar *.button{
+-fx-pref-width: 120px;
+ -fx-background-color:  red;
+}
+.dialog > *.button-bar *.button:hover{
+ -fx-background-color:  white;
+}

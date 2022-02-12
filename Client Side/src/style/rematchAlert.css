@@ -1,0 +1,27 @@
+.dialog
+{
+    -fx-background-image: url('../Resources/error-420-mHm1ASYNC0I-unsplash.jpg');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-min-height: 180px;
+}
+.dialog > *.content.label
+{
+    -fx-font-family: 'Georgia';
+    -fx-font-size:30px;
+    -fx-text-fill:white;
+    -fx-font-weight:Bolder;
+}
+
+.dialog > *.button-bar *.button
+{
+ -fx-pref-width: 120px;
+ -fx-pref-height: 40px;
+ -fx-font-size:20px;
+ -fx-font-weight:Bolder;
+ -fx-background-radius :  5 5 5 5;
+ -fx-background-color:#F5A020;
+}
+
+

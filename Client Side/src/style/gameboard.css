@@ -1,0 +1,31 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.Button {
+    
+ 
+ -fx-background-color: #ff4c4c ;
+ -fx-text-fill: #fcdb1c ;
+ -fx-background-radius: 30 ;
+ 
+}
+
+.Button:hover {
+    
+ 
+ -fx-background-color: #fcdb1c ;
+ -fx-text-fill: #ff4c4c ;
+ -fx-background-radius: 30 ;
+}
+.tic{
+    -fx-background-color : #f5a020;
+    -fx-background-radius :  30 30 30 30;
+    -fx-padding: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 50px;
+    -fx-text-alignment: left;
+    -fx-font-size: 36px;
+}
+

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="GameMainRootAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="Container" stylesheets="@../style/GameStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GameMainFXMLController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/140-1404608_oh-my-god-tic-tac-toe-clipart.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" layoutY="120.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="415.0" prefWidth="1000.0">
+               <children>
+                  <Pane minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Button fx:id="singlePlayer" mnemonicParsing="false" onAction="#singlePlayerBtnHandling" prefHeight="300.0" prefWidth="210.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
+                           <graphic>
+                              <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="300.0" prefWidth="210.0">
+                                 <children>
+                                    <Label layoutX="35.0" layoutY="204.0" prefHeight="30.0" prefWidth="129.0" styleClass="MainLables" stylesheets="@../style/GameStyle.css" text="Single Player">
+                                       <font>
+                                          <Font name="High Tower Text" size="12.0" />
+                                       </font></Label>
+                                    <ImageView fitHeight="136.0" fitWidth="148.0" layoutX="35.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" rotate="11.3">
+                                       <image>
+                                          <Image url="@../Resources/853762.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets right="150.0" />
+                     </padding>
+                  </Pane>
+                  <Pane minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Button fx:id="multiPlayers" mnemonicParsing="false" onAction="#multiPlayersBtnHandling" prefHeight="300.0" prefWidth="210.0" styleClass="MainBtns" stylesheets="@../style/GameStyle.css" text=" ">
+                           <graphic>
+                              <AnchorPane prefHeight="300.0" prefWidth="210.0">
+                                 <children>
+                                    <ImageView fitHeight="128.0" fitWidth="132.0" layoutX="35.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" rotate="11.3">
+                                       <image>
+                                          <Image url="@../Resources/853767.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="35.0" layoutY="200.0" prefHeight="30.0" prefWidth="136.0" styleClass="MainLables" stylesheets="@../style/GameStyle.css" text="Multi Players">
+                                       <font>
+                                          <Font name="Roboto Thin" size="12.0" />
+                                       </font></Label>
+                                 </children>
+                              </AnchorPane>
+                           </graphic>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="-30.0" />
+                     </padding>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,156 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 24, 2022, 7:49:33 PM
+    Author     : moham
+*/
+
+
+.infoDialog {
+    -fx-background-color: #0A2833;
+    -fx-padding: 20 20 20 25;
+}
+
+.infoDialog > *.button-bar > *.container {
+    -fx-background-color: #0A2833;
+    -fx-alignment: center;
+}
+
+.infoDialog > *.label.content {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.infoDialog:header *.header-panel {
+    -fx-background-color: #0A2833;
+}
+
+.infoDialog:header *.header-panel *.label {
+    -fx-font-size: 25px;
+    -fx-font-style: italic;
+    -fx-text-fill: #ffffff
+}
+
+.onlineHbox {
+    -fx-background-color: linear-gradient(#00A2FE, #BD2CFE );
+    -fx-background-radius: 25;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-padding: 30;
+    -fx-font-family: Helvetica;
+    -fx-min-width: 25px;
+    -fx-min-height: 160px;
+    -fx-font-weight: bold;
+
+    -fx-text-alignment: center;
+
+}
+
+.button1 {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: Helvetica;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+}
+
+.playerInfo{
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: Helvetica;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+
+}
+
+.playerInfoBox{
+    -fx-background-color: #00A2FE;
+    -fx-background-radius: 35;
+    -fx-border-radius: 35;
+    -fx-border-width: 2;
+    -fx-border-color: #ffffff;
+}
+
+.Container {
+    -fx-background-image: url('../Resources/main_bg.jpg');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.textField{
+    -fx-text-fill: white;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 15px;
+}
+.onlinePlayers{
+    -fx-stroke-width: 2;
+    -fx-stroke: white;
+    -fx-text-fill: #af44d2;
+}
+
+.MainBtns {
+    -fx-background-color: linear-gradient(#00A2FE, #BD2CFE );
+    -fx-background-radius: 137;
+    -fx-border-radius: 137;
+    -fx-border-width: 2;
+    -fx-border-color: #ffffff;
+}
+.MainBtns:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+.MainBtns:pressed {
+    /*-fx-background-color: #3E0F53;*/
+    /*-fx-background-radius: 20;*/
+}
+
+.MainBtns:hover .MainCircle {
+    -fx-fill: #ff341f;
+}
+.SignInLabel{
+    -fx-text-fill: white;
+    -fx-font-family: 'Roboto Thin';
+    /*-fx-font-family: "Harlow Solid";*/
+    -fx-font-size: 14;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 )
+}
+.MainLables {
+    -fx-text-fill: white;
+    -fx-font-family: 'Roboto Thin';
+    /*-fx-font-family: "Harlow Solid";*/
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 )
+}
+
+.EasyHardLables {
+    -fx-text-fill: white;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+}
+
+.buttonBack {
+    -fx-background-color: none;
+    -fx-background-radius: 20 20 20 20;
+}
+.buttonBack:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
+
+.TPSscrollPane {
+    -fx-background: none;
+    -fx-background-color: linear-gradient(#6AFFFF 0%, #6AFFFF 25%, #58ACC0 75%, #58ACC0 100%);
+    /*-fx-border: 200px solid;*/
+    -fx-border-color: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+
+}
