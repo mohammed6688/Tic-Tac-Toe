@@ -1,5 +1,6 @@
 package controllers;
 
+import helper.CustomDialog;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 public class SelectLevelController implements Initializable {
 
@@ -27,7 +29,7 @@ public class SelectLevelController implements Initializable {
     Button singlePlayer, multiPlayers, BackBtn, easyLevel, hardLevel;
     private double xOffset = 0;
     private double yOffset = 0;
-
+    Preferences prefs;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -38,74 +40,106 @@ public class SelectLevelController implements Initializable {
         transition.setFromValue(0);
         transition.setToValue(1);
         transition.play();
-
+        prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
     }
 
     public void easyLevelBtnHandling() throws Exception {
-        FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(150));
-        transition.setNode(rootAnchor);
-        transition.setFromValue(1);
-        transition.setToValue(0);
-        transition.setOnFinished(event -> {
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("../layouts/GameBoard.fxml"));
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        if (prefs.nodeExists("/controllers")) {
+            String s = prefs.get("username", "");
+            System.out.println(s.length());
+            if (s.length() == 0) {
+                CustomDialog cd = new CustomDialog();
+                Boolean isCancled = cd.displayDialog("Enter Your Name");
+                prefs.put("username", cd.getName());
+                if (!isCancled) {
+                    FadeTransition transition = new FadeTransition();
+                    transition.setDuration(Duration.millis(150));
+                    transition.setNode(rootAnchor);
+                    transition.setFromValue(1);
+                    transition.setToValue(0);
+                    transition.setOnFinished(event -> {
+                        Parent root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("../layouts/GameBoard.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    Stage window = (Stage) easyLevel.getScene().getWindow();
+                    //grab your root here
+
+                    window.setTitle("Easy Level");
+                    window.setMinWidth(1000);
+                    window.setMinHeight(600);
+
+                    Scene scene = new Scene(root);
+                    //set transparent
+                    scene.setFill(Color.TRANSPARENT);
+                    window.setScene(scene);
+                    window.show();
+
+                    window.setOnCloseRequest((e) -> {
+                        System.exit(1);
+                    });
+                    });
+                    transition.play();
+                }
             }
-            Stage window = (Stage) easyLevel.getScene().getWindow();
-            //grab your root here
-
-            window.setTitle("Easy Level");
-            window.setMinWidth(1000);
-            window.setMinHeight(600);
-
-            Scene scene = new Scene(root);
-            //set transparent
-            scene.setFill(Color.TRANSPARENT);
-            window.setScene(scene);
-            window.show();
-
-            window.setOnCloseRequest((e) -> {
-                System.exit(1);
-            });
-        });
-        transition.play();
+            else
+            {
+                //don't do anything
+            }
+        }
 
     }
 
     public void hardLevelBtnHandling() throws Exception {
-        FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(150));
-        transition.setNode(rootAnchor);
-        transition.setFromValue(1);
-        transition.setToValue(0);
-        transition.setOnFinished(event -> {
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("../layouts/GameBoardHard.fxml"));
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        if (prefs.nodeExists("/controllers")) {
+            String s = prefs.get("username", "");
+            System.out.println(s.length());
+            if (s.length() == 0) {
+                CustomDialog cd = new CustomDialog();
+                Boolean isCancled = cd.displayDialog("Enter Your Name");
+                prefs.put("username", cd.getName());
+                if (!isCancled) {
+                    FadeTransition transition = new FadeTransition();
+                    transition.setDuration(Duration.millis(150));
+                    transition.setNode(rootAnchor);
+                    transition.setFromValue(1);
+                    transition.setToValue(0);
+                    transition.setOnFinished(event -> {
+                        Parent root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("../layouts/GameBoardHard.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Stage window = (Stage) easyLevel.getScene().getWindow();
+                        //grab your root here
+
+                        window.setTitle("Easy Level");
+                        window.setMinWidth(1000);
+                        window.setMinHeight(600);
+
+                        Scene scene = new Scene(root);
+                        //set transparent
+                        scene.setFill(Color.TRANSPARENT);
+                        window.setScene(scene);
+                        window.show();
+
+                        window.setOnCloseRequest((e) -> {
+                            System.exit(1);
+                        });
+                    });
+                    transition.play();
+                }
             }
-            Stage window = (Stage) hardLevel.getScene().getWindow();
-            //grab your root here
-
-            window.setTitle("Hard Level");
-            window.setMinWidth(1000);
-            window.setMinHeight(600);
-
-            Scene scene = new Scene(root);
-            //set transparent
-            scene.setFill(Color.TRANSPARENT);
-            window.setScene(scene);
-            window.show();
-
-            window.setOnCloseRequest((e) -> {
-                System.exit(1);
-            });
-        });
-        transition.play();
+            else
+            {
+                //don't do anything
+            }
+        }
 
     }
     public void BackToMain() throws Exception {

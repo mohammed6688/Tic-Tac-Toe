@@ -22,10 +22,10 @@ import java.util.List;
 
 public class GameDAO {
     public static final String DB_URL = "jdbc:postgresql://localhost:5432/";
-    public static final String DB_NAME = "javaGame";
+    public static final String DB_NAME = "GameDatabase";
     public static final String USER = "postgres";
     //public static final String PASS = "mina2508";
-    public static final String PASS = "1502654";
+    public static final String PASS = "MohamedAdel@77";
     private Connection con;
     private static GameDAO instanceData;
 

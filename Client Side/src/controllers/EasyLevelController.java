@@ -469,7 +469,9 @@ public class EasyLevelController implements Initializable {
     }
 
     public void BackToChoiceLevel () throws Exception {
-
+        Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+        prefs.remove("username");
+        prefs.remove("score");
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(150));
         transition.setNode(anchorpane);
@@ -536,6 +538,9 @@ public class EasyLevelController implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
         if(option.isPresent() && option.get() == OkBtn)
         {
+            Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+            prefs.remove("username");
+            prefs.remove("score");
             System.exit(1);
         }
     }
