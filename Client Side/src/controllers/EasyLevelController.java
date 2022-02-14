@@ -153,21 +153,6 @@ public class EasyLevelController implements Initializable {
         }
     }
 
-//    private void drawLine(Button b1, Button b2)
-//    {
-//        Bounds bound1 = b1.localToScene(b1.getBoundsInLocal());
-//        Bounds bound2 = b2.localToScene(b2.getBoundsInLocal());
-//        double x1,y1,x2,y2;
-//        x1 = (bound1.getMinX() + bound1.getMinX())/2;
-//        y1 = (bound1.getMinY() + bound1.getMaxY())/2;
-//        x2 = (bound2.getMinX() + bound2.getMinX())/2;
-//        y2 = (bound2.getMinY() + bound2.getMaxY())/2;
-//        Line line = new Line(x1,y1,x2,y2);
-//        Platform.runLater(()->{
-//            anchorpane.getChildren().add(line);
-//        });
-//    }
-
     private void computerTurn()
     {
         Random r;
@@ -225,24 +210,10 @@ public class EasyLevelController implements Initializable {
         }
     }
 
-    private void makeGridEmpty()
-    {
-        btn1.setText("");
-        btn2.setText("");
-        btn3.setText("");
-        btn4.setText("");
-        btn5.setText("");
-        btn6.setText("");
-        btn7.setText("");
-        btn8.setText("");
-        btn9.setText("");
-    }
-
     private boolean checkRows()
     {
         if(btn1.getText().equals(btn2.getText()) && btn2.getText().equals(btn3.getText()) && !btn1.getText().equals(""))
         {
-            //drawLine(btn1,btn3);
             if (btn1.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -258,7 +229,6 @@ public class EasyLevelController implements Initializable {
         }
         else if(btn4.getText().equals(btn5.getText()) && btn5.getText().equals(btn6.getText()) && !btn4.getText().equals(""))
         {
-            //drawLine(btn4,btn6);
             if (btn4.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -274,7 +244,6 @@ public class EasyLevelController implements Initializable {
         }
         else if(btn7.getText().equals(btn8.getText()) && btn8.getText().equals(btn9.getText()) && !btn7.getText().equals(""))
         {
-            //drawLine(btn7,btn9);
             if (btn7.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -300,7 +269,6 @@ public class EasyLevelController implements Initializable {
 
         if(btn1.getText().equals(btn4.getText()) && btn4.getText().equals(btn7.getText()) && !btn1.getText().equals(""))
         {
-            //drawLine(btn1,btn7);
             if(btn1.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -316,7 +284,6 @@ public class EasyLevelController implements Initializable {
         }
         else if(btn2.getText().equals(btn5.getText()) && btn5.getText().equals(btn8.getText()) && !btn2.getText().equals(""))
         {
-            //drawLine(btn2,btn8);
             if(btn2.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -332,7 +299,7 @@ public class EasyLevelController implements Initializable {
         }
         else if(btn3.getText().equals(btn6.getText()) && btn6.getText().equals(btn9.getText()) && !btn3.getText().equals(""))
         {
-            //drawLine(btn3,btn9);
+
             if(btn3.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -358,7 +325,7 @@ public class EasyLevelController implements Initializable {
 
         if(btn1.getText().equals(btn5.getText()) && btn5.getText().equals(btn9.getText()) && !btn1.getText().equals(""))
         {
-            //drawLine(btn1,btn9);
+
             if(btn1.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -374,7 +341,7 @@ public class EasyLevelController implements Initializable {
         }
         else if(btn3.getText().equals(btn5.getText()) && btn5.getText().equals(btn7.getText()) && !btn3.getText().equals(""))
         {
-            //drawLine(btn3,btn7);
+
             if(btn3.getText().equals("X"))
             {
                 txtWinner.setText("You won!");
@@ -458,6 +425,9 @@ public class EasyLevelController implements Initializable {
             window.show();
 
             window.setOnCloseRequest((event) -> {
+                Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+                prefs.remove("username");
+                prefs.remove("score");
                 System.exit(1);
             });
         }
