@@ -7,7 +7,7 @@
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 ## Game Info
-- A network-based Tic tac toe game, this implementation was done as the java project @ ITI intake 42 by students of the open-source (IoT & Telecom) track.
+- A  network-based Tic tac toe game, this implementation was done as the java project @ ITI intake 42 by students of the open-source (IoT & Telecom) track.
 
 ## Screenshots
 ![game layout](https://user-images.githubusercontent.com/35745424/153839285-a3db3ff9-5c80-4827-9892-246c14844977.png)
