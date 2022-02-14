@@ -224,6 +224,9 @@ public class HardLevelController implements Initializable {
             window.show();
 
             window.setOnCloseRequest((event) -> {
+                Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+                prefs.remove("username");
+                prefs.remove("score");
                 System.exit(1);
             });
         }

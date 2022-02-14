@@ -79,6 +79,9 @@ public class SelectLevelController implements Initializable {
                     window.show();
 
                     window.setOnCloseRequest((e) -> {
+                        Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+                        prefs.remove("username");
+                        prefs.remove("score");
                         System.exit(1);
                     });
                     });
@@ -129,6 +132,9 @@ public class SelectLevelController implements Initializable {
                         window.show();
 
                         window.setOnCloseRequest((e) -> {
+                            Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+                            prefs.remove("username");
+                            prefs.remove("score");
                             System.exit(1);
                         });
                     });
