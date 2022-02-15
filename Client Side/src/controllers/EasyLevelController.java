@@ -39,7 +39,7 @@ import java.util.prefs.Preferences;
  * @author moham
  */
 public class EasyLevelController implements Initializable {
-
+//comment
     private String player="X";
     private Button buttonPressed;
     private boolean winner = false;
