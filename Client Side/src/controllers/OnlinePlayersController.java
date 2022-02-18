@@ -1126,7 +1126,7 @@ public class OnlinePlayersController implements Initializable {
             serverIssueAlert.serverIssueAlert("There is issue in connection game page will be closed");
 
         });
-        //thread.stop();
+        thread.stop();
     }
 
     private void fadEffect() {

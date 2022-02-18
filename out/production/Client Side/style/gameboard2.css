@@ -1,0 +1,14 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+
+
+.Button:hover {
+    
+ 
+ -fx-background-color:  #434876 ;
+ -fx-text-fill: #ffdb1e ;
+ -fx-background-radius: 40 ;
+ 
+}

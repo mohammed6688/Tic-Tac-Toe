@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Tic Tac Game:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Tic_Tac_Game_jar</output-path>
+    <root id="archive" name="Tic Tac Game.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Server side/src/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Java Final Project" />
+      <element id="module-output" name="Client Side" />
+      <element id="module-output" name="Server side" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Client Side/src/Resources/postgresql-42.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Client Side/src/Resources/jfoenix-8.0.10.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
