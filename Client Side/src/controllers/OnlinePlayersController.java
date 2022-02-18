@@ -792,7 +792,7 @@ public class OnlinePlayersController implements Initializable {
             transition.setToValue(0);
             transition.setOnFinished(event -> {
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/layouts/GameMainFXML.fxml"));
                     Stage window = (Stage) BackBtn.getScene().getWindow();
                     window.setTitle("Home");
                     Scene scene = new Scene(root);
@@ -1000,7 +1000,7 @@ public class OnlinePlayersController implements Initializable {
 
     private void moveToWinner() throws IOException {
         //System.out.print("movvvvvved");
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/winnerlayout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/layouts/winnerlayout.fxml"));
 
         Stage window = (Stage) BackBtn.getScene().getWindow();
         Platform.runLater(() -> {

@@ -106,7 +106,7 @@ public class SignInController implements Initializable {
         transition.setOnFinished(event -> {
             Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/layouts/TwoPlayers.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -167,7 +167,7 @@ public class SignInController implements Initializable {
     private void loadSignUpScene() throws IOException {
         try {
             Parent signupView;
-            signupView = (AnchorPane) FXMLLoader.load(getClass().getResource("../layouts/SignupScene.fxml"));
+            signupView = (AnchorPane) FXMLLoader.load(getClass().getResource("/layouts/SignupScene.fxml"));
             Scene newscene = new Scene(signupView);
             Stage curStage = (Stage) signinRoot.getScene().getWindow();
             curStage.setScene(newscene);
@@ -183,7 +183,7 @@ public class SignInController implements Initializable {
     private void makeAlertDialog(String title, String HeaderText, String Content) {
         Alert a = new Alert(Alert.AlertType.WARNING);
         dialog = a.getDialogPane();
-        dialog.getStylesheets().add(getClass().getResource("../style/style.css").toString());
+        dialog.getStylesheets().add(getClass().getResource("/style/style.css").toString());
         dialog.getStyleClass().add("dialog");
 
         a.setTitle(title);
@@ -217,7 +217,7 @@ public class SignInController implements Initializable {
             public void handle(ActionEvent event) {
                 Parent root = null;
                 try {
-                    root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+                    root = FXMLLoader.load(getClass().getResource("/layouts/GameMainFXML.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

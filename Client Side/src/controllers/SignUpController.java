@@ -110,7 +110,7 @@ public class SignUpController implements Initializable {
     private void makeAlertDialog(String title, String HeaderText, String Content) {
         Alert a = new Alert(Alert.AlertType.WARNING);
         dialog = a.getDialogPane();
-        dialog.getStylesheets().add(getClass().getResource("../style/style.css").toString());
+        dialog.getStylesheets().add(getClass().getResource("/style/style.css").toString());
         dialog.getStyleClass().add("dialog");
 
         a.setTitle(title);
@@ -122,7 +122,7 @@ public class SignUpController implements Initializable {
     private void loadSignInScene() throws IOException {
         try {
             Parent signinView;
-            signinView = (AnchorPane) FXMLLoader.load(getClass().getResource("../layouts/SignInScene.fxml"));
+            signinView = (AnchorPane) FXMLLoader.load(getClass().getResource("/layouts/SignInScene.fxml"));
             Scene newscene = new Scene(signinView);
             Stage curStage = (Stage) signupRoot.getScene().getWindow();
             curStage.setScene(newscene);

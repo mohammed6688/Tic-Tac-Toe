@@ -193,14 +193,14 @@ public class HardLevelController implements Initializable {
 
         alert.getDialogPane().setPrefSize(750, 150);
         dialog=alert.getDialogPane();
-        dialog.getStylesheets().add(getClass().getResource("../style/rematchAlert.css").toString());
+        dialog.getStylesheets().add(getClass().getResource("/style/rematchAlert.css").toString());
         dialog.getStyleClass().addAll("dialog");
 
         // option != null.
         Optional<ButtonType> option = alert.showAndWait();
         if(option.isPresent() && option.get() == OkBtn)
         {
-            Parent root = FXMLLoader.load(getClass().getResource("../layouts/GameBoardHard.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/layouts/GameBoardHard.fxml"));
             Stage window = (Stage)rematch.getScene().getWindow();
             //grab your root here
             root.setOnMousePressed(event -> {
@@ -249,7 +249,7 @@ public class HardLevelController implements Initializable {
         transition.setOnFinished(ev -> {
             Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("../layouts/SinglePlayer.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/layouts/SinglePlayer.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -299,7 +299,7 @@ public class HardLevelController implements Initializable {
 
         alert.getDialogPane().setPrefSize(750, 150);
         dialog=alert.getDialogPane();
-        dialog.getStylesheets().add(getClass().getResource("../style/rematchAlert.css").toString());
+        dialog.getStylesheets().add(getClass().getResource("/style/rematchAlert.css").toString());
         dialog.getStyleClass().addAll("dialog");
 
         // option != null.

@@ -42,7 +42,7 @@ public class winnerController implements Initializable {
         transition.setToValue(0);
         transition.setOnFinished(event -> {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("../layouts/TwoPlayers.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/layouts/TwoPlayers.fxml"));
                 Stage window = (Stage) BackBtn.getScene().getWindow();
                 window.setTitle("Home");
                 Scene scene = new Scene(root);

@@ -61,7 +61,7 @@ public class SelectLevelController implements Initializable {
                     transition.setOnFinished(event -> {
                         Parent root = null;
                         try {
-                            root = FXMLLoader.load(getClass().getResource("../layouts/GameBoard.fxml"));
+                            root = FXMLLoader.load(getClass().getResource("/layouts/GameBoard.fxml"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -114,7 +114,7 @@ public class SelectLevelController implements Initializable {
                     transition.setOnFinished(event -> {
                         Parent root = null;
                         try {
-                            root = FXMLLoader.load(getClass().getResource("../layouts/GameBoardHard.fxml"));
+                            root = FXMLLoader.load(getClass().getResource("/layouts/GameBoardHard.fxml"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -157,7 +157,7 @@ public class SelectLevelController implements Initializable {
         transition.setOnFinished(event -> {
             Parent root = null;
             try {
-                root = FXMLLoader.load(getClass().getResource("../layouts/GameMainFXML.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/layouts/GameMainFXML.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
