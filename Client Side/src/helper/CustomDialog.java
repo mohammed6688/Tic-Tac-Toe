@@ -4,6 +4,7 @@ import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -24,27 +25,25 @@ public class CustomDialog {
         this.buttonTypeOk = buttonTypeOk;
         this.buttonTypeCancel = buttonTypeCancel;
     }
-     public String getName()
-     {
-      return name;
-         
-     }
+
+    public String getName() {
+
+        return this.name;
+    }
    
     public boolean displayDialog(String message){
         boolean isCancled = false;
                
-       Alert alert = new Alert(Alert.AlertType.NONE);
+       Alert alert = new Alert(AlertType.NONE);
        TextField content = new TextField();
        alert.setTitle("Player Name");
        alert.setHeaderText(message);
        alert.getDialogPane().setContent(content);
     
         ButtonType buttonTypeOk = new ButtonType("Ok");
-        ButtonType buttonTypeCancel = new ButtonType("Cancel", 
-        ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel",ButtonBar.ButtonData.CANCEL_CLOSE);
             
-        alert.getButtonTypes().setAll(buttonTypeOk,
-                buttonTypeCancel);
+        alert.getButtonTypes().setAll(buttonTypeOk,buttonTypeCancel);
    
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.getStylesheets().add(

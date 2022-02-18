@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
-
+import javafx.scene.control.Alert.AlertType;
 public class AskDialog {
     public AskDialog() {
     }
@@ -15,15 +15,14 @@ public class AskDialog {
     public Boolean alert(String s) {
         ButtonType Yes = new ButtonType("Yes");
         ButtonType No = new ButtonType("NO", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Alert a = new Alert(Alert.AlertType.NONE);
+        Alert a = new Alert(AlertType.NONE);
         a.setTitle("Alert ASk");
         a.getDialogPane().getButtonTypes().addAll(Yes, No);
         a.setHeaderText(s);
 
         //a.setContentText(s);
         DialogPane dialogPane = a.getDialogPane();
-        dialogPane.getStylesheets().add(
-                getClass().getResource("/style/GameStyle.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource("/style/GameStyle.css").toExternalForm());
         dialogPane.getStyleClass().add("infoDialog");
 
         a.showAndWait();

@@ -224,6 +224,9 @@ public class HardLevelController implements Initializable {
             window.show();
 
             window.setOnCloseRequest((event) -> {
+                Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+                prefs.remove("username");
+                prefs.remove("score");
                 System.exit(1);
             });
         }
@@ -235,7 +238,9 @@ public class HardLevelController implements Initializable {
     }
 
     public void BackToChoiceLevel () throws Exception {
-
+        Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+        prefs.remove("username");
+        prefs.remove("score");
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(150));
         transition.setNode(anchorpane);
@@ -280,7 +285,7 @@ public class HardLevelController implements Initializable {
 
     public void ExitBtnHandling() throws Exception {
         alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Rematch");
+        alert.setTitle("Exit");
         // Header Text: null
         alert.setResizable(true);
         alert.setHeaderText(null);
@@ -301,6 +306,9 @@ public class HardLevelController implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
         if(option.isPresent() && option.get() == OkBtn)
         {
+            Preferences prefs = Preferences.userNodeForPackage(GameMainFXMLController.class);
+            prefs.remove("username");
+            prefs.remove("score");
             System.exit(1);
         }
     }
