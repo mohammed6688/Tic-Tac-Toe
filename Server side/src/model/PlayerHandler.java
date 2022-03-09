@@ -245,17 +245,19 @@ public class PlayerHandler extends Thread {
     private void leaderBoard() {
         List<Player> leaderBoard = database.getLeaderBoard();
         System.out.println(leaderBoard.size());
-        for (Player player : leaderBoard) {
-            ps.println(leaderBoard.size() + " " +
-                    player.id + " " +
-                    player.getUsername() + " " +
-                    player.getEmail() + " " +
-                    player.getPassword() + " " +       //TODO remove password from list
-                    player.isStatus() + " " +
-                    player.isInGame());
+        leaderBoard.sort((o1, o2) -> Math.max(o1.getScore(), o2.getScore()));
+        ps.println("leaderBoard");
+        ps.println(leaderBoard.get(0).getUsername()+" "+leaderBoard.get(1).getUsername()+" "+leaderBoard.get(2).getUsername());
 
-        }
-        ps.println("null");
+//        for (Player player : leaderBoard) {
+//            ps.println(player.id + " " +
+//                    player.getUsername() + " " +
+//                    player.getEmail() + " " +
+//                    player.getPassword() + " " +       //TODO remove password from list
+//                    player.isStatus() + " " +
+//                    player.isInGame());
+//        }
+//        ps.println("null");
     }
 
     private void withdraw() throws SQLException {

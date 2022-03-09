@@ -69,6 +69,7 @@ public class OnlinePlayersController implements Initializable {
     private Button btn9;
 
     List<Player> onlinePlayers = new ArrayList<>();
+    List<Player> leaderBoard = new ArrayList<>();
     @FXML
     Button BackBtn;
     @FXML
@@ -148,10 +149,14 @@ public class OnlinePlayersController implements Initializable {
                                 prefs.put("userState","loser");
                                 prefs.put("winner",opponentUsername);
                                 opponentTurn();
-                                moveToWinner();
+                                //moveToWinner();
+                                break;
+                            case "leaderBoard":
+                                gotoLeaderBoard(data);
                                 break;
                             case "withdraw":
                                 System.out.println("withdraw");
+                                prefs.put("userState","withdraw");
 //                                Platform.runLater(() -> {
 //                                    AskDialog serverIssueAlert = new AskDialog();
 //                                    serverIssueAlert.serverIssueAlert("You opponent has withdrawed, you are the winner!!!");
@@ -782,6 +787,48 @@ public class OnlinePlayersController implements Initializable {
         }
     }
 
+    private void gotoLeaderBoard(String state) throws IOException {
+        System.out.println("in leader");
+
+        String oppPressed = ServerChannel.dis.readLine();
+
+        StringTokenizer token = new StringTokenizer(oppPressed, " ");
+        String first = token.nextToken();
+        String second = token.nextToken();
+        String third = token.nextToken();
+        prefs.put("first",first);
+        prefs.put("second",second);
+        prefs.put("third",third);
+        FadeTransition transition = new FadeTransition();
+        transition.setDuration(Duration.millis(150));
+        transition.setNode(rootAnchor);
+        transition.setFromValue(1);
+        transition.setToValue(0);
+        transition.setOnFinished(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/layouts/leaderBoard(res).fxml"));
+                Stage window = (Stage) BackBtn.getScene().getWindow();
+                Platform.runLater(() -> {
+                    Scene scene = new Scene(root);
+                    window.setTitle("leaderBoard");
+                    scene.setFill(Color.TRANSPARENT);
+                    window.setScene(scene);
+                    window.show();
+                });
+
+                window.setOnCloseRequest((event1) -> {
+                    String message = "logout " + SignInController.currentPlayer.getId();
+                    ServerChannel.logOut(message);
+                    System.exit(1);
+                });
+                thread.stop();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        transition.play();
+    }
+
     public void logOut() {
         String message = "logout " + SignInController.currentPlayer.getId();
         if (ServerChannel.logOut(message)) {
@@ -808,7 +855,7 @@ public class OnlinePlayersController implements Initializable {
     }
 
     public void BackToMainGame() throws Exception {
-
+        prefs.put("userState","draw");
         ServerChannel.ps.println("withdraw " + SignInController.currentPlayer.getId() + " " + myTic);
         moveToWinner();
     }
@@ -952,7 +999,11 @@ public class OnlinePlayersController implements Initializable {
                     winner=true;
                     prefs.put("userState","winner");
                     prefs.put("winner",SignInController.currentPlayer.getUsername());
-                    displayVideo("winner");
+                    try {
+                        displayVideo("winner");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     //AskDialog  serverIssueAlert  = new AskDialog();
                     //serverIssueAlert.serverIssueAlert("Congrats !! , your score right now is :"+ MainController.hash.get("score"));
 
@@ -961,19 +1012,23 @@ public class OnlinePlayersController implements Initializable {
                     winner=false;
                     prefs.put("userState","loser");
                     prefs.put("winner",opponentUsername);
-                    displayVideo("lose");
+                    try {
+                        displayVideo("lose");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     //AskDialog  serverIssueAlert  = new AskDialog();
                     //serverIssueAlert.serverIssueAlert("Oh, Hardluck next time..");
                 }
                 gamePan.setVisible(false);
                 onlinePan.setVisible(true);
             });
-            try {
-                thread.stop();
-                moveToWinner();
-            } catch (IOException e) {
-                System.out.println("msharady");
-            }
+//            try {
+//                thread.stop();
+//                moveToWinner();
+//            } catch (IOException e) {
+//                System.out.println("msharady");
+//            }
             return true; // ended game
 
         } else if (isFullGrid()) {
@@ -1019,7 +1074,7 @@ public class OnlinePlayersController implements Initializable {
         thread.stop();
     }
 
-    private void displayVideo(String type) {
+    private void displayVideo(String type) throws IOException {
         if (type.equals("winner")) {
             System.out.println("you won");
             prefs.put("userState","winner");
@@ -1035,6 +1090,7 @@ public class OnlinePlayersController implements Initializable {
 //            ButtonBack displayVideo = new ButtonBack("/view/VideoWindow.fxml");
 //            displayVideo.displayVideo("opps","opps!!");
         }
+        moveToWinner();
     }
 
     private void updateScore() {
@@ -1141,5 +1197,9 @@ public class OnlinePlayersController implements Initializable {
 
     public void ExitBtnHandling(ActionEvent actionEvent) {
 
+    }
+
+    public void leaderBoard(ActionEvent actionEvent) throws IOException {
+        ServerChannel.ps.println("leaderboard ");
     }
 }

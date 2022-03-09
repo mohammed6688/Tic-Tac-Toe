@@ -65,13 +65,13 @@ public class GameDAO {
 
     public List<Player> getLeaderBoard() {
         try {
-            String queryString = new String("select id , username ,score from player ORDER BY score DESC ");
+            String queryString = new String("select * from player ORDER BY score DESC ");
             Statement stmt = this.con.createStatement();
             ResultSet rs = stmt.executeQuery(queryString);
             ArrayList leaderBoard = new ArrayList();
 
             while (rs.next()) {
-                leaderBoard.add(new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("score"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame"),rs.getInt("score")));
+                leaderBoard.add(new Player(rs.getInt("playerid"), rs.getString("username"), rs.getString("email"), rs.getString("userpassword"), rs.getBoolean("isonline"), rs.getBoolean("isingame"), rs.getInt("score")));
             }
 
             return leaderBoard;

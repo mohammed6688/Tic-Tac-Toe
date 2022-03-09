@@ -324,6 +324,17 @@
                             </ImageView>
                         </graphic>
                     </Button>
+
+                    <Button layoutX="840" fx:id="leaderBoard" mnemonicParsing="false" onAction="#leaderBoard" styleClass="buttonBack"
+                            stylesheets="@../style/GameStyle.css">
+                        <graphic>
+                            <ImageView fitHeight="100.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../Resources/podium.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
                 </Group>
             </children>
         </StackPane>
